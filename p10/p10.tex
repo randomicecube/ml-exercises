@@ -169,6 +169,13 @@
     U_{K-L} = \input{aux-matrices/ex-1/U_kl}
   \end{equation*}
 
+  As a side note, we do this since we're trying to transform the original
+  $\Sigma$ into a diagonal matrix (utilizing Linear Algebra's $U^1 M U = D$ equality).
+  This diagonal matrix is particularly relevant since we'll essentially
+  want an equivalent matrix to $\Sigma$, but where every feature is "orthogonal"
+  to each other: that way, we can look at each feature by itself,
+  being then able to gather which are relevant or not.
+
   To understand the rotation applied, we must first how the rotation concept applies
   to this context: we basically want to rotate the data so that the new axes are
   aligned with the eigenvectors of the covariance matrix. Mathematically, we can
@@ -215,7 +222,8 @@
     \quad x_3' = \input{aux-matrices/ex-1/mapped_x_3.tex}, \quad x_4' = \input{aux-matrices/ex-1/mapped_x_4.tex}
   \end{equation*}
 
-  Our mapping will, therefore, be something like this:
+  Our mapping will, therefore, be something like this (note that
+  the covariance associated with this new, "mapped dataset" would be diagonal):
 
   \begin{figure}[h]
     \centering
@@ -234,7 +242,7 @@
   we'd only consider the second coordinate of the previously calculated mapped samples,
   which would lead us to the following plot:
 
-  \begin{figure}[h]
+  \begin{figure}[H]
     \centering
     \includegraphics[width=0.4\textwidth]{assets/ex-1/kl-transform-1d.png}
     \label{fig:kl-transform-1d}
@@ -256,37 +264,25 @@
     the ones used in the original exercise. The logic applied, however, is the same.}
 
   Eigenvalues are directly related to the variance of the data along the eigenvectors.
-  With that said, we can think about this problem as the one of minimizing the
-  error along the eigenvectors: specifically, the farther the data is from the
-  vector, the more variance, and so on. As such, we associate larger eigenvalues to
-  vectors that are more likely to discriminate between the classes, with more
-  variance associated. That's not always the case, of course: in data that appears
-  to be "mashed together", the eigenvectors may not be able to discriminate between
-  the classes (just like in this case). That said, we can still decide whether
-  lowest or largest eigenvalues are more likely to discriminate between the classes
-  by looking at labeled data:
+  With that said, we can think about this problem as "how close are our points along
+  the eigenvector" - with that put, we can see that along an $y=x$-ish slope, points
+  vary way more than along an $y=-x$-ish slope. Therefore, with larger
+  eigenvalues representing more variance, and considering that the eigenvectors
+  do, in fact, follow those lines, $\lambda_1 > \lambda_2$.
 
-  \begin{figure}[h]
+  With all this gathered, we'll be able to tell, and considering both
+  these eigenvectors, that $v_2$ actually splits the data the best for the
+  left-most plot, while $v_1$ does it for the right-most one.
+
+  Note, of course, how we'd be quick to discard $v_2$, with it showing
+  a smaller variance, but in fact it would actually perform way better in
+  certain scenarios! PCA doesn't, then, work well in \textit{every} scenario.
+
+  \begin{figure}[H]
     \centering
     \includegraphics[width=0.8\textwidth]{assets/ex-2/scaled-samples.png}
     \label{fig:samples-2-scaled}
   \end{figure}
-
-  Note that, here, we're now working with scaled data (unit variance and zero mean).
-  With that said, with the samples themselves having the same features, only
-  labelled differently, we know that their eigenvalues and eigenvectors will be the same.
-  As such, we know that in both cases the "largest" and "smallest" eigenvalues will
-  be the same.
-
-  Considering $v_1$ as the vector with an $y=x$-ish slope, and $v_2$
-  as the vector with an $y=-x$-ish slope, we can see that $v_1$'s eigenvalue must
-  be smaller than $v_2$'s, as the former minimizes the distance between itself
-  and the samples much more. \textit{This is how we distinguish largest from smallest eigenvalues}.
-
-  With all this gathered, we're now able to assert that the largest eigenvalue,
-  associated with $v_2$, best fits the data for the left-most plot, while
-  the smallest eigenvalue, associated with $v_1$, best fits the data for the
-  right-most plot.
 
   \begin{tcolorbox}[enhanced jigsaw,halign=center,colback=bg,boxrule=0pt,arc=1pt]
     \item The following top-7 eigenvalues explain 90\% of the variation of dataset $X$:
@@ -364,7 +360,7 @@
   \end{equation*}
 
   Therefore, both $a)$ and $b)$ are correct. As for $c)$, we can calculate the proportion of
-  variance explained by each eigenvalue, as follows:
+  variance explained by the top-$k$ eigenvalues as follows:
 
   \begin{equation*}
     p_k = \frac{\sum_{i=1}^k \lambda_i}{\sum_{i=1}^n \lambda_i}
@@ -429,6 +425,8 @@
     \includegraphics[width=0.75\textwidth]{assets/ex-5/samples.png}
     \label{fig:samples-5}
   \end{figure}
+
+  % TODO: also transform the input data into its most significant dimension - x' = v_1^T x
 
 \end{enumerate}
 
