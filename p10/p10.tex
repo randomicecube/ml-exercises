@@ -170,7 +170,7 @@
   \end{equation*}
 
   As a side note, we do this since we're trying to transform the original
-  $\Sigma$ into a diagonal matrix (utilizing Linear Algebra's $U^1 M U = D$ equality).
+  $\Sigma$ into a diagonal matrix (utilizing Linear Algebra's $U^{-1} M U = D$ equality).
   This diagonal matrix is particularly relevant since we'll essentially
   want an equivalent matrix to $\Sigma$, but where every feature is "orthogonal"
   to each other: that way, we can look at each feature by itself,
@@ -232,7 +232,8 @@
   \end{figure}
 
   When talking about the \textbf{most significant eigenvector}, we can say that it is the
-  eigenvector with the \textbf{largest associated eigenvalue}. In this case, we have that $\lambda_1 < \lambda_2$,
+  eigenvector with the \textbf{largest associated eigenvalue} - largest eigenvalues
+  are associated with eigenvectors along which data varies the most. In this case, we have that $\lambda_1 < \lambda_2$,
   hence the most significant eigenvector is $v_2$. Looking to the plots above we
   can note, as expected, that $v_2$ does look like it "fits the data the best".
 
