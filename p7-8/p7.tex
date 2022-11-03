@@ -53,7 +53,7 @@
 \textit{Note: intermediate steps were calculated using \texttt{numpy} and, in general, will not be shown.}
 
 \begin{enumerate}[leftmargin=\labelsep]
-  \begin{tcolorbox}[enhanced jigsaw,colback=bg,boxrule=0pt,arc=1pt]
+  \begin{tcolorbox}[enhanced jigsaw,colback=bg,boxrule=0pt,arc=1pt,halign=center]
     \item Consider a network with three layers: 5 inputs, 3 hidden units and 2 outputs
     where all units use a sigmoid activation function.
 
@@ -211,7 +211,7 @@
   The MLP classifies the sample as belonging to the first class, since
   it matches $\operatorname{argmax}(x^{[2]}_{new})$.
 
-  \begin{tcolorbox}[enhanced jigsaw,colback=bg,boxrule=0pt,arc=1pt]
+  \begin{tcolorbox}[enhanced jigsaw,colback=bg,boxrule=0pt,arc=1pt,halign=center]
     \item Consider a network with four layers: 4, 4, 3 and 3 neurons, respectively.
     where all units use a hyperbolic tangent activation function.
 
@@ -335,15 +335,12 @@
     b^{[1]} = \input{aux-matrices/ex-2/b1_new}
   \end{equation*}
 
-  \begin{tcolorbox}[enhanced jigsaw,colback=bg,boxrule=0pt,arc=1pt]
-    \item Repeat the exact same exercise, but this time with the following adaptations:
+  \begin{tcolorbox}[enhanced jigsaw,colback=bg,boxrule=0pt,arc=1pt,halign=center]
+    \item Repeat the exact same exercise, but this time the \textbf{output units}
+    have a softmax activation function, while the \textbf{error function} is now
+    the cross-entropy loss function.
 
-    \begin{enumerate}
-      \item The output units have a softmax activation function.
-      \item The error function is the cross-entropy loss function.
-    \end{enumerate}
-
-    What are the major differences between using squared error and cross-entropy
+    What are the major differences between using squared error and cross-entropy?
 
   \end{tcolorbox}
 
