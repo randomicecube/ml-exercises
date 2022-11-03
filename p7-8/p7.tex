@@ -173,7 +173,7 @@
 
   \begin{equation*}
     \frac{\partial E}{\partial w^{[2]}} = \delta^{[2]} (x^{[1]})^T = \input{aux-matrices/ex-1/d_e_w2}, \quad
-    \frac{\partial E}{\partial b^{[2]}} = \delta^{[2]} = \input{aux-matrices/ex-1/d_e_b2}
+    \frac{\partial E}{\partial b^{[2]}} = \delta^{[2]} \cdot 1 = \input{aux-matrices/ex-1/d_e_b2}
   \end{equation*}
 
   \begin{equation*}
@@ -301,12 +301,11 @@
   \end{equation*}
 
   Now, we can compute the gradient of the loss function with respect to the
-  weights and biases (the update step). Note that, regarding biases, we'll perform
-  a column-sum of the $\delta$ matrices, since the bias is, in fact, a column vector.
+  weights and biases (the update step).
 
   \begin{equation*}
     \frac{\partial E}{\partial w^{[3]}} = \delta^{[3]} x^{[2]T} = \input{aux-matrices/ex-2/d_e_w3}, \quad
-    \frac{\partial E}{\partial b^{[3]}} = \sum_{i=1}^2 \delta_i^{[3]} = \input{aux-matrices/ex-2/d_e_b3}
+    \frac{\partial E}{\partial b^{[3]}} = \delta^{[3]} \input{aux-matrices/ex-2/one_matrix} = \input{aux-matrices/ex-2/d_e_b3}
   \end{equation*}
 
   \begin{equation*}
@@ -348,7 +347,79 @@
 
   \end{tcolorbox}
 
-  % TODO
+  The softmax activation function aims to scale numbers into probabilities: it's usually
+  present in the output layer of a neural network, transforming the last layer's nets
+  into a vector of probabilities. The softmax function is defined as follows
+  (once again, write the derivative on your note sheet):
+
+  \begin{equation*}
+    \text{softmax}(z_i) = \frac{\exp(z_i)}{\sum_{j=1}^n \exp(z_j)}, \quad
+    \frac{\partial \text{s}(z_i)}{\partial z_j} = \begin{cases}
+      \text{s}(z_i) \cdot (1 - \text{s}(z_i)), & i = j    \\
+      - \text{s}(z_i) \cdot \text{s}(z_j),     & i \neq j
+    \end{cases}
+  \end{equation*}
+
+  Even though the sigmoid's plot is, generally speaking, similar to the softmax's one,
+  the two functions are not the same: for a given layer, the sum of the softmax's
+  outputs is always equal to 1 (hence the notion of vectorizing probabilities), while
+  the sigmoid sum does not have such restrictions.
+
+  \begin{figure}[H]
+    \centering
+    \includegraphics[width=0.6\textwidth]{assets/sigmoid-softmax.png}
+  \end{figure}
+
+  Whenever we utilize the softmax activation function, we'll usually use the cross-entropy
+  loss function, which is defined as follows:
+
+  \begin{equation*}
+    E = - \sum_{i=1}^n z_i \log \hat{z}_i
+  \end{equation*}
+
+  The cross-entropy loss function essentially measures the distance between what the
+  network thinks the output should be and what it actually is. We utilize it with
+  the softmax activation function since our predictions actually represent probabilities
+  (i.e they sum to 1).
+
+  Regarding the forward pass, here we can re-utilize every calculation from the previous
+  exercise up until activating the last net: here, the activation function is the softmax,
+  so we'll have to compute the softmax of the last net.
+
+  \begin{equation*}
+    x^{[3]} = \text{softmax}(z^{[3]}) = \input{aux-matrices/ex-3/x_3}
+  \end{equation*}
+
+  We'll need, now, to compute the error function's derivative with respect to both
+  the weights and the biases. We'll start with the last layer's weights and biases.
+
+  \begin{equation*}
+    \begin{aligned}
+      \delta^{[3]} & = \frac{\partial E}{\partial z^{[3]}} = \cdots = x^{[3]} - z = \input{aux-matrices/ex-3/delta_3}                                                       \\
+      \delta^{[2]} & = (w^{[3]})^T \delta^{[3]} \circ \text{s'}(z^{[2]}) = \input{aux-matrices/ex-3/zeros_2_2} \circ \text{s'}(z^{[2]}) = \input{aux-matrices/ex-3/delta_2} \\
+      \delta^{[1]} & = (w^{[2]})^T \delta^{[2]} \circ \text{s'}(z^{[1]}) = \input{aux-matrices/ex-3/zeros_2_2} \circ \text{s'}(z^{[1]}) = \input{aux-matrices/ex-3/delta_1}
+    \end{aligned}
+  \end{equation*}
+
+  With $\delta^{[2]}$ and $\delta^{[1]}$ being the zero matrices, both weights and
+  biases for their respective layers will not be updated (since the error's derivative
+  with respect to them will be 0). Regarding the last layer's weights and biases, though:
+
+  \begin{equation*}
+    \begin{aligned}
+      \frac{\partial E}{\partial w^{[3]}} & = \delta^{[3]} (x^{[2]})^T = \input{aux-matrices/ex-3/d_e_w3}                          \\
+      \frac{\partial E}{\partial b^{[3]}} & = \delta^{[3]} \input{aux-matrices/ex-3/one_matrix} = \input{aux-matrices/ex-3/d_e_b3}
+    \end{aligned}
+  \end{equation*}
+
+  We're now in position to update the weights and biases (these calculations were performed
+  for both samples instead of for only the first one, hence the different results
+  in comparison with the teacher's solutions):
+
+  \begin{equation*}
+    w^{[3]} = \input{aux-matrices/ex-3/w3_new}, \quad
+    b^{[3]} = \input{aux-matrices/ex-3/b3_new}
+  \end{equation*}
 
 \end{enumerate}
 
