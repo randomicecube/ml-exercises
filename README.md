@@ -14,5 +14,5 @@ _However_, every calculation performed will be shown in each sheet's respective 
 - [ ] Sheet 4 - Linear Regression, kNN
 - [ ] Sheet 5-6 - Gradient Descent
 - [x] Sheet 7-8 - Neural Networks
-- [ ] Sheet 9 - Clustering
+- [x] Sheet 9 - Clustering
 - [x] Sheet 10 - Dimensionality Reduction

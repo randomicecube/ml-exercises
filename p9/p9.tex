@@ -768,6 +768,70 @@
   (Note how the centroid remained the same, bar the $y$-coordinate of $k_2$'s centroid,
   which was updated from 6 to 5.)
 
+  \begin{tcolorbox}[enhanced jigsaw,halign=center,colback=bg,boxrule=0pt,arc=1pt]
+
+    Consider the following four scenarios of plotted data sets:
+
+    \begin{figure}[H]
+      \centering
+      \includegraphics[width=0.4\textwidth]{assets/ex-9-plot.png}
+    \end{figure}
+
+    \begin{enumerate}
+      \item For each scenario, justify whether $k$-means is suitable.
+      \item Assuming EM clustering is applied to model all scenarios, what would
+            the means and variances look like? For simplicity, assume that the covariance
+            matrix is diagonal.
+      \item When moving from numeric to ordinal data spaces, is the Hamming distance
+            proper to handle ordinal data with high cardinality?
+    \end{enumerate}
+
+  \end{tcolorbox}
+
+  As mentioned in this sheet's introduction, $k$-means is a clustering algorithm that
+  creates circle/spherical-like clusters (while EM tends creates clusters shaped
+  like its data's distributions). This way, if we have data where the clusters are
+  not circular/spherical, $k$-means probably won't be the most suitable algorithm
+  to use.
+
+  \begin{enumerate}
+    \item \textbf{Top-left}: we can clearly create a circle-like cluster for the
+          bottom-left data points, while for the top-right ones, although not as clear,
+          it does look like it's also possible to create a circle-like cluster for them;
+          this way, we can say that $k$-means is suitable for this scenario (with $k=2$).
+    \item \textbf{Top-right}: in the same manner as the previous scenario, we can
+          create a circle-like cluster for the top-right data points; however, regarding
+          the bottom-left data points, $k$-means will only be suitable if we're willing
+          to split the points into left and right sections (otherwise we get an ellipse-like
+          cluster). This way, $k$-means is only suitable here if we're working with $k=3$.
+    \item \textbf{Bottom-left}: we can clearly create a circle-like cluster for the
+          bottom-left data points, once again. However, there does not seem to be a way to
+          avoid having an ellipse-like cluster for the right-most data points, hence
+          $k$-means is not suitable for this scenario.
+    \item \textbf{Bottom-right}: both the right-most and bottom-most data point clusters
+          are clearly not circular/spherical, hence $k$-means is not suitable for this scenario.
+  \end{enumerate}
 \end{enumerate}
+
+Regarding the second part of the question, the means will generally be wherever
+the data's distributions are centered, while the covariance matrices will be
+diagonal, with the diagonal values being the variances of each dimension - considering
+ellipse-like clusters, for example, the variance will be obviously higher in the
+"horizontal" (i.e the "first" in $\Sigma$) dimension, while it will be lower in the
+"vertical" (i.e the "second" in $\Sigma$) dimension (vice-versa for vertically
+elongated ellipses). Considering circle-like clusters, the variances will generally
+be the same in both dimensions, with more spread out data points having higher
+associated variances.
+
+Finally, regarding whether the Hamming distance is suitable for ordinal data with
+high cardinality, the answer is no. The Hamming distance is the most suitable
+distance metric for data where there's no sense of "distance" between the values
+of each dimension (e.g. the values of each dimension are just labels, like blood types).
+Once we enter any type of data space where there's an intrinsic sense of "distance" between
+the values of a given dimension, Hamming distance ends up being less and less suitable
+for data with higher cardinality. Considering an example of ordinal data with low
+cardinality, like "High", "Medium" and "Low", the Hamming distance between "High" and
+"Medium" is 1, just like between "High" and "Low": while there should clearly be
+a bigger difference between them (which would only be accentuated with higher and higher cardinality).
 
 \end{document}
