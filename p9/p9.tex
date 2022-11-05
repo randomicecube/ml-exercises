@@ -406,15 +406,15 @@
   \begin{equation*}
     \begin{aligned}
       \mathcal{N} (x_1; \mu_1, \sigma_1^2) & = \frac{1}{\sqrt{2 \pi \sigma_1^2}} \exp \left( - \frac{(x_1 - \mu_1)^2}{2 \sigma_1^2} \right) \\
-                                            & = \frac{1}{\sqrt{2 \pi}} \exp \left( - \frac{(x_1 - 1)^2}{2} \right) = 0.004432 \\
+                                           & = \frac{1}{\sqrt{2 \pi}} \exp \left( - \frac{(x_1 - 1)^2}{2} \right) = 0.004432                \\
       \mathcal{N} (x_1; \mu_2, \sigma_2^2) & = \frac{1}{\sqrt{2 \pi \sigma_2^2}} \exp \left( - \frac{(x_1 - \mu_2)^2}{2 \sigma_2^2} \right) \\
-                                            & = \frac{1}{\sqrt{2 \pi}} \exp \left( - \frac{(x_1 - 0)^2}{2} \right) = 0.0001338
+                                           & = \frac{1}{\sqrt{2 \pi}} \exp \left( - \frac{(x_1 - 0)^2}{2} \right) = 0.0001338
     \end{aligned}
   \end{equation*}
 
   \begin{equation*}
-      \gamma_{11} = \frac{0.004432 \cdot 0.5}{0.004432 \cdot 0.5 + 0.242 \cdot 0.5} = 0.9707, \quad
-      \gamma_{12} = \frac{0.242 \cdot 0.5}{0.004432 \cdot 0.5 + 0.242 \cdot 0.5} = 0.02931
+    \gamma_{11} = \frac{0.004432 \cdot 0.5}{0.004432 \cdot 0.5 + 0.242 \cdot 0.5} = 0.9707, \quad
+    \gamma_{12} = \frac{0.242 \cdot 0.5}{0.004432 \cdot 0.5 + 0.242 \cdot 0.5} = 0.02931
   \end{equation*}
 
   Performing similar computations for the following samples, we're able to gather
@@ -422,10 +422,10 @@
 
   \begin{equation*}
     \begin{aligned}
-      \mathcal{N} (x_2; \mu_1, \sigma_1^2) &= 0.242, \quad
-      \mathcal{N} (x_2; \mu_2, \sigma_2^2) &= 0.3989, \quad
-      \mathcal{N} (x_3; \mu_1, \sigma_1^2) &= 0.3989, \quad
-      \mathcal{N} (x_3; \mu_2, \sigma_2^2) &= 0.242
+      \mathcal{N} (x_2; \mu_1, \sigma_1^2) & = 0.242, \quad
+      \mathcal{N} (x_2; \mu_2, \sigma_2^2) & = 0.3989, \quad
+      \mathcal{N} (x_3; \mu_1, \sigma_1^2) & = 0.3989, \quad
+      \mathcal{N} (x_3; \mu_2, \sigma_2^2) & = 0.242
     \end{aligned}
   \end{equation*}
 
@@ -439,10 +439,54 @@
   \end{equation*}
 
   Having calculated the posteriors (and, subsequently, being able to perform an \textit{estimate
-  of the probabilities of a sample belonging to each cluster}), we can move on to the
+    of the probabilities of a sample belonging to each cluster}), we can move on to the
   \textbf{M-step}, where we'll update the parameters of the distributions, utilizing these
-  new estimations. In this case, we'll be updating the means and variances of each
-  distribution:
+  new estimations. In this case, we'll be updating the means and std. deviations of each
+  distribution, plus updating the priors afterward (note that when updating $\sigma$,
+  we use the newly updated means).
+
+  \begin{equation*}
+    \mu_k = \frac{\sum_{n = 1}^N \gamma_{nk} x_n}{\sum_{n = 1}^N \gamma_{nk}}, \quad
+    \sigma_k = \sqrt{\frac{\sum_{n = 1}^N \gamma_{nk} (x_n - \mu_k)^2}{\sum_{n = 1}^N \gamma_{nk}}}, \quad
+    \pi_k = \frac{1}{N} \sum_{n = 1}^N \gamma_{nk}
+  \end{equation*}
+
+  \begin{paracol}{2}
+    \setlength{\columnseprule}{1pt}
+    \def\columnseprulecolor{\color{black}}
+    \centering
+
+    $k_1$:
+
+    \begin{equation*}
+      \begin{aligned}
+        \mu_1    & = \frac{0.9707 \cdot 4 + 0 + 0.6225 \cdot 1}{0.9707 + 0.3775 + 0.6225} = 2.286 \\
+        \sigma_1 & = 1.724,                                                                       \\
+        \pi_1    & = 0.6569
+      \end{aligned}
+    \end{equation*}
+
+    \switchcolumn
+
+    $k_2$:
+
+    \begin{equation*}
+      \begin{aligned}
+        \mu_2    & = \frac{0.02931 \cdot 4 + 0 + 0.3775 \cdot 1}{0.02931 + 0.6225 + 0.3775} = 0.4807 \\
+        \sigma_2 & = 0.769,                                                                          \\
+        \pi_2    & = 0.3431
+      \end{aligned}
+    \end{equation*}
+
+  \end{paracol}
+
+  After one EM epoch, we'll have the following:
+
+  \begin{figure}[H]
+    \centering
+    \includegraphics[width = 0.5\textwidth]{assets/ex-3-plot.png}
+    \caption{EM's cluster distributions after epoch 1}
+  \end{figure}
 
 \end{enumerate}
 
