@@ -690,6 +690,84 @@
   \textit{Won't be doing the fifth question here since it's basically a copy of the
     third but with multivariate Gaussians, which are also covered in the fourth homework.}
 
+  \begin{tcolorbox}[enhanced jigsaw,halign=center,colback=bg,boxrule=0pt,arc=1pt]
+
+    \item Consider the following dataset (and an Euclidian distance space):
+
+    \begin{table}[H]
+      \centering
+      \begin{tabular}{c|c|c}
+              & $y_1$ & $y_2$ \\ \hline
+        $x_1$ & 2     & 10    \\
+        $x_2$ & 2     & 5     \\
+        $x_3$ & 8     & 4     \\
+        $x_4$ & 5     & 8     \\
+        $x_5$ & 7     & 5     \\
+        $x_6$ & 6     & 4     \\
+        $x_7$ & 1     & 2     \\
+        $x_8$ & 4     & 9     \\
+      \end{tabular}
+    \end{table}
+
+    \begin{enumerate}
+      \item Assuming observations $x_1$, $x_4$ and $x_7$ to be the initial seeds,
+            identify the centroids after the first epoch using both $k$-means and $k$-medians.
+      \item When is the median preferred over the mean?
+    \end{enumerate}
+
+  \end{tcolorbox}
+
+  For starters, it's worth noting that, as expected, the variation between $k$-means
+  and $k$-medians is exclusively related to the way the centroids are updated: instead
+  of updating them utilizing the mean distance between each centroid and its assigned
+  observations, $k$-medians will update them by taking the median distance between
+  each centroid and its assigned observations - this way, the centroids shouldn't
+  be affected by outliers as much as if they were updated using a mean.
+
+  Let's start by assigning the samples to each cluster in the usual manner (note that, just as referenced
+  in the question's statement, $k_1$ = $x_1$, $k_2$ = $x_4$ and $k_3$ = $x_7$, and that
+  we're using the Euclidian distance):
+
+  \begin{equation*}
+    k_1 = \{x_1\}, \quad k_2 = \{x_3, x_4, x_5, x_6, x_8\}, \quad k_3 = \{x_2, x_7\}
+  \end{equation*}
+
+  We can now calculate the centroids for each cluster, using both $k$-means and $k$-medians.
+  Regarding the former:
+
+  \begin{equation*}
+    \begin{aligned}
+       & \bar{x}_1 = \frac{2}{1} = 2, \quad                 &  & \bar{y}_1 = \frac{10}{1} = 10               \\
+       & \bar{x}_2 = \frac{8 + 5 + 7 + 6 + 4}{5} = 6, \quad &  & \bar{y}_2 = \frac{4 + 8 + 5 + 4 + 9}{5} = 6 \\
+       & \bar{x}_3 = \frac{2 + 1}{2} = 1.5, \quad           &  & \bar{y}_3 = \frac{5 + 2}{2} = 3.5
+    \end{aligned}
+  \end{equation*}
+
+  \begin{equation*}
+    k_1' = \begin{pmatrix} 2 \\ 10 \end{pmatrix}, \quad
+    k_2' = \begin{pmatrix} 6 \\ 6 \end{pmatrix}, \quad
+    k_3' = \begin{pmatrix} 1.5 \\ 3.5 \end{pmatrix}
+  \end{equation*}
+
+  Regarding the latter:
+
+  \begin{equation*}
+    \begin{aligned}
+       & m_x(1) = 2, \quad                                        &  & m_y(1) = 10                                       \\
+       & m_x(2) = \operatorname{median}(8, 5, 7, 6, 4) = 6, \quad &  & m_y(2) = \operatorname{median}(4, 8, 5, 4, 9) = 5 \\
+       & m_x(3) = \operatorname{median}(2, 1) = 1.5, \quad        &  & m_y(3) = \operatorname{median}(5, 2) = 3.5
+    \end{aligned}
+  \end{equation*}
+
+  \begin{equation*}
+    k_1'' = \begin{pmatrix} 2 \\ 10 \end{pmatrix}, \quad
+    k_2'' = \begin{pmatrix} 6 \\ 5 \end{pmatrix}, \quad
+    k_3'' = \begin{pmatrix} 1.5 \\ 3.5 \end{pmatrix}
+  \end{equation*}
+
+  (Note how the centroid remained the same, bar the $y$-coordinate of $k_2$'s centroid,
+  which was updated from 6 to 5.)
+
 \end{enumerate}
 
 \end{document}
