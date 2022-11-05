@@ -368,7 +368,75 @@
 
   \end{tcolorbox}
 
-  % TODO: continue
+  The Expectation-Maximization (EM) algorithm is a powerful tool for cluster creation,
+  learning the parameters of a distribution/mixture of distributions. It is a two-step iterative algorithm that
+  alternates between two steps: the \textbf{Expectation} step and the
+  \textbf{Maximization} step.
+
+  Here, our centroids are precisely the means of each distribution; if in
+  $k$-means we directly assigned the points to a cluster (and centroid updates
+  would only take into account the samples assigned to them), in EM points aren't
+  "assigned" to a given cluster, having rather a probability of belonging to each
+  one of them. This way, parameter updates will always take into account
+  \textbf{all} the points in the dataset (which should, ideally, lead us to a
+  better clustering solution). This way, with each centroid being associated with
+  a given distribution, we're not only able to know where the cluster's centroid
+  is, but also its shape.
+
+  In the \textbf{E-step}, we calculate the \textbf{posteriors} (i.e the probability/\textit{expectation}
+  of a point belonging to each cluster), given the current parameters of the
+  distributions. As we know, these probabilities can be written in function of the
+  likelihoods and priors:
+
+  \begin{equation*}
+    \gamma_{ni} = P(c = k_i | x_n) = \frac{P(x_n | c = k_i) \pi_i}{\sum_{j = 1}^k P(x | c = k_j) \pi_j}
+  \end{equation*}
+
+  Since we know the priors in advance, we'll only need to calculate the likelihoods here.
+  From the question's statement, we know that we can write down the likelihoods as:
+
+  \begin{equation*}
+    P(x | c = k_i) = \mathcal{N}(x; \mu_i, \sigma_i^2)
+  \end{equation*}
+
+  Computing this for each sample (and, for each one of them, for each cluster), we'll
+  be able to gather the following (calculations will be shown in their entirety for the
+  first sample, only final results for the remaining ones):
+
+  \begin{equation*}
+    \begin{aligned}
+      \mathcal{N} (x_1; \mu_1, \sigma_1^2) & = \frac{1}{\sqrt{2 \pi \sigma_1^2}} \exp \left( - \frac{(x_1 - \mu_1)^2}{2 \sigma_1^2} \right) \\
+                                            & = \frac{1}{\sqrt{2 \pi}} \exp \left( - \frac{(x_1 - 1)^2}{2} \right) = 0.004432 \\
+      \mathcal{N} (x_1; \mu_2, \sigma_2^2) & = \frac{1}{\sqrt{2 \pi \sigma_2^2}} \exp \left( - \frac{(x_1 - \mu_2)^2}{2 \sigma_2^2} \right) \\
+                                            & = \frac{1}{\sqrt{2 \pi}} \exp \left( - \frac{(x_1 - 0)^2}{2} \right) = 0.0001338
+    \end{aligned}
+  \end{equation*}
+
+  \begin{equation*}
+      \gamma_{11} = \frac{0.004432 \cdot 0.5}{0.004432 \cdot 0.5 + 0.242 \cdot 0.5} = 0.9707, \quad
+      \gamma_{12} = \frac{0.242 \cdot 0.5}{0.004432 \cdot 0.5 + 0.242 \cdot 0.5} = 0.02931
+  \end{equation*}
+
+  Performing similar computations for the following samples, we're able to gather
+  the following results:
+
+  \begin{equation*}
+    \begin{aligned}
+      \mathcal{N} (x_2; \mu_1, \sigma_1^2) &= 0.242, \quad
+      \mathcal{N} (x_2; \mu_2, \sigma_2^2) &= 0.3989, \quad
+      \mathcal{N} (x_3; \mu_1, \sigma_1^2) &= 0.3989, \quad
+      \mathcal{N} (x_3; \mu_2, \sigma_2^2) &= 0.242
+    \end{aligned}
+  \end{equation*}
+
+  \begin{equation*}
+    \begin{aligned}
+      \gamma_{21} & = 0.3775, \quad
+      \gamma_{22} = 0.6225, \quad
+      \gamma_{31} & = 0.6225, \quad
+      \gamma_{32} = 0.3775
+    \end{aligned}
+  \end{equation*}
 
 \end{enumerate}
 
