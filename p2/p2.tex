@@ -215,15 +215,114 @@
           \item Draw the confusion matrix.
           \item Compute the accuracy and recall (sensitivity) for each class.
           \item Regarding class C, identify its precision and F-measure.
-          \item identify the accuracy, sensitivity and precision of a random classifier.
+          \item Identify the accuracy, sensitivity and precision of a random classifier.
         \end{enumerate}
         }
 
         As we know, a confusion matrix is a $K \times K$ matrix, where $K$ is the number of
-        classes in our target label. In this case, we have three classes, $A$, $B$ and $C$,
+        classes in our target label, which aims to aid in the visualization of the performance
+        of a (usually supervised) classifier. In this case, we have three classes, $A$, $B$ and $C$,
         therefore our confusion matrix will be a $3 \times 3$ matrix. Considering the
         \textit{real vs predicted} labels referenced above, we can fill the confusion matrix
         as follows:
+
+        \begin{figure}[H]
+          \centering
+          \includesvg[width=0.35\textwidth]{assets/ex-3-confusion-matrix.svg}
+        \end{figure}
+
+        The \textbf{accuracy} of a classifier is the proportion of correct predictions made by the
+        classifier. In this case, we have 4 correct predictions (given by the matrix' trace),
+        out of 10 total predictions. Therefore, the accuracy is, of course, $4/10 = 0.4$.
+
+        The \textbf{recall} (also known as \textbf{sensitivity}) measures the proportion
+        of correctly $X$-predicted instances out of all instances of class $X$.
+        Measuring the recall for each class, we have the following:
+
+        \begin{equation*}
+          \operatorname{recall}(A) = \frac{1}{1 + 2 + 0} = \frac{1}{3}, \quad
+          \operatorname{recall}(B) = \frac{1}{1 + 1 + 1} = \frac{1}{3}, \quad
+          \operatorname{recall}(C) = \frac{2}{1 + 1 + 2} = \frac{1}{2}
+        \end{equation*}
+
+        The \textbf{precision} is essentially a class-wise version of the accuracy
+        measure. It measures the proportion of correctly $X$-predicted instances out of all
+        instances predicted as $X$. Measuring the precision for each class, we have the following:
+
+        \begin{equation*}
+          \operatorname{precision}(A) = \frac{1}{1 + 1 + 1} = \frac{1}{3}, \quad
+          \operatorname{precision}(B) = \frac{1}{2 + 1 + 1} = \frac{1}{4}, \quad
+          \operatorname{precision}(C) = \frac{2}{0 + 1 + 2} = \frac{2}{3}
+        \end{equation*}
+
+        These measures can be more easily visualized as shown in the following figure:
+
+        \begin{figure}[H]
+          \centering
+          \includesvg[width=0.5\textwidth]{assets/ex-3-measures.svg}
+        \end{figure}
+
+        The \textbf{F-measure} is the harmonic mean of the precision and recall, and is
+        defined as:
+
+        \begin{equation*}
+          F_\beta = \frac{(1 + \beta^2) \cdot \operatorname{precision} \cdot \operatorname{recall}}
+          {\beta^2 \cdot \operatorname{precision} + \operatorname{recall}}
+        \end{equation*}
+
+        In this case, we have $\beta = 1$ (since the question's statement asks us
+        for the F1-measure). As such, we'll have the following:
+
+        \begin{equation*}
+          F_{1,a} = \frac{2 \cdot \operatorname{precision}_a \cdot \operatorname{recall}_a}
+          {\operatorname{precision}_a + \operatorname{recall}_a}
+          = \frac{2 \cdot \frac{1}{3} \cdot \frac{1}{3}}{\frac{1}{3} + \frac{1}{3}}
+          = \frac{1}{3}, \quad
+          F_{1,b} = \frac{2 \cdot \frac{1}{4} \cdot \frac{1}{3}}{\frac{1}{4} + \frac{1}{3}}
+          = \frac{2}{7}, \quad
+          F_{1,c} = \frac{2 \cdot \frac{2}{3} \cdot \frac{1}{2}}{\frac{2}{3} + \frac{1}{2}}
+          = 0.5714
+        \end{equation*}
+
+        Finally, let's talk about the \textbf{random classifier}. A random classifier
+        is a classifier that makes random predictions, and is usually used as a baseline
+        for comparison with other classifiers. In this case, we have three classes, $A$, $B$ and $C$,
+        therefore the random classifier will predict each class with probability $\frac{1}{3}$.
+        As such, the accuracy of the random classifier is also $\frac{1}{3}$.
+
+        Regarding both sensitivity and precision, we have the following (considering
+        $X$ as the class predicted by the random classifier, $\overline{X}$ as all
+        the remaining classes, and $p = P(X)$):
+
+        % TODO: change this (apparently) wrong
+
+        \begin{equation*}
+          \operatorname{recall}(X) = \frac{TX}{TX + F\overline{X}} = \frac{p \cdot X}{p \cdot X + (1 - p) X} = p, \quad
+          \operatorname{precision}(X) = \frac{TX}{TX + FX} = \frac{p \cdot X}{p \cdot X + (1 - p) \overline{X}}
+        \end{equation*}
+
+        Putting it into words, $TX$ is the number of correct $X$ predictions - considering
+        a random classifier, and $X$ amount of $X$ instances, there'll be $p \cdot X$ correct
+        $X$ predictions, of course.
+
+        $F\overline{X}$ is the number of incorrect non-$X$ guesses - that is, the
+        amount of times we should have predicted $X$ but didn't. Thinking about concrete
+        examples, in the random classifier in hands, with $p = \nicefrac{1}{3}$, it's
+        intuitive that we'll be able to correctly predict $X$ $p \cdot X = \nicefrac{1}{3} \cdot X$
+        times, but we'll also not be able to predict $X$ $1 - p = \nicefrac{2}{3}$ times:
+        for each time we predict $X$ correctly, we'll miss two other times.
+
+        Finally, $FX$ is the number of incorrect $X$ guesses - that is, the amount of
+        times we should have predicted $\overline{X}$ but didn't. In an analogous way,
+        way to $F\overline{X}$, we'll have $FX = (1 - p) \cdot \overline{X}$.
+
+        Note that, considering the formulas above, the recall for all classes is given
+        by $p = \nicefrac{1}{3}$, while the precision differs between classes:
+
+        \begin{equation*}
+          \operatorname{precision}(A) = \operatorname{precision}(B) = \frac{\nicefrac{1}{3} \cdot 3}{\nicefrac{1}{3} \cdot 3 + \nicefrac{2}{3} \cdot 7} = \frac{3}{17}, \quad
+          \operatorname{precision}(C) = \frac{\nicefrac{1}{3} \cdot 4}{\nicefrac{1}{3} \cdot 4 + \nicefrac{2}{3} \cdot 6} = \frac{1}{4}
+        \end{equation*}
 
         \question {
   \item Consider a dataset composed by 374 records, described by 6 variables, classified
