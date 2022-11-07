@@ -1,0 +1,123 @@
+\documentclass[12pt]{article}
+\usepackage[paper=letterpaper,margin=1.5cm]{geometry}
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{amsfonts}
+\usepackage{newtxtext, newtxmath}
+\usepackage{enumitem}
+\usepackage{titling}
+\usepackage{svg}
+\usepackage{xcolor}
+\usepackage{listings}
+\usepackage{float}
+\usepackage{nicefrac}
+\usepackage[most]{tcolorbox}
+\usepackage[colorlinks=true]{hyperref}
+
+\setlength{\droptitle}{-6em}
+
+\definecolor{codegreen}{rgb}{0,0.6,0}
+\definecolor{codegray}{rgb}{0.5,0.5,0.5}
+\definecolor{codepurple}{rgb}{0.58,0,0.82}
+\definecolor{backcolour}{rgb}{0.95,0.95,0.92}
+\definecolor{bg}{rgb}{1,0.96,0.9}
+
+\lstdefinestyle{mystyle}{
+  commentstyle=\color{codegreen},
+  keywordstyle=\color{magenta},
+  numberstyle=\tiny\color{codegray},
+  stringstyle=\color{codepurple},
+  basicstyle=\ttfamily\footnotesize,
+  breakatwhitespace=false,
+  breaklines=true,
+  captionpos=b,
+  keepspaces=true,
+  numbers=left,
+  numbersep=5pt,
+  showspaces=false,
+  showstringspaces=false,
+  showtabs=false,
+  tabsize=2
+}
+
+% \tcbset{enlarge left by=-0.8cm,left=1.2cm,enlarge right by=-2cm,right=0.8cm}
+
+\lstset{
+  style=mystyle,
+  inputencoding=utf8,
+  extendedchars=true,
+}
+
+\newcommand{\question}[1]{\begin{tcolorbox}[enhanced jigsaw,colback=bg,boxrule=0pt,arc=1pt,halign=center] #1 \end{tcolorbox}}
+
+\begin{document}
+
+\begin{enumerate}[leftmargin=\labelsep]
+  \question {
+  \item Consider the following dataset:
+
+        \begin{table}[H]
+          \centering
+          \begin{tabular}{c|c|c|c|c}
+                  & $y_1$ & $y_2$ & $y_3$ & $z$ \\ \hline
+            $x_1$ & a     & a     & a     & +   \\
+            $x_2$ & c     & b     & c     & +   \\
+            $x_3$ & c     & a     & c     & +   \\
+            $x_4$ & b     & a     & a     & -   \\
+            $x_5$ & a     & b     & c     & -   \\
+            $x_6$ & b     & b     & c     & -
+          \end{tabular}
+        \end{table}
+
+        Plot the learned decision tree using information gain (Shannon entropy). Show your calculations.
+        }
+
+        \question {
+  \item Show if a decision tree can learn the AND, OR and XOR logical functions. If so,
+        plot the corresponding decision boundaries.
+        }
+
+        \question {
+  \item Consider the following testing targets, $z$, and the corresponding predictions, $\hat{z}$,
+        by a decision tree:
+
+        \begin{equation*}
+          \begin{aligned}
+            z       & = [A, A, A, B, B, B, C, C, C, C] \\
+            \hat{z} & = [B, B, A, C, B, A, C, A, B, C]
+          \end{aligned}
+        \end{equation*}
+
+        \begin{enumerate}
+          \item Draw the confusion matrix.
+          \item Compute the accuracy and recall (sensitivity) for each class.
+          \item Regarding class C, identify its precision and F-measure.
+          \item identify the accuracy, sensitivity and precision of a random classifier.
+        \end{enumerate}
+        }
+
+        \question {
+  \item Consider a dataset composed by 374 records, described by 6 variables, classified
+        according to the following decision tree:
+
+        \begin{figure}[H]
+          \centering
+          \includesvg[width=0.5\textwidth]{assets/ex-4-tree.svg}
+        \end{figure}
+
+        Each leaf in the tree shows the label, number of classified records with the
+        label, and total number of observations in the leaf. The positive class is
+        the minority class.
+
+        \begin{enumerate}
+          \item Compute the confusion matrix.
+          \item Compare the accuracy of the given tree versus a pruned tree, with
+                only two nodes. Is there any evidence towards overfitting?
+          \item Are decision trees learned from high-dimensional data susceptible
+                to underfitting? Why does an ensemble of DTs minimize this problem?
+        \end{enumerate}
+        }
+
+\end{enumerate}
+
+\end{document}
