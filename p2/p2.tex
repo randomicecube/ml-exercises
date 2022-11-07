@@ -290,11 +290,13 @@
         therefore the random classifier will predict each class with probability $\frac{1}{3}$.
         As such, the accuracy of the random classifier is also $\frac{1}{3}$.
 
+        \textit{The comments below are probably wrong, unsure currently.}
+
+        % TODO: check no HD
+
         Regarding both sensitivity and precision, we have the following (considering
         $X$ as the class predicted by the random classifier, $\overline{X}$ as all
         the remaining classes, and $p = P(X)$):
-
-        % TODO: change this (apparently) wrong
 
         \begin{equation*}
           \operatorname{recall}(X) = \frac{TX}{TX + F\overline{X}} = \frac{p \cdot X}{p \cdot X + (1 - p) X} = p, \quad
@@ -345,6 +347,53 @@
                 to underfitting? Why does an ensemble of DTs minimize this problem?
         \end{enumerate}
         }
+
+        By looking at the question statement's figure, we can easily build its respective
+        confusion matrix:
+
+        \begin{figure}[H]
+          \centering
+          \includesvg[width=0.4\textwidth]{assets/ex-4-cm.svg}
+        \end{figure}
+
+        By consulting the confusion matrix above, we can see that the accuracy of the
+        given tree is given by (note that it's the equivalent of dividing the matrix's
+        trace by the sum of all its elements):
+
+        \begin{equation*}
+          \operatorname{accuracy} = \frac{TA + TB}{TA + TB + FA + FB} = \frac{114 + 236}{114 + 236 + 6 + 18} = 0.936
+        \end{equation*}
+
+        By pruning the tree to only two decision nodes, considering that the second
+        decision node already has an $A$-related leaf, every leaf in the now-pruned
+        path will belong to a newly created $B$-related leaf. As such, the decision tree
+        now looks like this:
+
+        \begin{figure}[H]
+          \centering
+          \includesvg[width=0.5\textwidth]{assets/ex-4-pruned-tree.svg}
+        \end{figure}
+
+        The new confusion matrix and accuracy score are as follows:
+
+        \begin{figure}[H]
+          \centering
+          \includesvg[width=0.4\textwidth]{assets/ex-4-cm-2.svg}
+        \end{figure}
+
+        \begin{equation*}
+          \operatorname{accuracy} = \frac{TA + TB}{TA + TB + FA + FB} = \frac{85 + 242}{85 + 242 + 0 + 47} = 0.874
+        \end{equation*}
+
+        The accuracy score of the pruned tree is lower than the one of the original
+        tree - here, less complexity in the DT ends up being disadvantageous for the
+        model. We can't exactly say that there's evidence towards overfitting, though,
+        since we have no validation/testing sets to compare the two models' performance
+        on unseen data.
+
+        \href{https://towardsdatascience.com/basic-ensemble-learning-random-forest-adaboost-gradient-boosting-step-by-step-explained-95d49d1e2725}{This}
+        article gives a good explanation on why tree ensembles (and random forests
+        specifically) are less susceptible to overfitting than single decision trees.
 
 \end{enumerate}
 
