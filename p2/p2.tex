@@ -11,6 +11,7 @@
 \usepackage{listings}
 \usepackage{float}
 \usepackage{nicefrac}
+\usepackage{multirow}
 \usepackage[most]{tcolorbox}
 \usepackage[colorlinks=true]{hyperref}
 
@@ -72,10 +73,132 @@
         Plot the learned decision tree using information gain (Shannon entropy). Show your calculations.
         }
 
+        Intuitively, the amount of information we can gather upon observing a random event
+        is inversely proportional to the probability of it happening. Shannon's notion
+        of \textbf{entropy} is a formalization of this idea. The entropy of a random variable
+        is the average amount of information we can gather upon observing it, and is defined as follows:
+
+        \begin{equation*}
+          H(X) = \sum_{x \in \mathcal{X}} p(x) \log_2 {\frac{1}{p(x)}} = -\sum_{x \in \mathcal{X}} p(x) \log_2 p(x)
+        \end{equation*}
+
+        Here, $\mathcal{X}$ is the set of all possible values of $X$ and $p(x)$ is the
+        probability of $X$ taking the value $x$.
+
+        The \textbf{information gain} concept is a measure of how much information we gain
+        by observing a random variable $X$ - the larger the information gain value,
+        the more we can extract from a given feature for the given dataset. It is defined as the difference between the entropy
+        of the random variable $X$ and the \textit{conditional entropy} of $X$ given $Y$:
+        a measure of how much information is needed to describe $X$ given that we know $Y$.
+
+        \begin{equation*}
+          \text{IG}(X, Y) = H(X) - H(X|Y)
+        \end{equation*}
+
+        Having these definitions in mind, it should now be trivial to plot the decision tree
+        for the dataset above. We start by computing the entropy of the target variable $z$:
+
+        \begin{equation*}
+          H(z) = -\frac{3}{6} \log_2 \frac{3}{6} - \frac{3}{6} \log_2 \frac{3}{6} = 1
+        \end{equation*}
+
+        Learning a decision tree will be intrinsically related to the features' information gain
+        measure: for each level, we will select the feature that maximizes the information gain
+        with respect to the target variable, making it that level's decision node.
+        Let's compute the information gain for each feature:
+
+        \begin{equation*}
+          \begin{aligned}
+            H(z \mid y_1) = \sum_{y \in \mathcal{Y}_1} p(y_1 = y) H(z \mid y_1 = y)
+            = \frac{2}{6} \left(-\frac{1}{2} \log_2 \frac{1}{2} - \frac{1}{2} \log_2 \frac{1}{2}\right)
+            + \frac{2}{6} \left(-\frac{2}{2} \log_2 \frac{2}{2}\right)
+            + \frac{2}{6} \left(-\frac{2}{2} \log_2 \frac{2}{2}\right)
+            = \mathbf{\frac{1}{3}}
+          \end{aligned}
+        \end{equation*}
+
+        \begin{equation*}
+          IG(z, y_1)    = 1 - \frac{1}{3} = \mathbf{\frac{2}{3}}
+        \end{equation*}
+
+        Performing similar computations for the other features, we obtain:
+
+        \begin{equation*}
+          \begin{aligned}
+             & H(z \mid y_2) = 0.9183, \quad &  & IG(z, y_2) = 0.082 \\
+             & H(z \mid y_3) = 1, \quad      &  & IG(z, y_3) = 0
+          \end{aligned}
+        \end{equation*}
+
+        As mentioned above, we will select the feature that maximizes the information gain
+        for each level. In this case, $y_1$ is the feature that maximizes the information gain,
+        hence it will be the root node of the decision tree. Note how there are already
+        a couple of leaves on our tree: these indicate that, regarding the respective
+        decision tree node, the target variable is already fully determined by the feature
+        values (i.e for a given feature value, the target variable is always the same).
+
+        Continuing the process, and following the path for the feature $y_1$ that takes the value $a$,
+        we can choose either $y_2$ or $y_3$ as the next decision node, since the
+        entropies of $y_2$ and $y_3$ are the same, zero (considering data conditioned by $y_1 = a$).
+        Choosing $y_2$ as the next decision node, we're now left with only lead nodes,
+        therefore no further decision nodes should be added to the tree.
+
+        \begin{figure}[H]
+          \centering
+          \includesvg[width=0.2\textwidth]{assets/ex-1-decision-tree.svg}
+        \end{figure}
+
         \question {
-  \item Show if a decision tree can learn the AND, OR and XOR logical functions. If so,
-        plot the corresponding decision boundaries.
+  \item Show if a decision tree can learn the AND, OR and XOR logical functions.
         }
+
+        Note that the afore-mentioned logical functions can be represented as shown
+        in the following "dummy data sets":
+
+        % three tables, one for each logical function, side-by-side
+
+        \begin{table}[!htb]
+          \begin{minipage}{.333\linewidth}
+            \centering
+            \begin{tabular}{c|c|c|c}
+                    & $y_1$ & $y_2$ & $z$ \\ \hline
+              $x_1$ & 0     & 0     & 0   \\
+              $x_2$ & 0     & 1     & 0   \\
+              $x_3$ & 1     & 0     & 0   \\
+              $x_4$ & 1     & 1     & 1
+            \end{tabular}
+            \caption{AND logical function}
+          \end{minipage}\hfill
+          \begin{minipage}{.333\linewidth}
+            \centering
+            \begin{tabular}{c|c|c|c}
+                    & $y_1$ & $y_2$ & $z$ \\ \hline
+              $x_1$ & 0     & 0     & 0   \\
+              $x_2$ & 0     & 1     & 1   \\
+              $x_3$ & 1     & 0     & 1   \\
+              $x_4$ & 1     & 1     & 1
+            \end{tabular}
+            \caption{OR logical function}
+          \end{minipage}\hfill
+          \begin{minipage}{.333\linewidth}
+            \centering
+            \begin{tabular}{c|c|c|c}
+                    & $y_1$ & $y_2$ & $z$ \\ \hline
+              $x_1$ & 0     & 0     & 0   \\
+              $x_2$ & 0     & 1     & 1   \\
+              $x_3$ & 1     & 0     & 1   \\
+              $x_4$ & 1     & 1     & 0
+            \end{tabular}
+            \caption{XOR logical function}
+          \end{minipage}
+        \end{table}
+
+        Each one of these data sets can be learned by a decision tree, of course:
+
+        \begin{figure}[H]
+          \centering
+          \includesvg[width=\textwidth]{assets/ex-2-trees.svg}
+        \end{figure}
 
         \question {
   \item Consider the following testing targets, $z$, and the corresponding predictions, $\hat{z}$,
@@ -95,6 +218,12 @@
           \item identify the accuracy, sensitivity and precision of a random classifier.
         \end{enumerate}
         }
+
+        As we know, a confusion matrix is a $K \times K$ matrix, where $K$ is the number of
+        classes in our target label. In this case, we have three classes, $A$, $B$ and $C$,
+        therefore our confusion matrix will be a $3 \times 3$ matrix. Considering the
+        \textit{real vs predicted} labels referenced above, we can fill the confusion matrix
+        as follows:
 
         \question {
   \item Consider a dataset composed by 374 records, described by 6 variables, classified
