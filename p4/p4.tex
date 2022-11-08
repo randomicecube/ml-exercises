@@ -53,6 +53,18 @@
 
 \begin{document}
 
+The $k$NN, or $k$-nearest neighbors algorithm, is a simple supervised learning algorithm,
+which works under the assumption that samples with similar features are more likely to
+share the same label. The algorithm is very straight-forward, although differing
+between trying to predict categoric and numeric labels: using a given distance
+metric (such as Euclidean, Manhattan, etc.), the algorithm finds the $k$ closest samples to
+the sample we want to classify, and assigns the label that:
+
+\begin{enumerate}
+  \item is most common (i.e. the mode) among the $k$ neighbors, in the case of categoric labels;
+  \item is the average of the labels of the $k$ neighbors, in the case of numeric labels.
+\end{enumerate}
+
 \begin{enumerate}[leftmargin=\labelsep]
   \question {
   \item Considering the following data set:
@@ -60,7 +72,7 @@
         \begin{table}[H]
           \centering
           \begin{tabular}{c|cc|cc}
-                  & $y_1$ & $y_2$ & $y_3$ & $y_4$ \\ \hline
+                  & $y_1$ & $y_2$ & $z_1$ & $z_2$ \\ \hline
             $x_1$ & 1     & 1     & A     & 1.4   \\
             $x_2$ & 2     & 1     & B     & 0.5   \\
             $x_3$ & 2     & 3     & B     & 2     \\
@@ -73,20 +85,131 @@
         Assuming $k$NN, with $k=3$ applied within a leave-one-out schema:
 
         \begin{enumerate}
-          \item Considering an $y_3$ categoric output variable and the Euclidean distance,
+          \item Considering an $z_1$ categoric output variable and the Euclidean distance,
                 provide the prediction for $x_1$.
-          \item Considering an $y_4$ numeric output variable and the cosine similarities,
+          \item Considering an $z_2$ numeric output variable and the cosine similarities,
                 provide the mean regression estimate for $x_1$.
           \item Considering a weighted-distance $k$NN, with Manhattan distance, identify both the
-                \textbf{weighted-mode} estimate of $x_1$ for a $y_3$ outcome and the
-                \textbf{weighted-mean} estimate of $x_1$ for a $y_4$ outcome.
+                \textbf{weighted-mode} estimate of $x_1$ for a $z_1$ outcome and the
+                \textbf{weighted-mean} estimate of $x_1$ for a $z_2$ outcome.
         \end{enumerate}
         }
 
+        Here, working with a leave-one-out schema means that, for each sample, we
+        can pick its $k$ neighbors from the pool of all the other samples, excluding
+        itself (which, in theory, is always its closest neighbor, with null distance).
+
         \begin{enumerate}
-          \item {}
-          \item {}
-          \item {}
+          \item {
+                The Euclidean distance is defined as the square root of the sum of the squared
+                differences between the features of the two samples:
+
+                \begin{equation*}
+                  d(x_i, x_j) = \sqrt{\sum_{l=1}^p (x_{i}^{(l)} - x_{j}^{(l)})^2}
+                \end{equation*}
+
+                Since we're working with a leave-one-out schema, and trying to estimate
+                the $z_1$ label for $x_1$, we can pick the $k$ neighbors from all
+                samples except $x_1$. Below are illustrated the Euclidean distances
+                between those samples and $x_1$, with the $k$ closest neighbors highlighted
+                in teal:
+
+                \begin{align*}
+                  d(x_1, x_2) = \sqrt{(1 - 2)^2 + (1 - 1)^2} = \textcolor{teal}{1}
+                \end{align*}
+                \begin{align*}
+                  d(x_1, x_3) = \sqrt{5}  , \quad
+                  d(x_1, x_4) = 2 \sqrt{2}, \quad
+                  d(x_1, x_5) = \textcolor{teal}{\sqrt{2}}  , \quad
+                  d(x_1, x_6) = \textcolor{teal}{1}
+                \end{align*}
+
+                Knowing the $k$ closest neighbors, we can now estimate the $z_1$ label
+                for $x_1$, by picking the most common label among them. In this case,
+                the estimated label will be $\mathbf{mode} (B, A, A) = A$.
+                }
+          \item {
+                Here, instead of the usual Euclidean/Manhattan distance, we're using the
+                cosine similarities, which are defined as the cosine of the angle between
+                the two vectors of features. As we know since high school, the cosine of
+                the angle between two vectors is equal to the dot product of the two
+                vectors divided by the product of their norms:
+
+                \begin{equation*}
+                  \cos(\vec{a}, \vec{b}) = \frac{\vec{a} \cdot \vec{b}}{\|\vec{a}\| \|\vec{b}\|}
+                \end{equation*}
+
+                Here, each sample is essentially a vector of features, hence the usage
+                of this distance metric. The higher the cosine similarity, the closer
+                the two vectors are, and vice versa: the cosine is equal to 1 when the
+                two vectors are identical, and 0 when they are orthogonal.
+
+                Let's now compute the cosine similarities between $x_1$ and the other
+                samples, picking the $k$ closest neighbors (once again, in teal):
+
+                \begin{align*}
+                  \cos(x_1, x_2) = \frac{1 \cdot 2 + 1 \cdot 1}{\sqrt{2} \sqrt{5}} = \frac{3}{\sqrt{10}} = 0.94868, \quad
+                  \cos(x_1, x_3) = \frac{1 \cdot 2 + 1 \cdot 3}{\sqrt{2} \sqrt{13}} = \frac{5}{\sqrt{26}} = \textcolor{teal}{0.98058}
+                \end{align*}
+
+                \begin{align*}
+                  \cos(x_1, x_4) = \frac{1 \cdot 3 + 1 \cdot 3}{\sqrt{2} \sqrt{18}} = \frac{6}{\sqrt{36}} = \textcolor{teal}{1}, \quad
+                  \cos(x_1, x_5) = \frac{1 \cdot 2 + 1 \cdot 2}{\sqrt{2} \sqrt{8}} = \frac{4}{\sqrt{16}} = \textcolor{teal}{1}
+                \end{align*}
+
+                \begin{align*}
+                  \cos(x_1, x_6) = \frac{1 \cdot 1 + 1 \cdot 2}{\sqrt{2} \sqrt{5}} = \frac{3}{\sqrt{10}} = 0.94868
+                \end{align*}
+
+                Note, as mentioned above, that the closest neighbors here are the ones
+                with a higher cosine similarity: $x_3$, $x_4$, and $x_5$. Since we're
+                working with numeric labels for $z_2$, we can now estimate the mean
+                regression estimate for $x_1$ by averaging the values of $z_2$ for those
+                samples. In this case, the estimated value will be $\mathbf{mean} (2, 2.2, 0.7) = 1.6(3)$.
+                }
+          \item {
+                Note that, here, we're working with a weighted-distance $k$NN, which means
+                that we're assigning different weights to each sample based on its distance
+                from the sample we're trying to estimate - a closer neighbor will have a
+                bigger impact on the final estimate than a further neighbor. Note, also,
+                that we're now working with the Manhattan distance, which is defined as
+                the sum of the absolute differences between the features of the two samples:
+
+                \begin{equation*}
+                  d(x_i, x_j) = \sum_{l=1}^p |x_{i}^{(l)} - x_{j}^{(l)}|
+                \end{equation*}
+
+                Let's now compute the Manhattan distances between $x_1$ and the other
+                samples, picking the $k$ closest neighbors (once again, in teal):
+
+                \begin{align*}
+                  d(x_1, x_2) = |1 - 2| + |1 - 1| = \textcolor{teal}{1}
+                \end{align*}
+
+                \begin{align*}
+                  d(x_1, x_3) = 3, \quad
+                  d(x_1, x_4) = 4, \quad
+                  d(x_1, x_5) = \textcolor{teal}{2}, \quad
+                  d(x_1, x_6) = \textcolor{teal}{1}
+                \end{align*}
+
+                Now, the fun part begins: we have to correctly weigh each neighbor's label
+                to estimate the label for $x_1$. We can do this by assigning a weight to
+                each neighbor, based on its distance from $x_1$. The most common way to
+                do this is by using the inverse of the distance. Regarding the weighted
+                mode estimate of $x_1$ for $z_1$:
+
+                \begin{align*}
+                  \hat{z}_1 = \mathbf{weighted\_mode} (\nicefrac{1}{1} B, (\nicefrac{1}{1} + \nicefrac{1}{2}) A) = A
+                \end{align*}
+
+                The mean, of course, will take into account for the denominator the
+                weights of each neighbor, instead of the amount of neighbors:
+
+                \begin{align*}
+                  \hat{z}_2 = \mathbf{weighted\_mean} = \frac{\nicefrac{1}{1} \cdot 0.5 + \nicefrac{1}{2} \cdot 0.7 + \nicefrac{1}{1} \cdot 1.2}{\nicefrac{1}{1} + \nicefrac{1}{2} + \nicefrac{1}{1}} = 0.82
+                \end{align*}
+                }
         \end{enumerate}
 
         \question {
