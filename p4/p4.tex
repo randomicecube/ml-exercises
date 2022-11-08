@@ -257,7 +257,8 @@ the sample we want to classify, and assigns the label that:
         the actual target values. In other words, we want to minimize the error
         between the predicted values and the actual values.
         The most common way to do this is by minimizing the sum of squared errors
-        (SSE), which is defined as:
+        (SSE) - that, as we have noted in other sheets, essentially encapsulates
+        the MLE method - which is defined as:
 
         \begin{equation*}
           \text{SSE} = (XW - Z)^T (XW - Z) = (\hat{Z} - Z)^T (\hat{Z} - Z)
@@ -371,7 +372,21 @@ the sample we want to classify, and assigns the label that:
                 $$
                 }
           \item {
-                TODO
+                The residues are defined as the difference between the actual target
+                values and the predicted values, $\hat{z}$. For our linear regression,
+                considering the given training data, we have the following residues:
+
+                $$
+                  r_1 = 1.4 - 0.94 = 0.46, \quad
+                  r_2 = 0.5 - 0.96 = -0.46, \quad
+                  r_3 = 2 - 2.23 = -0.23, \quad
+                  r_4 = 2.5 - 2.27 = 0.23
+                $$
+
+                Plotting the residues against each feature doesn't show a particular
+                skew in the data against any particular feature, hence we can't say
+                that any of the features is more important than the others (and, as such,
+                we can't say that there's any underlying bias).
                 }
           \item {
                 The Ridge regularization technique aims to \textbf{tune} a linear regression model,
@@ -506,9 +521,74 @@ the sample we want to classify, and assigns the label that:
         \end{enumerate}
         }
 
+        As has been noted in the motivation for Linear Regression in this solution sheet,
+        the default approach to learn a linear regression model is to use the Maximum
+        Likelihood Estimation (MLE) approach. However, we might want to regularize the
+        model, in order to avoid overfitting. This can be done by using a Bayesian approach,
+        which will add a prior distribution to the model's weights, in order to penalize
+        them (note that this is where the $\lambda$ parameter in both Ridge and LASSO
+        comes from). In this case, we'll use a Gaussian prior distribution, with mean $\mu = [0, 0]$
+        and covariance matrix $\Sigma = \begin{bmatrix} 0.2 & 0 \\ 0 & 0.2 \end{bmatrix}$.
+
+        As we know, in a Bayesian approach (and considering a MAP estimation), the posterior
+        distribution is given by:
+
+        \begin{align*}
+          \operatorname{argmax}_w p(w \mid X, Z) & = \operatorname{argmax}_w p(X, Z \mid w) p(w)                                                 \\
+                                                 & = \operatorname{argmax}_w \Pi_{i=1}^N p(z_i \mid x_i, w) p(w)                                 \\
+                                                 & = \operatorname{argmax}_w \log p(w) + \sum_{i=1}^N \log p(z_i \mid x_i, w) \textcolor{red}{*} \\
+                                                 & = \operatorname{argmax}_w \log{\left(\frac{1}{(2 \pi)^{D/2} \sqrt{\det{\Sigma}}}\right)}
+          \cdot \left(- \frac{1}{2} (w - \mu)^T \Sigma^{-1} (w - \mu)\right)
+          + \sum_{i=1}^N \log p(z_i \mid x_i, w)                                                                                                 \\
+                                                 & = \cdots                                                                                      \\
+                                                 & = \operatorname{argmin}_w (w - \mu)^T \Sigma^{-1} (w - \mu)
+          + \sum_{i=1}^N \frac{1}{\tau^2} \cdot (z_i - w^T x_i)^2 \textcolor{green}{**}                                                          \\
+                                                 & = \operatorname{argmax}_w w^T \Sigma^{-1} w + \frac{1}{\tau^2} \cdot (Z - X w)^T (Z - X w)
+        \end{align*}
+
+        \textcolor{red}{*} Note that the logarithm of a product is the sum of the logarithms of the factors. \\
+        \textcolor{green}{**} We use $\tau$ to denote the standard deviation of the noise, $\epsilon$.
+
+        After some more magical algebra, we'll be able to obtain the closed form solution
+        for the weights, $w$, as follows:
+
+        $$
+          w = (X^T X + \tau^2 \Sigma^{-1})^{-1} X^T Z
+        $$
+
+        $\lambda$ is the parameter that controls the regularization strength:
+
+        $$
+          \lambda = \frac{\tau^2}{\sigma^2}
+        $$
+
         \begin{enumerate}
-          \item {}
-          \item {}
+          \item {
+                This is the standard MLE approach, where we don't consider any prior distribution
+                for the weights and the usual closed form solution ($W = (X^T X)^{-1} X^T Z$).
+                We're given both $X$ and $Z$, so we can compute the weights as follows:
+
+                $$
+                  X = \input{aux-matrices/ex-4/X}, \quad Z = \input{aux-matrices/ex-4/Z}, \quad
+                  W = (X^T X)^{-1} X^T Z = \input{aux-matrices/ex-4/W_1}
+                $$
+                }
+          \item {
+                In this case, we have to solve the problem as stated in the (rather long)
+                motivation above - utilizing $W = (X^T X + \tau^2 \Sigma^{-1})^{-1} X^T Z$.
+                Here, of course, $\tau = 0.1$ and $\Sigma = \begin{bmatrix} 0.2 & 0 \\ 0 & 0.2 \end{bmatrix}$.
+                We can compute the weights as follows:
+
+                $$
+                  X = \input{aux-matrices/ex-4/X}, \quad Z = \input{aux-matrices/ex-4/Z}, \quad
+                  W = (X^T X + \tau^2 \Sigma^{-1})^{-1} X^T Z
+                  = (X^T X + \frac{\tau^2}{\sigma^2}^{\textcolor{purple}{***}} I)^{-1} X^T Z
+                  = \input{aux-matrices/ex-4/W_2}
+                $$
+
+                {\textcolor{purple}{***}} Note how $\Sigma$ = $0.2^2 I$, and as such
+                $\sigma = 0.2$.
+                }
         \end{enumerate}
 
         \question {
@@ -562,9 +642,14 @@ the sample we want to classify, and assigns the label that:
         \end{align*}
 
         As such, the regression's equation is given by
-        $0.816775 - 0.864807x_1 - 0.950784x_2$.
+        $0.816775 - 0.864807x_1^2 - 0.950784x_2^2$ - \textbf{can't forget that the quadratic
+          transformation to the data is not only felt in the weight parameters, but also
+          in the input parameters!}.
 
-        % TODO: plot the surface
+        \begin{figure}[H]
+          \centering
+          \includesvg[width=0.7\textwidth]{assets/ex-5/paraboloid.svg}
+        \end{figure}
 
         \question {
   \item Consider both logarithmic and quadratic transformations for the data set below:
@@ -592,8 +677,52 @@ the sample we want to classify, and assigns the label that:
         }
 
         \begin{enumerate}
-          \item {}
-          \item {}
+          \item {
+                As it was seen above, using $\Phi$ transformations, we effectively go
+                from utilizing the input matrix, $X$, directly, to using the transformed
+                input matrix, $\Phi$. For starters, let's compute the transformed input
+                matrices, for each transformation:
+
+                $$
+                  X = \input{aux-matrices/ex-6/X}, \quad
+                  \Phi_1 = \input{aux-matrices/ex-6/Phi_1}, \quad
+                  \Phi_2 = \input{aux-matrices/ex-6/Phi_2}
+                $$
+                }
+
+                We'll have, then, two weight matrices, $W_1$ and $W_2$, associated with
+                each transformation (and, as such, two different linear regressions):
+
+                $$
+                  W_1 = (\Phi_1^T \Phi_1)^{-1} \Phi_1^T Z = \input{aux-matrices/ex-6/W_1}, \quad
+                  W_2 = (\Phi_2^T \Phi_2)^{-1} \Phi_2^T Z = \input{aux-matrices/ex-6/W_2}
+                $$
+
+                \begin{align*}
+                  \hat{z}_1 = -47.0212 + 41.3945 \log(x) \quad
+                  \hat{z}_2 = 2.78947 - 0.413615 x^2
+                \end{align*}
+
+                \begin{figure}[H]
+                  \centering
+                  \includegraphics[width=0.35\textwidth]{assets/ex-6/linear-regressions.png}
+                \end{figure}
+          \item {
+                The sum of squared errors for each transformation is rather easy to
+                compute:
+
+                \begin{align*}
+                  \hat{z}_1 = -47.0212 + 41.3945 \log(x) = \input{aux-matrices/ex-6/z_hat_1}, \quad
+                  \hat{z}_2 = 2.78947 - 0.413615 x^2 = \input{aux-matrices/ex-6/z_hat_2}
+                \end{align*}
+                \begin{align*}
+                  \text{SSE}_1 = \sum_{i=1}^n (z_i - \hat{z}_1)^2 = (1.5 + 1.54473)^2 + \cdots = 48.8088 \\
+                  \text{SSE}_2 = \sum_{i=1}^n (z_i - \hat{z}_2)^2 = (1.5 - 6.51201)^2 + \cdots = 65.6365
+                \end{align*}
+                }
+
+                We choose the model that minimizes the sum of squared errors, which is
+                the first one, applying the logarithmic transformation.
         \end{enumerate}
 
         \question {
@@ -607,6 +736,32 @@ the sample we want to classify, and assigns the label that:
         \end{enumerate}
         }
 
+        In order to answer this question, we need to understand what \textit{smoothing
+          a regression model} means. In the context of linear regression, we can say that
+        a model is smoother when the weights are smaller - it'll be easier
+        to generalize the model to unseen data, avoiding overfitting to training data,
+        and to discard noise. In that sense, both LASSO and Ridge regularizations
+        are good candidates to smooth a linear regression model.
+
+        Regarding decision trees, smoother models are those with smaller depths -
+        very deep trees tend to overfit the data, creating a model whose regression
+        is very close to the training data (the regression will shift up and down
+        according to the samples it sees in its path). As such,
+        increasing the depth of a decision tree regressor will make the model less
+        smooth.
+
+        As for $k$NN regressors, it's intuitive that, for both categoric and numeric
+        variables, a larger $k$ will make the model smoother - with more samples,
+        the mean/mode picked will stabilize, making the model less sensitive to
+        noise (and, in the limit case, picking always the same label, regardless
+        of the input). As such, we have a smoother model with increasing levels of $k$.
+
+        Finally, regarding the weights of a $k$NN regressor, we can say that the
+        default distance-based weights are smoother than the uniform weights. The
+        distance-based weights are a function of the distance between the input
+        and the samples in the training set, and, as such, they'll be smaller
+        for samples that are farther away from the input. As such, the model
+        will be smoother, as it'll be less sensitive to noise.
 \end{enumerate}
 
 \end{document}

@@ -299,24 +299,24 @@
         the remaining classes, and $p = P(X)$):
 
         \begin{equation*}
-          \operatorname{recall}(X) = \frac{TX}{TX + F\overline{X}} = \frac{p \cdot X}{p \cdot X + (1 - p) X} = p, \quad
-          \operatorname{precision}(X) = \frac{TX}{TX + FX} = \frac{p \cdot X}{p \cdot X + (1 - p) \overline{X}}
+          \operatorname{recall}(X) = \frac{TX}{TX + F\overline{X}} = \frac{p \cdot \#X}{p \cdot \#X + (1 - p) \#X} = p, \quad
+          \operatorname{precision}(X) = \frac{TX}{TX + FX} = \frac{p \cdot \#X}{p \cdot \#X + (1 - p) \#\overline{X}}
         \end{equation*}
 
         Putting it into words, $TX$ is the number of correct $X$ predictions - considering
-        a random classifier, and $X$ amount of $X$ instances, there'll be $p \cdot X$ correct
+        a random classifier, and $\#X$ amount of $X$ instances, there'll be $p \cdot \#X$ correct
         $X$ predictions, of course.
 
         $F\overline{X}$ is the number of incorrect non-$X$ guesses - that is, the
         amount of times we should have predicted $X$ but didn't. Thinking about concrete
         examples, in the random classifier in hands, with $p = \nicefrac{1}{3}$, it's
-        intuitive that we'll be able to correctly predict $X$ $p \cdot X = \nicefrac{1}{3} \cdot X$
+        intuitive that we'll be able to correctly predict the $X$ event $p \cdot \#X = \nicefrac{1}{3} \cdot X$
         times, but we'll also not be able to predict $X$ $1 - p = \nicefrac{2}{3}$ times:
         for each time we predict $X$ correctly, we'll miss two other times.
 
         Finally, $FX$ is the number of incorrect $X$ guesses - that is, the amount of
         times we should have predicted $\overline{X}$ but didn't. In an analogous way,
-        way to $F\overline{X}$, we'll have $FX = (1 - p) \cdot \overline{X}$.
+        way to $F\overline{X}$, we'll have $FX = (1 - p) \cdot \#\overline{X}$.
 
         Note that, considering the formulas above, the recall for all classes is given
         by $p = \nicefrac{1}{3}$, while the precision differs between classes:
