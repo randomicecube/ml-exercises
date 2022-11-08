@@ -290,17 +290,13 @@
         therefore the random classifier will predict each class with probability $\frac{1}{3}$.
         As such, the accuracy of the random classifier is also $\frac{1}{3}$.
 
-        \textit{The comments below are probably wrong, unsure currently.}
-
-        % TODO: check no HD
-
         Regarding both sensitivity and precision, we have the following (considering
         $X$ as the class predicted by the random classifier, $\overline{X}$ as all
         the remaining classes, and $p = P(X)$):
 
         \begin{equation*}
           \operatorname{recall}(X) = \frac{TX}{TX + F\overline{X}} = \frac{p \cdot \#X}{p \cdot \#X + (1 - p) \#X} = p, \quad
-          \operatorname{precision}(X) = \frac{TX}{TX + FX} = \frac{p \cdot \#X}{p \cdot \#X + (1 - p) \#\overline{X}}
+          \operatorname{precision}(X) = \frac{TX}{TX + FX} = \frac{p \cdot \#X}{p \cdot \#X + p \#\overline{X}} = \frac{\#X}{\#X + \#\overline{X}}
         \end{equation*}
 
         Putting it into words, $TX$ is the number of correct $X$ predictions - considering
@@ -308,22 +304,21 @@
         $X$ predictions, of course.
 
         $F\overline{X}$ is the number of incorrect non-$X$ guesses - that is, the
-        amount of times we should have predicted $X$ but didn't. Thinking about concrete
-        examples, in the random classifier in hands, with $p = \nicefrac{1}{3}$, it's
-        intuitive that we'll be able to correctly predict the $X$ event $p \cdot \#X = \nicefrac{1}{3} \cdot X$
-        times, but we'll also not be able to predict $X$ $1 - p = \nicefrac{2}{3}$ times:
-        for each time we predict $X$ correctly, we'll miss two other times.
+        amount of times we should have predicted $X$ but didn't.
+        It's intuitive that, in the case at hands for each time we hit, we'll miss end up missing
+        2 times. Therefore, $F\overline{X} = (1 - p) \cdot \#X$.
 
         Finally, $FX$ is the number of incorrect $X$ guesses - that is, the amount of
-        times we should have predicted $\overline{X}$ but didn't. In an analogous way,
-        way to $F\overline{X}$, we'll have $FX = (1 - p) \cdot \#\overline{X}$.
+        times we should have predicted $\overline{X}$ but predicted $X$.
+        We know that the probability of predicting $\overline{X}$ as $X$ is $p$,
+        and as such we'll have $p \cdot \#\overline{X}$ incorrect $X$ guesses.
 
         Note that, considering the formulas above, the recall for all classes is given
         by $p = \nicefrac{1}{3}$, while the precision differs between classes:
 
         \begin{equation*}
-          \operatorname{precision}(A) = \operatorname{precision}(B) = \frac{\nicefrac{1}{3} \cdot 3}{\nicefrac{1}{3} \cdot 3 + \nicefrac{2}{3} \cdot 7} = \frac{3}{17}, \quad
-          \operatorname{precision}(C) = \frac{\nicefrac{1}{3} \cdot 4}{\nicefrac{1}{3} \cdot 4 + \nicefrac{2}{3} \cdot 6} = \frac{1}{4}
+          \operatorname{precision}(A) = \operatorname{precision}(B) = \frac{3}{3 + (3 + 4)} = \frac{3}{10}, \quad
+          \operatorname{precision}(C) = \frac{4}{4 + (3 + 3)} = \frac{4}{10}
         \end{equation*}
 
         \question {
