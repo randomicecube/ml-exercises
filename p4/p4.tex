@@ -1,0 +1,219 @@
+\documentclass[12pt]{article}
+\usepackage[paper=letterpaper,margin=1.5cm]{geometry}
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{amsfonts}
+\usepackage{newtxtext, newtxmath}
+\usepackage{enumitem}
+\usepackage{titling}
+\usepackage{svg}
+\usepackage{xcolor}
+\usepackage{listings}
+\usepackage{float}
+\usepackage{nicefrac}
+\usepackage{multirow}
+\usepackage[most]{tcolorbox}
+\usepackage[colorlinks=true]{hyperref}
+
+\setlength{\droptitle}{-6em}
+
+\definecolor{codegreen}{rgb}{0,0.6,0}
+\definecolor{codegray}{rgb}{0.5,0.5,0.5}
+\definecolor{codepurple}{rgb}{0.58,0,0.82}
+\definecolor{backcolour}{rgb}{0.95,0.95,0.92}
+\definecolor{bg}{rgb}{1,0.96,0.9}
+
+\lstdefinestyle{mystyle}{
+  commentstyle=\color{codegreen},
+  keywordstyle=\color{magenta},
+  numberstyle=\tiny\color{codegray},
+  stringstyle=\color{codepurple},
+  basicstyle=\ttfamily\footnotesize,
+  breakatwhitespace=false,
+  breaklines=true,
+  captionpos=b,
+  keepspaces=true,
+  numbers=left,
+  numbersep=5pt,
+  showspaces=false,
+  showstringspaces=false,
+  showtabs=false,
+  tabsize=2
+}
+
+% \tcbset{enlarge left by=-0.8cm,left=1.2cm,enlarge right by=-2cm,right=0.8cm}
+
+\lstset{
+  style=mystyle,
+  inputencoding=utf8,
+  extendedchars=true,
+}
+
+\newcommand{\question}[1]{\begin{tcolorbox}[enhanced jigsaw,colback=bg,boxrule=0pt,arc=1pt,halign=center] #1 \end{tcolorbox}}
+
+\begin{document}
+
+\begin{enumerate}[leftmargin=\labelsep]
+  \question {
+  \item Considering the following data set:
+
+        \begin{table}[H]
+          \centering
+          \begin{tabular}{c|cc|cc}
+                  & $y_1$ & $y_2$ & $y_3$ & $y_4$ \\ \hline
+            $x_1$ & 1     & 1     & A     & 1.4   \\
+            $x_2$ & 2     & 1     & B     & 0.5   \\
+            $x_3$ & 2     & 3     & B     & 2     \\
+            $x_4$ & 3     & 3     & B     & 2.2   \\
+            $x_5$ & 2     & 2     & A     & 0.7   \\
+            $x_6$ & 1     & 2     & A     & 1.2
+          \end{tabular}
+        \end{table}
+
+        Assuming $k$NN, with $k=3$ applied within a leave-one-out schema:
+
+        \begin{enumerate}
+          \item Considering an $y_3$ categoric output variable and the Euclidean distance,
+                provide the prediction for $x_1$.
+          \item Considering an $y_4$ numeric output variable and the cosine similarities,
+                provide the mean regression estimate for $x_1$.
+          \item Considering a weighted-distance $k$NN, with Manhattan distance, identify both the
+                \textbf{weighted-mode} estimate of $x_1$ for a $y_3$ outcome and the
+                \textbf{weighted-mean} estimate of $x_1$ for a $y_4$ outcome.
+        \end{enumerate}
+        }
+
+        \begin{enumerate}
+          \item {}
+          \item {}
+          \item {}
+        \end{enumerate}
+
+        \question {
+  \item Consider the following training data set:
+
+        \begin{table}[H]
+          \centering
+          \begin{tabular}{c|c|c|c}
+                  & $y_1$ & $y_2$ & $z$ \\ \hline
+            $x_1$ & 1     & 1     & 1.4 \\
+            $x_2$ & 2     & 1     & 0.5 \\
+            $x_3$ & 1     & 3     & 2   \\
+            $x_4$ & 3     & 3     & 2.5
+          \end{tabular}
+        \end{table}
+
+        \begin{enumerate}
+          \item Find the closed form solution for a linear regression, minimizing the
+                sum of squared errors.
+          \item Predict the target value for the query vector $x_{new} = \begin{bmatrix} 2 & 3 \end{bmatrix}^T$.
+          \item Sketch the predicted three-dimensional hyperplane.
+          \item Compute both the MSE and MAE produced by the linear regression.
+          \item Are there biases on the residuals against any of the input variables?
+          \item Compute the closed form solution, considering Ridge regularization term with $\lambda = 0.2$.
+          \item Compare the hyperplanes obtained utilizing ordinary least squares and ridge regression.
+          \item Why is the Lasso regression usually preferred over Ridge regression for data spaces with a larger number of features?
+        \end{enumerate}
+        }
+
+        \begin{enumerate}
+          \item {}
+          \item {}
+          \item {}
+          \item {}
+          \item {}
+          \item {}
+          \item {}
+          \item {}
+        \end{enumerate}
+
+        \question {
+  \item Considering the following training data, with $z$ as an ordinal variable:
+
+        \begin{table}[H]
+          \centering
+          \begin{tabular}{c|c|c|c}
+                  & $y_1$ & $y_2$ & z \\ \hline
+            $x_1$ & 1     & 1     & 1 \\
+            $x_2$ & 2     & 1     & 1 \\
+            $x_3$ & 1     & 3     & 0 \\
+            $x_4$ & 3     & 3     & 0
+          \end{tabular}
+        \end{table}
+
+        \begin{enumerate}
+          \item Find a linear regression using the closed form solution.
+          \item Assuming an output threshold $\theta = 0.5$, provide the predicted class for $x_{new} = \begin{bmatrix} 2 & 2.5 \end{bmatrix}^T$.
+        \end{enumerate}
+        }
+
+        \begin{enumerate}
+          \item {}
+          \item {}
+        \end{enumerate}
+
+        \question {
+  \item Considering the data below to learn the following model, compare:
+
+        $$
+          z = w_1 y_1 + w_2 y_2 + \epsilon, \epsilon \sim \mathcal{N}(0, 0.1)
+        $$
+
+        \begin{table}[H]
+          \centering
+          \begin{tabular}{c|c|c|c}
+                  & $y_1$ & $y_2$ & z \\ \hline
+            $x_1$ & 3     & -1    & 2 \\
+            $x_2$ & 4     & 2     & 1 \\
+            $x_3$ & 2     & 2     & 1
+          \end{tabular}
+        \end{table}
+
+        \begin{enumerate}
+          \item $w = \begin{bmatrix} w_1 & w_2 \end{bmatrix}^T$, using an MLE approach.
+          \item $w$ using the Bayesian approach, assuming $p(w) = N(w \mid \mu = [0, 0], \Sigma = \begin{bmatrix} 0.2 & 0 \\ 0 & 0.2 \end{bmatrix})$.
+        \end{enumerate}
+        }
+
+        \begin{enumerate}
+          \item {}
+          \item {}
+        \end{enumerate}
+
+        \question {
+  \item Identify a transformation to aid linearly modelling the data set above.
+        Sketch the predicted surface.
+        }
+
+        \question {
+  \item Consider both logarithmic and quadratic transformations:
+
+        $$
+          \phi_1(x_1) = \log(x_1), \quad \phi_2(x_2) = x_2^2
+        $$
+
+        \begin{enumerate}
+          \item Plot both of the closed form regressions.
+          \item Which transformation minimizes the sum of squared errors on the original data?
+        \end{enumerate}
+        }
+
+        \begin{enumerate}
+          \item {}
+          \item {}
+        \end{enumerate}
+
+        \question {
+  \item Select the criteria promoting a smoother regression model:
+
+        \begin{enumerate}
+          \item Applying Ridge and Lasso regularizations to linear regression models.
+          \item Increasing the depth of a decision tree regressor.
+          \item Increasing the $k$ parameter of a $k$NN regressor.
+          \item Parametrizing a $k$NN regressor with uniform weights, instead of the default distance-based weights.
+        \end{enumerate}
+        }
+
+\end{enumerate}
+
+\end{document}
