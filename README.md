@@ -11,7 +11,7 @@ _However_, every calculation performed will be shown in each sheet's respective 
 - [ ] Sheet 1 - Univariate Data Analysis (probably won't be done)
 - [x] Sheet 2 - Decision Trees
 - [x] Sheet 3 - Bayesian Learning
-- [ ] Sheet 4 - Linear Regression, kNN
+- [x] Sheet 4 - Linear Regression, kNN
 - [ ] Sheet 5-6 - Gradient Descent
 - [x] Sheet 7-8 - Neural Networks
 - [x] Sheet 9 - Clustering
