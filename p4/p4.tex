@@ -445,8 +445,42 @@ the sample we want to classify, and assigns the label that:
         }
 
         \begin{enumerate}
-          \item {}
-          \item {}
+          \item {
+                We already know that the closed form solution of a linear regression
+                is given by:
+
+                \begin{equation*}
+                  W = (X^T X)^{-1} X^T Z
+                \end{equation*}
+
+                Looking at the data set, we can already write both $X$ and $Z$:
+
+                \begin{equation*}
+                  X = \input{aux-matrices/ex-3/X}, \quad Z = \input{aux-matrices/ex-3/Z}
+                \end{equation*}
+
+                Plugging them into the closed form solution, we obtain:
+
+                $$
+                  W = (X^T X)^{-1} X^T Z = \input{aux-matrices/ex-3/W}
+                $$
+                }
+          \item {
+                Output thresholds are used to convert the output of a linear regression
+                model into a class label - considering binary labels, the threshold
+                $\theta$ is used to determine whether the output is $0$ or $1$ (considering
+                whether or not $\hat{z}$ is greater than $\theta$). In this case, we can
+                compute the output of the model for the new sample, $x_{new}$, as follows:
+
+                $$
+                  \hat{z} = W^T \cdot x_{new}
+                  = \input{aux-matrices/ex-3/W}^T \cdot \input{aux-matrices/ex-3/x_new}
+                  = 0.25
+                $$
+
+                Since this estimation does not surpass the defined threshold, $\theta = 0.5$,
+                the predicted class for $x_{new}$ is $0$.
+                }
         \end{enumerate}
 
         \question {
