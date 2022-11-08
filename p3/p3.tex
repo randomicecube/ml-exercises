@@ -443,22 +443,59 @@
           \item How many parameters are needed to estimate, considering numeric-valued features and:
                 \begin{enumerate}
                   \item Multivariate Gaussian assumption.
-                  \item Naive Bayes assumption.
+                  \item Naive Bayes with a Gaussian assumption.
                 \end{enumerate}
         \end{enumerate}
         }
 
+        For starters, it's worth noting that we'll always need to estimate at least
+        one prior, independently of the features' type and the assumptions we make
+        regarding the data. Considering a strictly binary class, we'll only need
+        to estimate one prior, be it $\pi_k$, since the other one is trivially $1 - \pi_k$.
+
         \begin{enumerate}
           \item {
                 \begin{enumerate}
-                  \item {}
-                  \item {}
+                  \item {
+                        Working with the classic Bayesian model, we'll need to estimate
+                        the likelihoods for each class; since we're working with boolean
+                        features, we'll need to estimate the probability of each feature
+                        being true/false for each class. There are, of course, $2^m$ possible
+                        combinations of boolean features for each class (since we can't assume
+                        any type of conditional independence between features); however, since
+                        the sum of the probabilities of all possible combinations must
+                        be equal to 1, we can reduce the number of parameters to be estimated
+                        to $2^m - 1$. As such, we'll need to estimate $2(2^m - 1) + 1$ parameters
+                        in total, since we'll also need to estimate the prior for each class.
+                        }
+                  \item {
+                        Working with the Naive Bayes assumption - i.e, assuming that the features
+                        are conditionally independent given the class - we'll need to estimate
+                        the probability of each feature being true/false for each class;
+                        this way, there'll be $2m$ possible features combinations, and as such,
+                        we'll need to estimate $2 \cdot 2m + 1$ parameters in total!
+                        }
                 \end{enumerate}
                 }
           \item {
                 \begin{enumerate}
-                  \item {}
-                  \item {}
+                  \item {
+                        Working with a multivariate Gaussian distribution, we'll need to estimate
+                        the mean vector and the covariance matrix for each class; while we need
+                        to estimate all $m$ parameters for the mean vector (per class), we can utilize the
+                        fact that the covariance matrix is symmetric to reduce the number of
+                        parameters to be estimated to $\frac{m(m+1)}{2}$ per class, the amount of entries
+                        in the upper triangular part of an $m \times m$ matrix. As such, we'll
+                        need to estimate $2(m + \frac{m(m+1)}{2}) + 1$ parameters in total.
+                        }
+                  \item {
+                        Working with the Naive Bayes gaussian assumption, we'll need to estimate
+                        the mean vector and the variance vector for each class; here, since
+                        there are no covariance parameters to be estimated, we'll need to
+                        estimate $m$ parameters for the mean vector and $m$ parameters for the
+                        variance vector, per class. As such, we'll need to estimate $2(2m) + 1$
+                        parameters in total.
+                        }
                 \end{enumerate}
                 }
         \end{enumerate}
