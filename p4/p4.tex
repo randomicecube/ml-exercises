@@ -512,12 +512,74 @@ the sample we want to classify, and assigns the label that:
         \end{enumerate}
 
         \question {
-  \item Identify a transformation to aid linearly modelling the data set above.
+  \item Identify a transformation to aid linearly modelling the data set below.
+
+        \begin{table}[H]
+          \centering
+          \begin{tabular}{c|c|c|c}
+                  & $y_1$ & $y_2$ & z \\ \hline
+            $x_1$ & -0.95 & 0.62  & 0 \\
+            $x_2$ & 0.63  & 0.31  & 0 \\
+            $x_3$ & -0.12 & -0.21 & 1 \\
+            $x_4$ & -0.24 & -0.5  & 0 \\
+            $x_5$ & 0.07  & -0.42 & 1 \\
+            $x_6$ & 0.03  & 0.91  & 0 \\
+            $x_7$ & 0.05  & 0.09  & 1 \\
+            $x_8$ & -0.83 & 0.22  & 0
+          \end{tabular}
+        \end{table}
+
         Sketch the predicted surface.
         }
 
+        A good way to try to understand good transformations to apply to a data set is
+        to plot the samples and try to find a pattern in the data. In this case, we can
+        see that the labels seem to shift from 1 to 0 with the increase of the point's
+        distance from the origin. This is a good indication that we should apply a
+        quadratic transformation to the data, since it'll make the data more linearly
+        separable.
+
+        \begin{figure}[H]
+          \centering
+          \includegraphics[width=\textwidth]{assets/ex-5/points.png}
+        \end{figure}
+
+        In order to sketch the predicted surface, we'll need to find the weight matrix
+        associated with the regression; for that, instead of considering the inputs
+        matrix, $X$, we're going to consider the transformed inputs matrix, $\Phi$:
+
+        $$
+          \Phi(x) = \begin{bmatrix}
+            1      & x_1^{(1)} & x_1^{(2)} \\
+            \vdots & \vdots    & \vdots    \\
+            1      & x_n^{(1)} & x_n^{(2)}
+          \end{bmatrix}
+        $$
+
+        \begin{align*}
+          \Phi = \input{aux-matrices/ex-5/Phi}, \quad
+          W = (\Phi^T \Phi)^{-1} \Phi^T Z = \input{aux-matrices/ex-5/W}
+        \end{align*}
+
+        As such, the regression's equation is given by
+        $0.816775 - 0.864807x_1 - 0.950784x_2$.
+
+        % TODO: plot the surface
+
         \question {
-  \item Consider both logarithmic and quadratic transformations:
+  \item Consider both logarithmic and quadratic transformations for the data set below:
+  \item
+        \begin{table}[H]
+          \centering
+          \begin{tabular}{c|c|c|c}
+                  & $y_1$ & z    \\ \hline
+            $x_1$ & 3     & 1.5  \\
+            $x_2$ & 4     & 9.3  \\
+            $x_3$ & 6     & 23.4 \\
+            $x_4$ & 10    & 45.8 \\
+            $x_5$ & 12    & 60.1
+          \end{tabular}
+        \end{table}
 
         $$
           \phi_1(x_1) = \log(x_1), \quad \phi_2(x_2) = x_2^2
