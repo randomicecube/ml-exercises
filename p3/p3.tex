@@ -76,8 +76,103 @@
         }
 
         \begin{enumerate}
-          \item {}
-          \item {}
+          \item {
+                Regarding the motivation for finding the "maximum likelihood parameters",
+                \href{https://en.wikipedia.org/wiki/Maximum_likelihood_estimation}{this} and
+                other articles are helpful to delineate the MLE method, which aims
+                to find the parameters of a distribution that maximize the probability
+                of observing a given data set. Considering a data set normally distributed
+                (as referenced in the question's statement), the MLE method is equivalent
+                to finding the parameters of the distribution that minimize the sum of
+                squared errors between the data set and the distribution's probability
+                density function.
+
+                As we know, a multivariate Gaussian distribution is defined by its mean vector
+                $\boldsymbol{\mu}$ and its covariance matrix $\boldsymbol{\Sigma}$:
+
+                $$
+                  \mathcal{N}(\boldsymbol{x} \mid \boldsymbol{\mu}, \boldsymbol{\Sigma}) =
+                  \frac{1}{(2\pi)^{d/2}|\boldsymbol{\Sigma}|^{1/2}}
+                  \exp\left(-\frac{1}{2}(\boldsymbol{x} - \boldsymbol{\mu})^T
+                  \boldsymbol{\Sigma}^{-1}(\boldsymbol{x} - \boldsymbol{\mu})\right)
+                $$
+
+                The mean vector is simply the average of the data points (considering each coordinate):
+
+                $$
+                  \boldsymbol{\mu} = \frac{1}{n} \sum_{i=1}^n \boldsymbol{x}_i
+                $$
+
+                The covariance matrix, on the other hand, requires a bit more work,
+                requiring us to calculate the deviations of each data point from the mean:
+
+                $$
+                  \boldsymbol{\Sigma} = \frac{1}{n - 1} \sum_{i=1}^n (\boldsymbol{x}_i - \boldsymbol{\mu}) (\boldsymbol{x}_i - \boldsymbol{\mu})^T
+                $$
+
+                Note, of course, that $\boldsymbol{\Sigma}$ is a symmetric matrix.
+                We can, then, start calculating the maximum likelihood parameters:
+
+                $$
+                  \boldsymbol{\mu} = \frac{1}{4} \begin{bmatrix}
+                    -2 - 1 + 0 - 2 \\
+                    2 + 3 + 1 + 1
+                  \end{bmatrix} = \input{aux-matrices/ex-1/mu}
+                $$
+
+                $$
+                  \boldsymbol{\Sigma} = \frac{1}{3} \begin{bmatrix}
+                    (-2 + 1.25)^2 + \cdots + (-2 + 1.25)^2 & (-2 + 1.25)(2 - 1.75) + \cdots       \\
+                    (-2 + 1.25)(2 - 1.75) + \cdots         & (2 - 1.75)^2 + \cdots + (1 - 1.75)^2
+                  \end{bmatrix} = \input{aux-matrices/ex-1/Sigma}
+                $$
+
+                As such, we can calculate both the determinant and the inverse of the covariance matrix,
+                effectively gathering all the needed parameters for the multivariate Gaussian distribution:
+
+                $$
+                  |\boldsymbol{\Sigma}| = 0.916667^2 - 0.083333^2 = 0.8(3)
+                $$
+
+                $$
+                  X = \begin{bmatrix}
+                    a & b \\
+                    c & d
+                  \end{bmatrix} \implies X^{-1} = \frac{1}{ac - bd} \begin{bmatrix}
+                    d  & -b \\
+                    -c & a
+                  \end{bmatrix}; \quad
+                  \boldsymbol{\Sigma}^{-1} = \frac{1}{0.8(3)} \begin{bmatrix}
+                    0.916667 & 0.083333 \\
+                    0.083333 & 0.916667
+                  \end{bmatrix} = \input{aux-matrices/ex-1/Sigma_inv}
+                $$
+                }
+          \item {
+                The following contour plot was computed utilizing Python (the code snippets
+                are available in this sheet's respective notebook):
+
+                \begin{figure}[H]
+                  \centering
+                  \includesvg[width=0.5\textwidth]{assets/ex-1/contour.svg}
+                \end{figure}
+
+                Contour plots are a great way to visualize the shape of a multivariate Gaussian
+                distribution in two dimensions. The plot above shows the distribution's
+                probability density function, which is proportional to the probability
+                of observing a data point in a given region - the darker the region, the
+                higher the probability of observing a data point in that region!
+
+                Essentially, each line in the plot above represents a constant probability
+                density value. The ellipsoid is always centered at the mean vector,
+                and its shape is determined by the covariance matrix.
+                The ellipsoid's axes' directions are determined by the eigenvectors of the
+                covariance matrix, and its axes' lengths are determined by the square root
+                of the eigenvalues of the covariance matrix. The ellipsoid's axes' lengths
+                are, then, proportional to the standard deviations of the distribution along each
+                axis.
+                }
+
         \end{enumerate}
 
         \question {
