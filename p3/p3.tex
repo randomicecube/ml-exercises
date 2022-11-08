@@ -305,15 +305,130 @@
         \end{table}
 
         \begin{enumerate}
-          \item Compute the most probable class for the query vector assuming that the likelihoods are 2-dimensional Gaussians.
+          \item Compute the most probable class for the query vector, assuming that the likelihoods are 2-dimensional Gaussians.
           \item Compute the most probable class for the query vector, under the Naive Bayes assumption,
                 using 1-dimensional Gaussians to model the likelihoods.
         \end{enumerate}
         }
 
         \begin{enumerate}
-          \item {}
-          \item {}
+          \item {
+                Just as had been illustrated in the previous question, Bayes' rule tells
+                us that the probability of a class given a query vector is proportional to
+                the product of the likelihood and the prior. As such, we can compute the
+                posterior probabilities for the query vector $x_{new}$ as follows:
+
+                $$
+                  P(z = c | x_{new}) = \frac{P(x_{new} | z = c) P(z = c)}{P(x_{new})}
+                $$
+
+                The priors are calculated in the same way as before:
+
+                $$
+                  P(z = 0) = P(z = 1) = \nicefrac{3}{6} = \nicefrac{1}{2}
+                $$
+
+                Here, however, our likelihoods are 2-dimensional Gaussians:
+
+                $$
+                  P(x \mid z = c) \sim
+                  \mathcal{N}(\boldsymbol{x} \mid \boldsymbol{\mu_c}, \boldsymbol{\Sigma_c}) =
+                  \frac{1}{(2\pi)^{d/2}|\boldsymbol{\Sigma_c}|^{1/2}}
+                  \exp\left(-\frac{1}{2}(\boldsymbol{x} - \boldsymbol{\mu_c})^T
+                  \boldsymbol{\Sigma_c}^{-1}(\boldsymbol{x} - \boldsymbol{\mu_c})\right)
+                $$
+
+                Both the mean and covariance matrix are relatively straight forward
+                to compute; having done so in the past, we'll simply plug the
+                results here (the Python code used to compute the results is
+                available in the notebook):
+
+                \begin{align*}
+                  \boldsymbol{\mu_0} & = \input{aux-matrices/ex-3/mu_0.tex} \quad
+                                     &                                            & \boldsymbol{\Sigma_0} = \input{aux-matrices/ex-3/Sigma_0.tex} \\
+                  \boldsymbol{\mu_1} & = \input{aux-matrices/ex-3/mu_1.tex} \quad
+                                     &                                            & \boldsymbol{\Sigma_1} = \input{aux-matrices/ex-3/Sigma_1.tex}
+                \end{align*}
+
+                Considering that, for both classes, both the denominator and the prior
+                values will be the same, it'll be the likelihoods defining whether
+                we assign the query vector to class $z=0$ or $z=1$. The likelihoods
+                for each class are calculated as follows:
+
+                \begin{align*}
+                  P(x_{new} \mid z = 0) \sim \mathcal{N}(x_{new} \mid \mu_0, \Sigma_0)
+                   & = \frac{1}{(2\pi)^{2/2}|\Sigma_0|^{1/2}}
+                  \exp\left(-\frac{1}{2}(x_{new} - \mu_0)^T \Sigma_0^{-1}(x_{new} - \mu_0)\right) \\
+                   & = \cdots = 3.47826 \cdot 10^{-48}                                            \\
+                  P(x_{new} \mid z = 1) \sim \mathcal{N}(x_{new} \mid \mu_1, \Sigma_1)
+                   & = \frac{1}{(2\pi)^{2/2}|\Sigma_1|^{1/2}}
+                  \exp\left(-\frac{1}{2}(x_{new} - \mu_1)^T \Sigma_1^{-1}(x_{new} - \mu_1)\right) \\
+                   & = \cdots = 0.000107642
+                \end{align*}
+                }
+
+                With $z=1$ having a higher likelihood (and thus a higher posterior probability),
+                the query vector $x_{new}$ is most likely to belong to class $z=1$.
+          \item {
+                Modelling the likelihoods as 1-dimensional Gaussians (instead of the 2-dimensional
+                ones utilized in the previous exercise) ends up being a simplification of the
+                problem; we can reutilize the previously computed mean vectors
+                to compute the likelihoods for each class, as follows:
+
+                $$
+                  \mu_0 = \begin{bmatrix}
+                    \mu_0^{(1)} \\
+                    \mu_0^{(2)}
+                  \end{bmatrix} = \input{aux-matrices/ex-3/mu_0.tex}, \quad
+                  \mu_1 = \begin{bmatrix}
+                    \mu_1^{(1)} \\
+                    \mu_1^{(2)}
+                  \end{bmatrix} = \input{aux-matrices/ex-3/mu_1.tex}
+                $$
+                $$
+                  \sigma_0 = \begin{bmatrix}
+                    \sqrt{\Sigma_0^{(1, 1)}} \\
+                    \sqrt{\Sigma_0^{(2, 2)}}
+                  \end{bmatrix} = \input{aux-matrices/ex-3/sigma_0.tex}, \quad
+                  \sigma_1 = \begin{bmatrix}
+                    \sqrt{\Sigma_1^{(1, 1)}} \\
+                    \sqrt{\Sigma_1^{(2, 2)}}
+                  \end{bmatrix} = \input{aux-matrices/ex-3/sigma_1.tex}
+                $$
+
+                Note how, since we're now working with conditionally independent variables,
+                we abandon the notion of a covariance matrix (and, as such, the covariance
+                between all features is zero), and instead work with the variances of each
+                feature.
+                Here, we're going to split the likelihoods, utilizing the Naive Bayes assumption,
+                into two 1-dimensional Gaussians, one for each feature:
+
+                $$
+                  P(x \mid z = c) \sim
+                  \mathcal{N}(\boldsymbol{x} \mid \boldsymbol{\mu_c}, \boldsymbol{\sigma_c}) =
+                  \prod_{i=1}^d \frac{1}{\sqrt{2\pi\sigma_{c,i}^2}}
+                  \exp\left(-\frac{1}{2\sigma_{c,i}^2}(x_i - \mu_{c,i})^2\right)
+                $$
+
+                Once again, we only need to know the likelihoods in order to decide
+                which class the query vector $x_{new}$ belongs to, since the priors
+                and the denominator are the same for both classes. The likelihoods
+                for each class are the following (once again, intermediate steps
+                aren't shown for brevity):
+
+                \begin{align*}
+                  P(x_{new} \mid z = 0) \sim \mathcal{N}(x_{new} \mid \mu_0, \sigma_0)
+                  = \prod_{i=1}^2 \frac{1}{\sqrt{2\pi\sigma_{0,i}^2}}
+                  \exp\left(-\frac{1}{2\sigma_{0,i}^2}(x_{new,i} - \mu_{0,i})^2\right)
+                  = \cdots = 1.57083 \cdot 10^{-34} \\
+                  P(x_{new} \mid z = 1) \sim \mathcal{N}(x_{new} \mid \mu_1, \sigma_1)
+                  = \prod_{i=1}^2 \frac{1}{\sqrt{2\pi\sigma_{1,i}^2}}
+                  \exp\left(-\frac{1}{2\sigma_{1,i}^2}(x_{new,i} - \mu_{1,i})^2\right)
+                  = \cdots = 5.1566 \cdot 10^{-5}
+                \end{align*}
+
+                We opt to assign the query vector to class $z=1$, since it has a higher likelihood.
+                }
         \end{enumerate}
 
         \question {
