@@ -97,16 +97,12 @@
                   \boldsymbol{\Sigma}^{-1}(\boldsymbol{x} - \boldsymbol{\mu})\right)
                 $$
 
-                The mean vector is simply the average of the data points (considering each coordinate):
-
-                $$
-                  \boldsymbol{\mu} = \frac{1}{n} \sum_{i=1}^n \boldsymbol{x}_i
-                $$
-
-                The covariance matrix, on the other hand, requires a bit more work,
+                The mean vector is simply the average of the data points (considering each coordinate),
+                while the covariance matrix, on the other hand, requires a bit more work,
                 requiring us to calculate the deviations of each data point from the mean:
 
                 $$
+                  \boldsymbol{\mu} = \frac{1}{n} \sum_{i=1}^n \boldsymbol{x}_i, \quad
                   \boldsymbol{\Sigma} = \frac{1}{n - 1} \sum_{i=1}^n (\boldsymbol{x}_i - \boldsymbol{\mu}) (\boldsymbol{x}_i - \boldsymbol{\mu})^T
                 $$
 
@@ -154,7 +150,7 @@
 
                 \begin{figure}[H]
                   \centering
-                  \includesvg[width=0.5\textwidth]{assets/ex-1/contour.svg}
+                  \includesvg[width=0.45\textwidth]{assets/ex-1/contour.svg}
                 \end{figure}
 
                 Contour plots are a great way to visualize the shape of a multivariate Gaussian
@@ -203,10 +199,93 @@
         }
 
         \begin{enumerate}
-          \item {}
-          \item {}
-          \item {}
-          \item {}
+          \item {
+                Bayes' rule tells us that the posterior probability of a class $c$ given a query vector $x_{new}$ is:
+
+                $$
+                  P(z = c | x_{new}) = \frac{P(x_{new} | z = c) P(z = c)}{P(x_{new})}
+                $$
+
+                We call \textbf{priors} the probabilities $P(z = c)$, and \textbf{likelihoods} the "probabilities" $P(x_{new} | z = c)$.
+                To translate the product between the likelihood and the prior into an actual
+                probability, we need to normalize such product by the probability $P(x_{new})$,
+                which is the probability of observing the query vector $x_{new}$ "in the wild", regardless of the class.
+
+                Here, we have two possible classes (i.e, $z$ values) possible for
+                any given query vector: $z = 0$ and $z = 1$. Note that we're not
+                allowed to make any assumptions - that is, we mustn't assume any
+                conditional independence or distribution for the data's features.
+
+                By looking at the data set, we can deduce the \textbf{priors} for each class:
+
+                $$
+                  P(z = 0) = \frac{3}{7} \quad \text{and} \quad P(z = 1) = \frac{4}{7}
+                $$
+
+                Without any assumptions, however, $P(x_{new})$ will essentially be the
+                probability of observing the query vector $x_{new}$ in the "training" data set.
+                Since we never observed the query vector $x_{new}$ in the training data set,
+                $P(x_{new})$ is zero (as are the likelihoods). As such, we can't use Bayes' rule to compute the
+                posterior probabilities for the query vector $x_{new}$, and such a sample
+                would be \textbf{unclassified}.
+
+                }
+          \item {
+                Without assumptions, we're essentially strapped to the data set we have at hand.
+                In cases like the one at hand, for example, we're unable to compute the posterior
+                probabilities for the query vector $x_{new}$ (and for a myriad of other query vectors).
+                As such, data sets with a large number of features and/or a small number of samples
+                are problematic to work with without making any assumptions, since we're
+                more likely than not going to run into this problem often.
+                }
+          \item {
+                The Naive Bayes assumption essentially states that the features are conditionally
+                independent given the class. In other words, it assumes that observing a given
+                feature in the presence of a class is completely independent of observing any other feature.
+                Such a strong assumption, although often misleading, is often a good starting point for
+                classification problems, letting us compute more easily the posterior probabilities
+                for new query vectors. Regarding $x_{new}$, we can compute the posterior probabilities
+                as follows (and considering the previously computed priors):
+
+                $$
+                  P(z = c | x_{new}) = \frac{P(x_{new} | z = c) P(z = c)}{P(x_{new})}
+                  = \frac{P(y_1 = 1 \mid z = c) \cdot ... \cdot P(y_5 = 1 \mid z = c) \cdot P(z = c)}{P(y_1 = 1) \cdot ... \cdot P(y_5 = 1)}
+                $$
+
+                The denominator will always be the same for both classes, so we can ignore it,
+                effectively needing only to compute the numerator for each class. The numerators
+                for each class are given by:
+
+                \begin{align*}
+                  z = 0: \quad (\nicefrac{1}{3})^2 \cdot (\nicefrac{2}{3})^3 \cdot (\nicefrac{3}{7}) \approx 0.014109 \\
+                  z = 1: \quad (\nicefrac{2}{4})^4 \cdot (\nicefrac{1}{4})^1 \cdot (\nicefrac{4}{7}) \approx 0.0089
+                \end{align*}
+
+                With class $z=0$ having a higher posterior probability, the query vector $x_{new}$
+                is classified as belonging to class $z=0$.
+                }
+          \item {
+                Here, we're essentially asking for the probability of observing a given sample
+                with features $y_1$, $y_3$ and $y_5$ valued at $1$, considering that the
+                feature values for both $y_2$ and $y_4$ are missing (i.e., unknown). We can
+                compute the posterior probabilities for the query vector $x_{new}$ as follows:
+
+                $$
+                  P(z = c | x_{new})
+                  = \frac{P(y_1 = 1 \mid z = c) \cdot P(y_3 = 1 \mid z = c) \cdot P(y_5 = 1 \mid z = c) \cdot P(z = c)}{P(y_1 = 1) \cdot P(y_3 = 1) \cdot P(y_5 = 1)}
+                $$
+
+                The denominator will always be the same for both classes, so we can ignore it,
+                once again. The numerators for each class are given by:
+
+                \begin{align*}
+                  z = 0: \quad (\nicefrac{1}{3})^2 \cdot (\nicefrac{2}{3}) \cdot (\nicefrac{3}{7}) \approx 0.031746 \\
+                  z = 1: \quad (\nicefrac{2}{4})^3 \cdot (\nicefrac{4}{7}) \approx 0.07143
+                \end{align*}
+
+                With class $z=1$ having a higher posterior probability, the query vector $x_{new}$,
+                with missing values for $y_2$ and $y_4$, is classified as belonging to class $z=1$.
+                }
         \end{enumerate}
 
         \question {
