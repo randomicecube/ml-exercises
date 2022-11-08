@@ -239,15 +239,189 @@ the sample we want to classify, and assigns the label that:
         \end{enumerate}
         }
 
+        In linear regression, we're trying to learn a linear function that maps the
+        input features to the target variable. In other words, we're trying to find
+        a function $f$ such that:
+
+        \begin{equation*}
+          f(x) = \sum_{i=1}^p w_i x_i + b
+        \end{equation*}
+
+        Here, the \textbf{bias}, $b$, is commonly written as $w_0$, and the
+        \textbf{weights}, $w_i$, are the coefficients of the linear function - the bias
+        is the intercept of the function, allowing us to effectively shift the
+        function up or down.
+
+        Note that we always want to make the best predictions possible, of course:
+        for that purpose, we'll want our function $f$ to be as close as possible to
+        the actual target values. In other words, we want to minimize the error
+        between the predicted values and the actual values.
+        The most common way to do this is by minimizing the sum of squared errors
+        (SSE), which is defined as:
+
+        \begin{equation*}
+          \text{SSE} = (XW - Z)^T (XW - Z) = (\hat{Z} - Z)^T (\hat{Z} - Z)
+        \end{equation*}
+
+        Considering that we're trying to minimize the error, we can take the derivative
+        of the SSE with respect to the weights and set it to zero:
+
+        \begin{equation*}
+          \frac{\partial \text{SSE}}{\partial w_i} = 0 \leftrightarrow
+          \frac{\partial}{\partial w_i} (\hat{Z} - Z)^T (\hat{Z} - Z) = 0
+        \end{equation*}
+
+        After performing some maniacal algebra, we can find the closed form solution
+        for the weights:
+
+        \begin{equation*}
+          W = (X^T X)^{-1} X^T Z
+        \end{equation*}
+
         \begin{enumerate}
-          \item {}
-          \item {}
-          \item {}
-          \item {}
-          \item {}
-          \item {}
-          \item {}
-          \item {}
+          \item {
+                We've derived the closed form solution for the weights, above, so most
+                of our work is done here. Considering the training data set, we can
+                say that $X$ and $Z$ are the following matrices (note that $X$'s first
+                column is all ones, letting the neutral element for the bias, $w_0$,
+                shift the function up or down):
+
+                \begin{equation*}
+                  X = \input{aux-matrices/ex-2/X}, \quad
+                  Z = \input{aux-matrices/ex-2/Z}
+                \end{equation*}
+                }
+
+                After plugging these matrices into the closed form solution, we gather
+                the following weight vector (\texttt{numpy} calculations in the notebook):
+
+                \begin{equation*}
+                  W = \input{aux-matrices/ex-2/W}
+                \end{equation*}
+          \item {
+                As we have mentioned in the motivation for this exercise, the predictions,
+                $f(x) = \hat{z}$, are given by the following equation:
+
+                \begin{equation*}
+                  \hat{z} = \sum_{i=1}^p w_i x_i + w_0
+                \end{equation*}
+
+                Considering an initial bias of zero (since no bias is given in the
+                question's statement), we can say that:
+
+                \begin{equation*}
+                  \hat{z} = W^T \cdot x_{new}
+                  = \input{aux-matrices/ex-2/W.tex}^T \cdot \input{aux-matrices/ex-2/x_new.tex}
+                  = 2.25
+                \end{equation*}
+                }
+          \item {
+                The three-dimensional hyperplane for the linear regression in question
+                is the one defined by the following equation:
+
+                \begin{equation*}
+                  \hat{z} = \input{aux-matrices/ex-2/W.tex}^T \cdot x
+                  = 0.275 + 0.02x_1 + 0.645x_2
+                \end{equation*}
+                }
+
+                With the aid of Python's \texttt{matplotlib} library, we can plot the
+                hyperplane in three dimensions, as shown in the figure below:
+
+                \begin{figure}[H]
+                  \centering
+                  \includesvg[width=0.75\textwidth]{assets/ex-2/3d-hyperplane.svg}
+                \end{figure}
+          \item {
+                We're asked to compute both the MSE (Mean Squared Error) and the MAE
+                (Mean Absolute Error) produced by the linear regression in hands.
+                They're defined as follows:
+
+                \begin{align*}
+                  \text{MSE} & = \frac{1}{n} \sum_{i=1}^n (\hat{z}_i - z_i)^2 \\
+                  \text{MAE} & = \frac{1}{n} \sum_{i=1}^n |\hat{z}_i - z_i|
+                \end{align*}
+
+                We'll need, of course, to compute the estimates, $\hat{z}$, for each
+                of the training set's original samples. We can do this by plugging the
+                training set's input vectors into the linear regression's equation:
+
+                \begin{equation*}
+                  \hat{z} = \input{aux-matrices/ex-2/W.tex}^T \cdot x
+                \end{equation*}
+
+                The obtained estimates are the following:
+
+                \begin{equation*}
+                  \hat{z} = \input{aux-matrices/ex-2/estimates}
+                \end{equation*}
+
+                With these estimates, we can compute the MSE and MAE:
+
+                $$
+                  \mathbf{MSE} = \frac{1}{4} \sum_{i=1}^4 (\hat{z}_i - z_i)^2
+                  = \frac{1}{4} \left( (0.94 - 1.4)^2 + \cdots + (2.27 - 2.5)^2 \right)
+                  = 0.0.13225
+                $$
+
+                $$
+                  \mathbf{MAE} = \frac{1}{4} \sum_{i=1}^4 |\hat{z}_i - z_i|
+                  = \frac{1}{4} \left( |0.94 - 1.4| + \cdots + |2.27 - 2.5| \right)
+                  = 0.345
+                $$
+                }
+          \item {
+                TODO
+                }
+          \item {
+                The Ridge regularization technique aims to \textbf{tune} a linear regression model,
+                by adding a penalty term to the SSE. This penalty, usually denoted by $\lambda$,
+                changes the closed form solution for the weights, $W$, to the following:
+
+                \begin{equation*}
+                  W = (X^T X + \lambda I)^{-1} X^T Z
+                \end{equation*}
+
+                where $I$ is the identity matrix. The regularization term, $\lambda$,
+                is a hyperparameter that controls the amount of regularization applied
+                to the model, in order to avoid overfitting. The larger the value of
+                $\lambda$, the more the regression will shift from its original solution.
+
+                With $\lambda=0.2$, as given by the question's statement, we can compute
+                the new weights, $W$, as follows:
+
+                \begin{equation*}
+                  W = (X^T X + 0.2 I)^{-1} X^T Z = \input{aux-matrices/ex-2/W_ridge}
+                \end{equation*}
+                }
+          \item {
+                The Ridge regression's hyperplane is the one shown in the figure below:
+
+                \begin{figure}[H]
+                  \centering
+                  \includesvg[width=0.5\textwidth]{assets/ex-2/3d-hyperplane-ridge.svg}
+                \end{figure}
+
+                The norm of the vector describing the model's hyperplane is, as expected,
+                smaller than the one obtained in the previous question. This is due to
+                the regularization term, which aims precisely to reduce the model's
+                weights' magnitude.
+                }
+          \item {
+                LASSO, or Least Absolute Shrinkage and Selection Operator, is another
+                regularization technique that aims to tune a linear regression model.
+                It differs from Ridge regression in that it adds a penalty term to the
+                SSE, but this term is the sum of the absolute values of the weights,
+                instead of the sum of their squares.
+                With LASSO, the coefficients are shrunk towards zero, which means that
+                some of them will be reduced to zero, effectively removing them from the
+                model - this is a so-called \textbf{feature selection}, since it'll
+                happen to the least relevant features of the model. Ridge regression,
+                on the other hand, will only reduce the weights' magnitude, but will
+                never set them to zero. This way, LASSO is more likely to produce a
+                sparse (and better) model, with fewer features, than Ridge regression,
+                regarding data sets with a large number of features.
+                }
         \end{enumerate}
 
         \question {
