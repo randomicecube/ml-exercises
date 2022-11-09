@@ -12,7 +12,7 @@ _However_, every calculation performed will be shown in each sheet's respective 
 - [x] Sheet 2 - Decision Trees
 - [x] Sheet 3 - Bayesian Learning
 - [x] Sheet 4 - Linear Regression, kNN
-- [ ] Sheet 5-6 - Gradient Descent
+- [x] Sheet 5-6 - Gradient Descent
 - [x] Sheet 7-8 - Neural Networks
 - [x] Sheet 9 - Clustering
 - [x] Sheet 10 - Dimensionality Reduction
