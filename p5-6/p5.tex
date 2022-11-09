@@ -239,11 +239,22 @@ training set.
   \end{enumerate}
 
   \begin{tcolorbox}[enhanced jigsaw,colback=bg,boxrule=0pt,arc=1pt,halign=center]
-    \item Let us consider the following activation function:
+    \item Let us consider the following activation function and training set:
 
     \begin{equation*}
       \hat{z}(x, w) = \frac{1}{1 + e^{-2 w x}}
     \end{equation*}
+
+    \begin{table}[H]
+      \centering
+      \begin{tabular}{c|c|c|c}
+         & $y_1$ & $y_2$ $z$ \\ \hline
+        $x_1$ & $1$ & $1$ & $1$ \\
+        $x_2$ & $2$ & $1$ & $1$ \\
+        $x_3$ & $1$ & $3$ & $0$ \\
+        $x_4$ & $3$ & $3$ & $0$
+      \end{tabular}
+    \end{table}
 
     Consider also the half sum of squared errors as the loss function:
 
@@ -258,14 +269,120 @@ training set.
     \end{enumerate}
   \end{tcolorbox}
 
+  As we should know by now, (activation) functions of the type $\frac{1}{1 + e^{-k}}$
+  are called sigmoid functions - functions that are bounded by $0$ and $1$,
+  with $\sigma(0) = 0.5$. $\sigma(x)$ is plotted below:
+
+  \begin{figure}[h]
+    \centering
+    \includegraphics[width=0.5\textwidth]{assets/sigmoid.png}
+    \caption{Sigmoid function}
+  \end{figure}
+  
+  Sigmoid functions are widely used in Machine Learning (and, in particular, in
+  perceptrons/neural network nodes) since they're able to map any real number
+  to the interval $[0, 1]$, and, as such, they're able to represent probabilities
+  fairly well. The sigmoid's derivative is rather famous (and must be known
+  for the exam), given by:
+
+  $$
+    \sigma'(x) = \sigma(x) \cdot (1 - \sigma(x)) \cdot x'
+  $$
+
+  The perceptron paired with gradient descent is essentially a linear regression
+  model where, once again, we try to minimize a given error function - if in the case
+  of the previous perceptron learning rule this error function was simply the
+  difference between the desired output and the perceptron's output, in the case
+  of gradient descent we have a more complex error function, such as the half
+  sum of squared errors. We utilize this more complex learning rule when, for example,
+  we're in the presence of non-linearly separable data, and, as such, we can't
+  use the perceptron learning rule to find a separating hyperplane. Here, the
+  learning rule is written as follows (considering $E$ as the error function):
+
+  $$
+    w \leftarrow w - \eta \cdot \frac{\partial E}{\partial w}
+  $$
+
+  Note that here, since we're working with gradient \textbf{descent}, we're now
+  subtracting the gradient of the error function from the weights, instead of
+  adding it - we're trying to minimize the error function, after all.       
+
   \begin{enumerate}
-    \item {}
-    \item {}
-    \item {}
+    \item {
+      Note that the activation function, here, is a sigmoid that not only depends
+      on $x$ but also $w$:
+
+      $$
+        \hat{z}(x, w) = \sigma(2wx) =  \frac{1}{1 + e^{-2 w x}}
+      $$
+
+      Let's try to derivate the error function with respect to $w$:
+
+      \begin{align*}
+        \frac{\partial E}{\partial w} &= \frac{\partial}{\partial w} \frac{1}{2} \sum_{i=1}^N (z_i - \hat{z}(x_i, w))^2 \\
+        &= \frac{2}{2} \sum_{i=1}^N (z_i - \hat{z}(x_i, w)) \frac{\partial}{\partial w} (z_i - \hat{z}(x_i, w)) \\
+        &= - \sum_{i=1}^N (z_i - \sigma(2wx_i)) \sigma(2wx_i) (1 - \sigma(2wx_i)) 2x_i \\
+        &= -2 \sum_{i=1}^N x_i (z_i - \sigma(2wx_i)) \sigma(2wx_i) (1 - \sigma(2wx_i))
+      \end{align*}
+
+      Therefore, our learning rule will be written as:
+
+      $$
+        w \leftarrow w + 2\eta \sum_{i=1}^N x_i (z_i - \sigma(2wx_i)) \sigma(2wx_i) (1 - \sigma(2wx_i)))
+      $$
+    }
+    \item {
+    
+      \textit{\textbf{Note:} On all matrix dot products between $x_i$'s and $w$, we're
+      considering here for it to be the dot product between $x_i$ and the \textbf{transposed}
+      of $w$, since otherwise the dimensions wouldn't match (probably an issue regarding
+      the original question's statement).}
+
+      Considering an initialization of all ones, we have the following:
+
+      $$
+        \eta = 1, \quad w = \input{aux-matrices/ex-2/w}, \quad X = \input{aux-matrices/ex-2/X}
+      $$
+
+      Here, we're asked to compute the first gradient descent update - i.e,
+      the first update of the weights after the first epoch. As such, we'll have
+      the following (computations in this sheet's notebook):
+
+      \begin{align*}
+        w &\leftarrow w + 2 \eta \sum_{i=1}^N x_i (z_i - \sigma(2wx_i)) \sigma(2wx_i) (1 - \sigma(2wx_i))) \\
+        & \leftarrow \input{aux-matrices/ex-2/w} + 2 \cdot 1 \cdot
+        \left(
+          \input{aux-matrices/ex-2/x_1} \cdot \left(
+            1 - \sigma(2 \cdot \input{aux-matrices/ex-2/w} \cdot \input{aux-matrices/ex-2/x_1})
+          \right) \cdot \sigma(2 \cdot \input{aux-matrices/ex-2/w} \cdot \input{aux-matrices/ex-2/x_1}) \cdot
+          \left(1 - \sigma(2 \cdot \input{aux-matrices/ex-2/w} \cdot \input{aux-matrices/ex-2/x_1})\right)
+        \right) + \cdots = \input{aux-matrices/ex-2/w_2}
+      \end{align*}
+
+    }
+    \item {
+      If in the previous question, with a batch gradient descent update, we
+      computed the weight update for the whole first epoch at once, with
+      stochastic gradient descent we'll compute the weight update for each
+      sample individually - the "sum" in the learning rule, here, will be replaced
+      by a single sample, as can be seen below:
+
+      $$
+        w \leftarrow w + 2\eta x_1 (z_1 - \sigma(2wx_1)) \sigma(2wx_1) (1 - \sigma(2wx_1))
+      $$
+
+      This will be essentially calculating the expression written in the question above
+      (before the $\cdots$), which ends up updating the weight matrix to the following:
+
+      $$
+        w_{new} = \input{aux-matrices/ex-2/w_new}
+      $$
+    }
   \end{enumerate}
 
   \begin{tcolorbox}[enhanced jigsaw,colback=bg,boxrule=0pt,arc=1pt,halign=center]
-    \item Let us consider the following activation function:
+    \item Let us consider the following activation function, with the training data set
+    from the previous exercise:
 
     \begin{equation*}
       \hat{z}(x, w) = \frac{1}{1 + e^{-w x}}
@@ -285,9 +402,64 @@ training set.
   \end{tcolorbox}
 
   \begin{enumerate}
-    \item {}
-    \item {}
-    \item {}
+    \item {
+      Here, we'll compute the learning rule for the gradient descent the same way,
+      with the exception of the gradient of the error function, of course: here,
+      we're working with the cross-entropy loss function, instead of the squared
+      error function. Thankfully, and even though the deduction for such derivative
+      is not at all trivial, it is also possible to bring it in our note sheet
+      to the exam. As such, we'll have the following:
+
+      $$
+        E(w) = - \log(P(z|x, w)) = - \sum_{i=1}^N (z_i \log \hat{z}(x_i, w) + (1 - z_i) \log (1 - \hat{z}(x_i, w)))
+      $$
+      $$
+        \frac{\partial E}{\partial w} = - \sum_{i=1}^N (x_i, w)' (z_i - \hat{z}(x_i, w))
+      $$
+
+      In our case, considering that the activation function is a sigmoid once again
+      (this time $\sigma(wx)$), we'll have:
+
+      $$
+        \frac{\partial E}{\partial w} = - \sum_{i=1}^N (w \cdot x_i)' (z_i - \sigma(w x_i))
+        = - \sum_{i=1}^N x_i (z_i - \sigma(w x_i))
+      $$
+
+      As such, the learning rule will be:
+
+      $$
+        w \leftarrow w + \eta \sum_{i=1}^N x_i (z_i - \sigma(w x_i))
+      $$
+    }
+    \item {
+      Once again, regarding an initialization of all ones, we'll have the following:
+
+      $$
+        \eta = 1, \quad w = \input{aux-matrices/ex-3/w}
+      $$
+
+      Now, with the new learning rule, we'll be able to write the first batch
+      gradient descent update as:
+
+      $$
+        w \leftarrow w + \eta \sum_{i=1}^N x_i (z_i - \sigma(w x_i))
+        = \input{aux-matrices/ex-3/w} + 1 \cdot \left(
+          \input{aux-matrices/ex-3/x_1} \cdot \left(
+            1 - \sigma(\input{aux-matrices/ex-3/w} \cdot \input{aux-matrices/ex-3/x_1})
+          \right)
+        \right) + \cdots = \input{aux-matrices/ex-3/w_2}
+      $$
+
+    }
+    \item {
+      Once again, with a stochastic gradient descent update, we'll compute the weight update
+      for each sample individually - here, considering the \textbf{first} update,
+      we're only going to consider the first sample. As such, we'll have:
+
+      $$
+        w \leftarrow w + \eta x_1 (z_1 - \sigma(w x_1)) = \input{aux-matrices/ex-3/w_new}
+      $$
+    }
   \end{enumerate}
 
   \begin{tcolorbox}[enhanced jigsaw,colback=bg,boxrule=0pt,arc=1pt,halign=center]
