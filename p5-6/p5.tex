@@ -50,7 +50,29 @@
 
 \begin{document}
 
-\textit{Note: intermediate steps were calculated using \texttt{numpy} and, in general, will not be shown.}
+The perceptron algorithm consists of one of the simplest types of neural
+network architectures. It is a single-layer neural network with a single
+neuron. The neuron is a linear combination of the input variables, with a
+bias term, and then passed through an activation function. The activation
+function is used to determine the output of the neuron.
+The algorithm itself is a supervised learning algorithm, meaning that it
+requires labeled training data to train the model. The algorithm is
+iterative, hence it'll continue to update the weights until the
+model converges. The learning rate is a hyperparameter that controls the
+step size of the weight updates. The activation function is a hyperparameter
+that determines the output of the neuron. The learning rule is as follows:
+
+\begin{equation*}
+  w^{new} \leftarrow w^{old} + \eta \cdot (z - \hat{z}(x)) \cdot x, \quad
+  \hat{z}(x) = f(net(x)), \quad
+  net(x) = \sum_{i=1}^n w_i \cdot x^{(i)} + w_0
+\end{equation*}
+
+where $w_i$ is the weight for the $i$th input variable, $\eta$ is the
+learning rate, $z$ is the true label, $\hat{z}$ is the predicted label,
+and $x_i$ is the $i$th input variable. The learning rule is applied for
+each training example, and an epoch is a single pass through the entire
+training set.
 
 \begin{enumerate}[leftmargin=\labelsep]
   \begin{tcolorbox}[enhanced jigsaw,colback=bg,boxrule=0pt,arc=1pt,halign=center]
@@ -82,24 +104,138 @@
   \end{tcolorbox}
 
   \begin{enumerate}
-    \item {}
-    \item {}
-    \item {}
-    \item {}
-  \end{enumerate}
+    \item {
+      As per the question statement, we're working with $\eta = 1$ and sign activation:
 
-  \begin{tcolorbox}[enhanced jigsaw,colback=bg,boxrule=0pt,arc=1pt,halign=center]
-    \item Show graphically, instantiating the parameters, that a perceptron:
+      $$
+      \hat{z} = f(net) = \begin{cases}
+        1 & net \geq 0 \\
+        -1 & net < 0
+      \end{cases}
+      $$
+      
+      Moreover, we're considering weights (and the bias, $w_0$) initialized at one.
+      Performing epochs following the $\{x_1, \cdots, x_4\}$ order, we get the following
+      weight updates:
 
-    \begin{enumerate}
-      \item Can learn the NOT, AND and OR logical functions.
-      \item Can't learn the XOR logical function (for two inputs).
-    \end{enumerate}
-  \end{tcolorbox}
+      \begin{align*}
+        \hat{z}(x_1) &= f(net(x_1)) = f(1 + 1 \cdot 0 + 1 \cdot 0) = f(1) = 1 \\
+        \hat{z}(x_2) &= f(net(x_2)) = f(1 + 1 \cdot 0 + 1 \cdot 2) = f(3) = 1 \\
+        \hat{z}(x_3) &= f(net(x_3)) = f(1 + 1 \cdot 1 + 1 \cdot 1) = f(3) = 1 \\
+        \hat{z}(x_4) &= f(net(x_4)) = f(1 + 1 \cdot 1 + 1 \cdot -1) = f(1) = 1
+      \end{align*}
 
-  \begin{enumerate}
-    \item {}
-    \item {}
+      \begin{align*}
+        x_1: \quad & w \leftarrow \input{aux-matrices/ex-1/w_1} + 1 \cdot (-1 - 1) \cdot \input{aux-matrices/ex-1/x_1_first_3} = \input{aux-matrices/ex-1/w_2} \\
+        x_2: \quad & w \leftarrow \input{aux-matrices/ex-1/w_2} + 1 \cdot (1 - 1) \cdot \input{aux-matrices/ex-1/x_2_first_3} = \input{aux-matrices/ex-1/w_3} \\
+        x_3: \quad & w \leftarrow \input{aux-matrices/ex-1/w_3} + 1 \cdot (1 - 1) \cdot \input{aux-matrices/ex-1/x_3_first_3} = \input{aux-matrices/ex-1/w_4} \\
+        x_4: \quad & w \leftarrow \input{aux-matrices/ex-1/w_4} + 1 \cdot (-1 - 1) \cdot \input{aux-matrices/ex-1/x_4_first_3} = \input{aux-matrices/ex-1/w_5}
+      \end{align*}
+
+      After entering a new epoch, we'd update the weights again, this time for $x_1$;
+      since such an update wouldn't lead to an actual update on the weight matrix,
+      that'd make a full pass on the training set without changes, and, as such,
+      the algorithm would converge. Therefore, the regression hyperplane is given by:
+
+      $$
+        -1 + x_1 + x_2 = 0 \leftrightarrow x_2 = 1 - x_1
+      $$
+
+      % TODO: Plotting the data and the hyperplane, we get the following:
+    }
+    \item {
+      Here, we apply the same algorithm as before, but now considering all input variables.
+
+      \begin{align*}
+        \hat{z}(x_1) &= f(net(x_1)) = f(1 + 1 \cdot 0 + 1 \cdot 0 + 1 \cdot 0) = f(1) = 1 \\
+        \hat{z}(x_2) &= f(net(x_2)) = f(1 + 1 \cdot 0 + 1 \cdot 2 + 1 \cdot 1) = f(4) = 1 \\
+        \hat{z}(x_3) &= f(net(x_3)) = f(1 + 1 \cdot 1 + 1 \cdot 1 + 1 \cdot 1) = f(4) = 1 \\
+        \hat{z}(x_4) &= f(net(x_4)) = f(1 + 1 \cdot 1 + 1 \cdot -1 + 1 \cdot 0) = f(2) = 1
+      \end{align*}
+
+      \begin{align*}
+        x_1: \quad & w \leftarrow \input{aux-matrices/ex-1/w_1_all} + 1 \cdot (-1 - 1) \cdot \input{aux-matrices/ex-1/x_1} = \input{aux-matrices/ex-1/w_2_all} \\
+        x_2: \quad & w \leftarrow \input{aux-matrices/ex-1/w_2_all} + 1 \cdot (1 - 1) \cdot \input{aux-matrices/ex-1/x_2} = \input{aux-matrices/ex-1/w_3_all} \\
+        x_3: \quad & w \leftarrow \input{aux-matrices/ex-1/w_3_all} + 1 \cdot (1 - 1) \cdot \input{aux-matrices/ex-1/x_3} = \input{aux-matrices/ex-1/w_4_all} \\
+        x_4: \quad & w \leftarrow \input{aux-matrices/ex-1/w_4_all} + 1 \cdot (-1 - 1) \cdot \input{aux-matrices/ex-1/x_4} = \input{aux-matrices/ex-1/w_5_all}
+      \end{align*}
+
+      Once again, we'd enter a new epoch and update the weights considering the first sample,
+      but since such an update wouldn't lead to an actual update on the weight matrix,
+      that'd make a full pass on the training set without changes, and, as such,
+      the algorithm would converge. \textbf{An additional epoch wouldn't, therefore,
+      change the weights}.
+    }
+    \item {
+      As we've mentioned before, the perceptron's output is given by the
+      activation function - here, the sign of the net input. Therefore, the
+      perceptron's output is given by:
+
+      $$
+      \hat{z} = f(net) = \begin{cases}
+        1 & net \geq 0 \\
+        -1 & net < 0
+      \end{cases}
+      $$
+
+      Here, considering the weights computed in the previous question, we'll
+      have the following:
+
+      $$
+        net(x_{new}) = -1 + 1 \cdot 0 + 1 \cdot 0 + 1 \cdot 1 = 0
+      $$
+
+      As we know, $f(0) = 1$, and, as such, the perceptron would classify the
+      new sample as belonging to the binary class $1$.
+    }
+    \item {
+      As we know, the step function is rather similar to the sign function,
+      defined as follows:
+
+      $$
+        f(net) = \begin{cases}
+          1 & net \geq 0 \\
+          0 & net < 0
+        \end{cases}
+      $$
+
+      Let's consider the following learning rules (the first one considers
+      the activation function as the sign function, and the second one
+      considers the activation function as the step function):
+
+      \begin{align*}
+        \text{Sign function:} \quad & w \leftarrow w + \eta \cdot (z - sign(net)) \cdot x \\
+        \text{Step function:} \quad & w \leftarrow w + \eta \cdot (z - step(net)) \cdot x
+      \end{align*}
+
+      We can note, of course, that the only differing term between both rules
+      is $(z - \hat{z})$; therefore, to make it so that both rules are
+      equivalent, we'd have to make sure that the step function's output
+      is correctly balanced with the sign function's output, utilizing a scalar
+      factor (be it $\tau$) for such purpose, effectively altering the learning
+      rate to be $\eta_{sign} = \tau \cdot \eta_{step}$. Let's try to find $\tau$:
+
+      $$
+      z - sign(net) = \tau (z - step(net))
+      $$
+
+      We know that $z \in \{-1, 1\}$, and, as such, we can write each side of
+      the equation's interval as follows:
+
+      $$
+      [-1, 1] - [-1, 1] = \tau ([-1, 1] - [0, 1]) \leftrightarrow
+      [-2, 2] = \tau [-1, 1]
+      $$
+
+      As such, if we want an equal learning rule utilizing both step and sign
+      functions, we'd have to set $\tau = 2$, and, as such, get the following
+      learning rule:
+
+      $$
+        w \leftarrow w + 2 \eta_{sign} \cdot (z - step(net)) \cdot x \quad \leftrightarrow \quad
+        w \leftarrow w + \eta_{sign} \cdot (z - sign(net)) \cdot x
+      $$
+    }
   \end{enumerate}
 
   \begin{tcolorbox}[enhanced jigsaw,colback=bg,boxrule=0pt,arc=1pt,halign=center]
