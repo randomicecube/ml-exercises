@@ -289,7 +289,7 @@ training set.
     \sigma'(x) = \sigma(x) \cdot (1 - \sigma(x)) \cdot x'
   $$
 
-  The perceptron paired with gradient descent is essentially a linear regression
+  Gradient descent is essentially a linear regression
   model where, once again, we try to minimize a given error function - if in the case
   of the previous perceptron learning rule this error function was simply the
   difference between the desired output and the perceptron's output, in the case
@@ -333,10 +333,10 @@ training set.
     }
     \item {
     
-      \textit{\textbf{Note:} On all matrix dot products between $x_i$'s and $w$, we're
-      considering here for it to be the dot product between $x_i$ and the \textbf{transposed}
-      of $w$, since otherwise the dimensions wouldn't match (probably an issue regarding
-      the original question's statement).}
+      \textit{\textbf{Note:} On all matrix dot products between $x_i$'s and $w$, in this and
+      the following questions, we're considering here for it to be the dot product between
+      $x_i$ and the \textbf{transposed} of $w$, since otherwise the dimensions wouldn't match
+      (probably an issue regarding the original question's statement).}
 
       Considering an initialization of all ones, we have the following:
 
@@ -463,8 +463,12 @@ training set.
   \end{enumerate}
 
   \begin{tcolorbox}[enhanced jigsaw,colback=bg,boxrule=0pt,arc=1pt,halign=center]
-    \item Consider now the activation function described in the previous exercise,
-    paired with the half sum of squared errors loss function.
+    \item Consider now the half sum of squared errors loss function, paired with
+    the following activation function:
+
+    $$
+      \hat{z}(x, w) = e^{(w x)^2}
+    $$
 
     \begin{enumerate}
       \item Determine the gradient descent learning rule for this unit.
@@ -475,8 +479,42 @@ training set.
   \end{tcolorbox}
 
   \begin{enumerate}
-    \item {}
-    \item {}
+    \item {
+      Once again, we'll have to compute the derivative of the loss function with
+      respect to the weights. As such, we'll have:
+
+      $$
+        E(w) = \frac{1}{2} \sum_{i=1}^N (z_i - \hat{z}(x_i, w))^2
+      $$
+      $$
+        \frac{\partial E}{\partial w} = \frac{\partial}{\partial w} \frac{1}{2} \sum_{i=1}^N (z_i - \hat{z}(x_i, w))^2 \\
+        = \sum_{i=1}^N (z_i - \hat{z}(x_i, w)) \frac{\partial}{\partial w} (z_i - \hat{z}(x_i, w))
+        = -2 \sum_{i=1}^N x_i (w x_i) (z_i - e^{(w x_i)^2}) e^{(w x_i)^2}
+      $$
+
+      Our learning will be, then:
+
+      $$
+        w \leftarrow w + 2\eta \sum_{i=1}^N x_i (w x_i) (z_i - e^{(w x_i)^2}) e^{(w x_i)^2}
+      $$
+    }
+    \item {
+      We're asked to perform a stochastic gradient descent update for a new query
+      vector $x_{new} = \begin{bmatrix}1 & 1\end{bmatrix}^T$, with label $0$.
+      Moreover, the weights are initialized as $w = \begin{bmatrix}0 & 1 & 0\end{bmatrix}^T$
+      and the learning rate is $\eta = 2$. As such, and plugging these values
+      onto our learning rule, we'll have the following:
+
+      \begin{align*}
+        w & \leftarrow w + 2\eta x_{new} (w x_{new}) (z_{new} - e^{(w x_{new})^2}) e^{(w x_{new})^2} \\        
+          & \leftarrow \input{aux-matrices/ex-4/w} + 2 \cdot 2 \cdot
+          \input{aux-matrices/ex-4/X} \cdot \left(
+            \input{aux-matrices/ex-4/w} \cdot \input{aux-matrices/ex-4/X}
+          \right) \cdots \\
+          & \leftarrow \input{aux-matrices/ex-4/w_new}
+      \end{align*}
+
+    }
   \end{enumerate}
 
   \begin{tcolorbox}[enhanced jigsaw,colback=bg,boxrule=0pt,arc=1pt,halign=center]
