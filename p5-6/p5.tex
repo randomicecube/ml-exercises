@@ -105,137 +105,137 @@ training set.
 
   \begin{enumerate}
     \item {
-      As per the question statement, we're working with $\eta = 1$ and sign activation:
+          As per the question statement, we're working with $\eta = 1$ and sign activation:
 
-      $$
-      \hat{z} = f(net) = \begin{cases}
-        1 & net \geq 0 \\
-        -1 & net < 0
-      \end{cases}
-      $$
-      
-      Moreover, we're considering weights (and the bias, $w_0$) initialized at one.
-      Performing epochs following the $\{x_1, \cdots, x_4\}$ order, we get the following
-      weight updates:
+          $$
+            \hat{z} = f(net) = \begin{cases}
+              1  & net \geq 0 \\
+              -1 & net < 0
+            \end{cases}
+          $$
 
-      \begin{align*}
-        \hat{z}(x_1) &= f(net(x_1)) = f(1 + 1 \cdot 0 + 1 \cdot 0) = f(1) = 1 \\
-        \hat{z}(x_2) &= f(net(x_2)) = f(1 + 1 \cdot 0 + 1 \cdot 2) = f(3) = 1 \\
-        \hat{z}(x_3) &= f(net(x_3)) = f(1 + 1 \cdot 1 + 1 \cdot 1) = f(3) = 1 \\
-        \hat{z}(x_4) &= f(net(x_4)) = f(1 + 1 \cdot 1 + 1 \cdot -1) = f(1) = 1
-      \end{align*}
+          Moreover, we're considering weights (and the bias, $w_0$) initialized at one.
+          Performing epochs following the $\{x_1, \cdots, x_4\}$ order, we get the following
+          weight updates:
 
-      \begin{align*}
-        x_1: \quad & w \leftarrow \input{aux-matrices/ex-1/w_1} + 1 \cdot (-1 - 1) \cdot \input{aux-matrices/ex-1/x_1_first_3} = \input{aux-matrices/ex-1/w_2} \\
-        x_2: \quad & w \leftarrow \input{aux-matrices/ex-1/w_2} + 1 \cdot (1 - 1) \cdot \input{aux-matrices/ex-1/x_2_first_3} = \input{aux-matrices/ex-1/w_3} \\
-        x_3: \quad & w \leftarrow \input{aux-matrices/ex-1/w_3} + 1 \cdot (1 - 1) \cdot \input{aux-matrices/ex-1/x_3_first_3} = \input{aux-matrices/ex-1/w_4} \\
-        x_4: \quad & w \leftarrow \input{aux-matrices/ex-1/w_4} + 1 \cdot (-1 - 1) \cdot \input{aux-matrices/ex-1/x_4_first_3} = \input{aux-matrices/ex-1/w_5}
-      \end{align*}
+          \begin{align*}
+            \hat{z}(x_1) & = f(net(x_1)) = f(1 + 1 \cdot 0 + 1 \cdot 0) = f(1) = 1  \\
+            \hat{z}(x_2) & = f(net(x_2)) = f(1 + 1 \cdot 0 + 1 \cdot 2) = f(3) = 1  \\
+            \hat{z}(x_3) & = f(net(x_3)) = f(1 + 1 \cdot 1 + 1 \cdot 1) = f(3) = 1  \\
+            \hat{z}(x_4) & = f(net(x_4)) = f(1 + 1 \cdot 1 + 1 \cdot -1) = f(1) = 1
+          \end{align*}
 
-      After entering a new epoch, we'd update the weights again, this time for $x_1$;
-      since such an update wouldn't lead to an actual update on the weight matrix,
-      that'd make a full pass on the training set without changes, and, as such,
-      the algorithm would converge. Therefore, the regression hyperplane is given by:
+          \begin{align*}
+            x_1: \quad & w \leftarrow \input{aux-matrices/ex-1/w_1} + 1 \cdot (-1 - 1) \cdot \input{aux-matrices/ex-1/x_1_first_3} = \input{aux-matrices/ex-1/w_2} \\
+            x_2: \quad & w \leftarrow \input{aux-matrices/ex-1/w_2} + 1 \cdot (1 - 1) \cdot \input{aux-matrices/ex-1/x_2_first_3} = \input{aux-matrices/ex-1/w_3}  \\
+            x_3: \quad & w \leftarrow \input{aux-matrices/ex-1/w_3} + 1 \cdot (1 - 1) \cdot \input{aux-matrices/ex-1/x_3_first_3} = \input{aux-matrices/ex-1/w_4}  \\
+            x_4: \quad & w \leftarrow \input{aux-matrices/ex-1/w_4} + 1 \cdot (-1 - 1) \cdot \input{aux-matrices/ex-1/x_4_first_3} = \input{aux-matrices/ex-1/w_5}
+          \end{align*}
 
-      $$
-        -1 + x_1 + x_2 = 0 \leftrightarrow x_2 = 1 - x_1
-      $$
+          After entering a new epoch, we'd update the weights again, this time for $x_1$;
+          since such an update wouldn't lead to an actual update on the weight matrix,
+          that'd make a full pass on the training set without changes, and, as such,
+          the algorithm would converge. Therefore, the regression hyperplane is given by:
 
-      % TODO: Plotting the data and the hyperplane, we get the following:
-    }
+          $$
+            -1 + x_1 + x_2 = 0 \leftrightarrow x_2 = 1 - x_1
+          $$
+
+          % TODO: Plotting the data and the hyperplane, we get the following:
+          }
     \item {
-      Here, we apply the same algorithm as before, but now considering all input variables.
+          Here, we apply the same algorithm as before, but now considering all input variables.
 
-      \begin{align*}
-        \hat{z}(x_1) &= f(net(x_1)) = f(1 + 1 \cdot 0 + 1 \cdot 0 + 1 \cdot 0) = f(1) = 1 \\
-        \hat{z}(x_2) &= f(net(x_2)) = f(1 + 1 \cdot 0 + 1 \cdot 2 + 1 \cdot 1) = f(4) = 1 \\
-        \hat{z}(x_3) &= f(net(x_3)) = f(1 + 1 \cdot 1 + 1 \cdot 1 + 1 \cdot 1) = f(4) = 1 \\
-        \hat{z}(x_4) &= f(net(x_4)) = f(1 + 1 \cdot 1 + 1 \cdot -1 + 1 \cdot 0) = f(2) = 1
-      \end{align*}
+          \begin{align*}
+            \hat{z}(x_1) & = f(net(x_1)) = f(1 + 1 \cdot 0 + 1 \cdot 0 + 1 \cdot 0) = f(1) = 1  \\
+            \hat{z}(x_2) & = f(net(x_2)) = f(1 + 1 \cdot 0 + 1 \cdot 2 + 1 \cdot 1) = f(4) = 1  \\
+            \hat{z}(x_3) & = f(net(x_3)) = f(1 + 1 \cdot 1 + 1 \cdot 1 + 1 \cdot 1) = f(4) = 1  \\
+            \hat{z}(x_4) & = f(net(x_4)) = f(1 + 1 \cdot 1 + 1 \cdot -1 + 1 \cdot 0) = f(2) = 1
+          \end{align*}
 
-      \begin{align*}
-        x_1: \quad & w \leftarrow \input{aux-matrices/ex-1/w_1_all} + 1 \cdot (-1 - 1) \cdot \input{aux-matrices/ex-1/x_1} = \input{aux-matrices/ex-1/w_2_all} \\
-        x_2: \quad & w \leftarrow \input{aux-matrices/ex-1/w_2_all} + 1 \cdot (1 - 1) \cdot \input{aux-matrices/ex-1/x_2} = \input{aux-matrices/ex-1/w_3_all} \\
-        x_3: \quad & w \leftarrow \input{aux-matrices/ex-1/w_3_all} + 1 \cdot (1 - 1) \cdot \input{aux-matrices/ex-1/x_3} = \input{aux-matrices/ex-1/w_4_all} \\
-        x_4: \quad & w \leftarrow \input{aux-matrices/ex-1/w_4_all} + 1 \cdot (-1 - 1) \cdot \input{aux-matrices/ex-1/x_4} = \input{aux-matrices/ex-1/w_5_all}
-      \end{align*}
+          \begin{align*}
+            x_1: \quad & w \leftarrow \input{aux-matrices/ex-1/w_1_all} + 1 \cdot (-1 - 1) \cdot \input{aux-matrices/ex-1/x_1} = \input{aux-matrices/ex-1/w_2_all} \\
+            x_2: \quad & w \leftarrow \input{aux-matrices/ex-1/w_2_all} + 1 \cdot (1 - 1) \cdot \input{aux-matrices/ex-1/x_2} = \input{aux-matrices/ex-1/w_3_all}  \\
+            x_3: \quad & w \leftarrow \input{aux-matrices/ex-1/w_3_all} + 1 \cdot (1 - 1) \cdot \input{aux-matrices/ex-1/x_3} = \input{aux-matrices/ex-1/w_4_all}  \\
+            x_4: \quad & w \leftarrow \input{aux-matrices/ex-1/w_4_all} + 1 \cdot (-1 - 1) \cdot \input{aux-matrices/ex-1/x_4} = \input{aux-matrices/ex-1/w_5_all}
+          \end{align*}
 
-      Once again, we'd enter a new epoch and update the weights considering the first sample,
-      but since such an update wouldn't lead to an actual update on the weight matrix,
-      that'd make a full pass on the training set without changes, and, as such,
-      the algorithm would converge. \textbf{An additional epoch wouldn't, therefore,
-      change the weights}.
-    }
+          Once again, we'd enter a new epoch and update the weights considering the first sample,
+          but since such an update wouldn't lead to an actual update on the weight matrix,
+          that'd make a full pass on the training set without changes, and, as such,
+          the algorithm would converge. \textbf{An additional epoch wouldn't, therefore,
+            change the weights}.
+          }
     \item {
-      As we've mentioned before, the perceptron's output is given by the
-      activation function - here, the sign of the net input. Therefore, the
-      perceptron's output is given by:
+          As we've mentioned before, the perceptron's output is given by the
+          activation function - here, the sign of the net input. Therefore, the
+          perceptron's output is given by:
 
-      $$
-      \hat{z} = f(net) = \begin{cases}
-        1 & net \geq 0 \\
-        -1 & net < 0
-      \end{cases}
-      $$
+          $$
+            \hat{z} = f(net) = \begin{cases}
+              1  & net \geq 0 \\
+              -1 & net < 0
+            \end{cases}
+          $$
 
-      Here, considering the weights computed in the previous question, we'll
-      have the following:
+          Here, considering the weights computed in the previous question, we'll
+          have the following:
 
-      $$
-        net(x_{new}) = -1 + 1 \cdot 0 + 1 \cdot 0 + 1 \cdot 1 = 0
-      $$
+          $$
+            net(x_{new}) = -1 + 1 \cdot 0 + 1 \cdot 0 + 1 \cdot 1 = 0
+          $$
 
-      As we know, $f(0) = 1$, and, as such, the perceptron would classify the
-      new sample as belonging to the binary class $1$.
-    }
+          As we know, $f(0) = 1$, and, as such, the perceptron would classify the
+          new sample as belonging to the binary class $1$.
+          }
     \item {
-      As we know, the step function is rather similar to the sign function,
-      defined as follows:
+          As we know, the step function is rather similar to the sign function,
+          defined as follows:
 
-      $$
-        f(net) = \begin{cases}
-          1 & net \geq 0 \\
-          0 & net < 0
-        \end{cases}
-      $$
+          $$
+            f(net) = \begin{cases}
+              1 & net \geq 0 \\
+              0 & net < 0
+            \end{cases}
+          $$
 
-      Let's consider the following learning rules (the first one considers
-      the activation function as the sign function, and the second one
-      considers the activation function as the step function):
+          Let's consider the following learning rules (the first one considers
+          the activation function as the sign function, and the second one
+          considers the activation function as the step function):
 
-      \begin{align*}
-        \text{Sign function:} \quad & w \leftarrow w + \eta \cdot (z - sign(net)) \cdot x \\
-        \text{Step function:} \quad & w \leftarrow w + \eta \cdot (z - step(net)) \cdot x
-      \end{align*}
+          \begin{align*}
+            \text{Sign function:} \quad & w \leftarrow w + \eta \cdot (z - sign(net)) \cdot x \\
+            \text{Step function:} \quad & w \leftarrow w + \eta \cdot (z - step(net)) \cdot x
+          \end{align*}
 
-      We can note, of course, that the only differing term between both rules
-      is $(z - \hat{z})$; therefore, to make it so that both rules are
-      equivalent, we'd have to make sure that the step function's output
-      is correctly balanced with the sign function's output, utilizing a scalar
-      factor (be it $\tau$) for such purpose, effectively altering the learning
-      rate to be $\eta_{sign} = \tau \cdot \eta_{step}$. Let's try to find $\tau$:
+          We can note, of course, that the only differing term between both rules
+          is $(z - \hat{z})$; therefore, to make it so that both rules are
+          equivalent, we'd have to make sure that the step function's output
+          is correctly balanced with the sign function's output, utilizing a scalar
+          factor (be it $\tau$) for such purpose, effectively altering the learning
+          rate to be $\eta_{sign} = \tau \cdot \eta_{step}$. Let's try to find $\tau$:
 
-      $$
-      z - sign(net) = \tau (z - step(net))
-      $$
+          $$
+            z - sign(net) = \tau (z - step(net))
+          $$
 
-      We know that $z \in \{-1, 1\}$, and, as such, we can write each side of
-      the equation's interval as follows:
+          We know that $z \in \{-1, 1\}$, and, as such, we can write each side of
+          the equation's interval as follows:
 
-      $$
-      [-1, 1] - [-1, 1] = \tau ([-1, 1] - [0, 1]) \leftrightarrow
-      [-2, 2] = \tau [-1, 1]
-      $$
+          $$
+            [-1, 1] - [-1, 1] = \tau ([-1, 1] - [0, 1]) \leftrightarrow
+            [-2, 2] = \tau [-1, 1]
+          $$
 
-      As such, if we want an equal learning rule utilizing both step and sign
-      functions, we'd have to set $\tau = 2$, and, as such, get the following
-      learning rule:
+          As such, if we want an equal learning rule utilizing both step and sign
+          functions, we'd have to set $\tau = 2$, and, as such, get the following
+          learning rule:
 
-      $$
-        w \leftarrow w + 2 \eta_{sign} \cdot (z - step(net)) \cdot x \quad \leftrightarrow \quad
-        w \leftarrow w + \eta_{sign} \cdot (z - sign(net)) \cdot x
-      $$
-    }
+          $$
+            w \leftarrow w + 2 \eta_{sign} \cdot (z - step(net)) \cdot x \quad \leftrightarrow \quad
+            w \leftarrow w + \eta_{sign} \cdot (z - sign(net)) \cdot x
+          $$
+          }
   \end{enumerate}
 
   \begin{tcolorbox}[enhanced jigsaw,colback=bg,boxrule=0pt,arc=1pt,halign=center]
@@ -248,11 +248,11 @@ training set.
     \begin{table}[H]
       \centering
       \begin{tabular}{c|c|c|c}
-         & $y_1$ & $y_2$ $z$ \\ \hline
-        $x_1$ & $1$ & $1$ & $1$ \\
-        $x_2$ & $2$ & $1$ & $1$ \\
-        $x_3$ & $1$ & $3$ & $0$ \\
-        $x_4$ & $3$ & $3$ & $0$
+              & $y_1$ & $y_2$ $z$       \\ \hline
+        $x_1$ & $1$   & $1$       & $1$ \\
+        $x_2$ & $2$   & $1$       & $1$ \\
+        $x_3$ & $1$   & $3$       & $0$ \\
+        $x_4$ & $3$   & $3$       & $0$
       \end{tabular}
     \end{table}
 
@@ -278,7 +278,7 @@ training set.
     \includegraphics[width=0.5\textwidth]{assets/sigmoid.png}
     \caption{Sigmoid function}
   \end{figure}
-  
+
   Sigmoid functions are widely used in Machine Learning (and, in particular, in
   perceptrons/neural network nodes) since they're able to map any real number
   to the interval $[0, 1]$, and, as such, they're able to represent probabilities
@@ -305,79 +305,79 @@ training set.
 
   Note that here, since we're working with gradient \textbf{descent}, we're now
   subtracting the gradient of the error function from the weights, instead of
-  adding it - we're trying to minimize the error function, after all.       
+  adding it - we're trying to minimize the error function, after all.
 
   \begin{enumerate}
     \item {
-      Note that the activation function, here, is a sigmoid that not only depends
-      on $x$ but also $w$:
+          Note that the activation function, here, is a sigmoid that not only depends
+          on $x$ but also $w$:
 
-      $$
-        \hat{z}(x, w) = \sigma(2wx) =  \frac{1}{1 + e^{-2 w x}}
-      $$
+          $$
+            \hat{z}(x, w) = \sigma(2wx) =  \frac{1}{1 + e^{-2 w x}}
+          $$
 
-      Let's try to derivate the error function with respect to $w$:
+          Let's try to derivate the error function with respect to $w$:
 
-      \begin{align*}
-        \frac{\partial E}{\partial w} &= \frac{\partial}{\partial w} \frac{1}{2} \sum_{i=1}^N (z_i - \hat{z}(x_i, w))^2 \\
-        &= \frac{2}{2} \sum_{i=1}^N (z_i - \hat{z}(x_i, w)) \frac{\partial}{\partial w} (z_i - \hat{z}(x_i, w)) \\
-        &= - \sum_{i=1}^N (z_i - \sigma(2wx_i)) \sigma(2wx_i) (1 - \sigma(2wx_i)) 2x_i \\
-        &= -2 \sum_{i=1}^N x_i (z_i - \sigma(2wx_i)) \sigma(2wx_i) (1 - \sigma(2wx_i))
-      \end{align*}
+          \begin{align*}
+            \frac{\partial E}{\partial w} & = \frac{\partial}{\partial w} \frac{1}{2} \sum_{i=1}^N (z_i - \hat{z}(x_i, w))^2                       \\
+                                          & = \frac{2}{2} \sum_{i=1}^N (z_i - \hat{z}(x_i, w)) \frac{\partial}{\partial w} (z_i - \hat{z}(x_i, w)) \\
+                                          & = - \sum_{i=1}^N (z_i - \sigma(2wx_i)) \sigma(2wx_i) (1 - \sigma(2wx_i)) 2x_i                          \\
+                                          & = -2 \sum_{i=1}^N x_i (z_i - \sigma(2wx_i)) \sigma(2wx_i) (1 - \sigma(2wx_i))
+          \end{align*}
 
-      Therefore, our learning rule will be written as:
+          Therefore, our learning rule will be written as:
 
-      $$
-        w \leftarrow w + 2\eta \sum_{i=1}^N x_i (z_i - \sigma(2wx_i)) \sigma(2wx_i) (1 - \sigma(2wx_i)))
-      $$
-    }
+          $$
+            w \leftarrow w + 2\eta \sum_{i=1}^N x_i (z_i - \sigma(2wx_i)) \sigma(2wx_i) (1 - \sigma(2wx_i)))
+          $$
+          }
     \item {
-    
-      \textit{\textbf{Note:} On all matrix dot products between $x_i$'s and $w$, in this and
-      the following questions, we're considering here for it to be the dot product between
-      $x_i$ and the \textbf{transposed} of $w$, since otherwise the dimensions wouldn't match
-      (probably an issue regarding the original question's statement).}
 
-      Considering an initialization of all ones, we have the following:
+          \textit{\textbf{Note:} On all matrix dot products between $x_i$'s and $w$, in this and
+            the following questions, we're considering here for it to be the dot product between
+            $x_i$ and the \textbf{transposed} of $w$, since otherwise the dimensions wouldn't match
+            (probably an issue regarding the original question's statement).}
 
-      $$
-        \eta = 1, \quad w = \input{aux-matrices/ex-2/w}, \quad X = \input{aux-matrices/ex-2/X}
-      $$
+          Considering an initialization of all ones, we have the following:
 
-      Here, we're asked to compute the first gradient descent update - i.e,
-      the first update of the weights after the first epoch. As such, we'll have
-      the following (computations in this sheet's notebook):
+          $$
+            \eta = 1, \quad w = \input{aux-matrices/ex-2/w}, \quad X = \input{aux-matrices/ex-2/X}
+          $$
 
-      \begin{align*}
-        w &\leftarrow w + 2 \eta \sum_{i=1}^N x_i (z_i - \sigma(2wx_i)) \sigma(2wx_i) (1 - \sigma(2wx_i))) \\
-        & \leftarrow \input{aux-matrices/ex-2/w} + 2 \cdot 1 \cdot
-        \left(
-          \input{aux-matrices/ex-2/x_1} \cdot \left(
-            1 - \sigma(2 \cdot \input{aux-matrices/ex-2/w} \cdot \input{aux-matrices/ex-2/x_1})
-          \right) \cdot \sigma(2 \cdot \input{aux-matrices/ex-2/w} \cdot \input{aux-matrices/ex-2/x_1}) \cdot
-          \left(1 - \sigma(2 \cdot \input{aux-matrices/ex-2/w} \cdot \input{aux-matrices/ex-2/x_1})\right)
-        \right) + \cdots = \input{aux-matrices/ex-2/w_2}
-      \end{align*}
+          Here, we're asked to compute the first gradient descent update - i.e,
+          the first update of the weights after the first epoch. As such, we'll have
+          the following (computations in this sheet's notebook):
 
-    }
+          \begin{align*}
+            w & \leftarrow w + 2 \eta \sum_{i=1}^N x_i (z_i - \sigma(2wx_i)) \sigma(2wx_i) (1 - \sigma(2wx_i))) \\
+              & \leftarrow \input{aux-matrices/ex-2/w} + 2 \cdot 1 \cdot
+            \left(
+            \input{aux-matrices/ex-2/x_1} \cdot \left(
+              1 - \sigma(2 \cdot \input{aux-matrices/ex-2/w} \cdot \input{aux-matrices/ex-2/x_1})
+              \right) \cdot \sigma(2 \cdot \input{aux-matrices/ex-2/w} \cdot \input{aux-matrices/ex-2/x_1}) \cdot
+            \left(1 - \sigma(2 \cdot \input{aux-matrices/ex-2/w} \cdot \input{aux-matrices/ex-2/x_1})\right)
+            \right) + \cdots = \input{aux-matrices/ex-2/w_2}
+          \end{align*}
+
+          }
     \item {
-      If in the previous question, with a batch gradient descent update, we
-      computed the weight update for the whole first epoch at once, with
-      stochastic gradient descent we'll compute the weight update for each
-      sample individually - the "sum" in the learning rule, here, will be replaced
-      by a single sample, as can be seen below:
+          If in the previous question, with a batch gradient descent update, we
+          computed the weight update for the whole first epoch at once, with
+          stochastic gradient descent we'll compute the weight update for each
+          sample individually - the "sum" in the learning rule, here, will be replaced
+          by a single sample, as can be seen below:
 
-      $$
-        w \leftarrow w + 2\eta x_1 (z_1 - \sigma(2wx_1)) \sigma(2wx_1) (1 - \sigma(2wx_1))
-      $$
+          $$
+            w \leftarrow w + 2\eta x_1 (z_1 - \sigma(2wx_1)) \sigma(2wx_1) (1 - \sigma(2wx_1))
+          $$
 
-      This will be essentially calculating the expression written in the question above
-      (before the $\cdots$), which ends up updating the weight matrix to the following:
+          This will be essentially calculating the expression written in the question above
+          (before the $\cdots$), which ends up updating the weight matrix to the following:
 
-      $$
-        w_{new} = \input{aux-matrices/ex-2/w_new}
-      $$
-    }
+          $$
+            w_{new} = \input{aux-matrices/ex-2/w_new}
+          $$
+          }
   \end{enumerate}
 
   \begin{tcolorbox}[enhanced jigsaw,colback=bg,boxrule=0pt,arc=1pt,halign=center]
@@ -403,63 +403,63 @@ training set.
 
   \begin{enumerate}
     \item {
-      Here, we'll compute the learning rule for the gradient descent the same way,
-      with the exception of the gradient of the error function, of course: here,
-      we're working with the cross-entropy loss function, instead of the squared
-      error function. Thankfully, and even though the deduction for such derivative
-      is not at all trivial, it is also possible to bring it in our note sheet
-      to the exam. As such, we'll have the following:
+          Here, we'll compute the learning rule for the gradient descent the same way,
+          with the exception of the gradient of the error function, of course: here,
+          we're working with the cross-entropy loss function, instead of the squared
+          error function. Thankfully, and even though the deduction for such derivative
+          is not at all trivial, it is also possible to bring it in our note sheet
+          to the exam. As such, we'll have the following:
 
-      $$
-        E(w) = - \log(P(z|x, w)) = - \sum_{i=1}^N (z_i \log \hat{z}(x_i, w) + (1 - z_i) \log (1 - \hat{z}(x_i, w)))
-      $$
-      $$
-        \frac{\partial E}{\partial w} = - \sum_{i=1}^N (x_i, w)' (z_i - \hat{z}(x_i, w))
-      $$
+          $$
+            E(w) = - \log(P(z|x, w)) = - \sum_{i=1}^N (z_i \log \hat{z}(x_i, w) + (1 - z_i) \log (1 - \hat{z}(x_i, w)))
+          $$
+          $$
+            \frac{\partial E}{\partial w} = - \sum_{i=1}^N (x_i, w)' (z_i - \hat{z}(x_i, w))
+          $$
 
-      In our case, considering that the activation function is a sigmoid once again
-      (this time $\sigma(wx)$), we'll have:
+          In our case, considering that the activation function is a sigmoid once again
+          (this time $\sigma(wx)$), we'll have:
 
-      $$
-        \frac{\partial E}{\partial w} = - \sum_{i=1}^N (w \cdot x_i)' (z_i - \sigma(w x_i))
-        = - \sum_{i=1}^N x_i (z_i - \sigma(w x_i))
-      $$
+          $$
+            \frac{\partial E}{\partial w} = - \sum_{i=1}^N (w \cdot x_i)' (z_i - \sigma(w x_i))
+            = - \sum_{i=1}^N x_i (z_i - \sigma(w x_i))
+          $$
 
-      As such, the learning rule will be:
+          As such, the learning rule will be:
 
-      $$
-        w \leftarrow w + \eta \sum_{i=1}^N x_i (z_i - \sigma(w x_i))
-      $$
-    }
+          $$
+            w \leftarrow w + \eta \sum_{i=1}^N x_i (z_i - \sigma(w x_i))
+          $$
+          }
     \item {
-      Once again, regarding an initialization of all ones, we'll have the following:
+          Once again, regarding an initialization of all ones, we'll have the following:
 
-      $$
-        \eta = 1, \quad w = \input{aux-matrices/ex-3/w}
-      $$
+          $$
+            \eta = 1, \quad w = \input{aux-matrices/ex-3/w}
+          $$
 
-      Now, with the new learning rule, we'll be able to write the first batch
-      gradient descent update as:
+          Now, with the new learning rule, we'll be able to write the first batch
+          gradient descent update as:
 
-      $$
-        w \leftarrow w + \eta \sum_{i=1}^N x_i (z_i - \sigma(w x_i))
-        = \input{aux-matrices/ex-3/w} + 1 \cdot \left(
-          \input{aux-matrices/ex-3/x_1} \cdot \left(
-            1 - \sigma(\input{aux-matrices/ex-3/w} \cdot \input{aux-matrices/ex-3/x_1})
-          \right)
-        \right) + \cdots = \input{aux-matrices/ex-3/w_2}
-      $$
+          $$
+            w \leftarrow w + \eta \sum_{i=1}^N x_i (z_i - \sigma(w x_i))
+            = \input{aux-matrices/ex-3/w} + 1 \cdot \left(
+            \input{aux-matrices/ex-3/x_1} \cdot \left(
+              1 - \sigma(\input{aux-matrices/ex-3/w} \cdot \input{aux-matrices/ex-3/x_1})
+              \right)
+            \right) + \cdots = \input{aux-matrices/ex-3/w_2}
+          $$
 
-    }
+          }
     \item {
-      Once again, with a stochastic gradient descent update, we'll compute the weight update
-      for each sample individually - here, considering the \textbf{first} update,
-      we're only going to consider the first sample. As such, we'll have:
+          Once again, with a stochastic gradient descent update, we'll compute the weight update
+          for each sample individually - here, considering the \textbf{first} update,
+          we're only going to consider the first sample. As such, we'll have:
 
-      $$
-        w \leftarrow w + \eta x_1 (z_1 - \sigma(w x_1)) = \input{aux-matrices/ex-3/w_new}
-      $$
-    }
+          $$
+            w \leftarrow w + \eta x_1 (z_1 - \sigma(w x_1)) = \input{aux-matrices/ex-3/w_new}
+          $$
+          }
   \end{enumerate}
 
   \begin{tcolorbox}[enhanced jigsaw,colback=bg,boxrule=0pt,arc=1pt,halign=center]
@@ -480,47 +480,64 @@ training set.
 
   \begin{enumerate}
     \item {
-      Once again, we'll have to compute the derivative of the loss function with
-      respect to the weights. As such, we'll have:
+          Once again, we'll have to compute the derivative of the loss function with
+          respect to the weights. As such, we'll have:
 
-      $$
-        E(w) = \frac{1}{2} \sum_{i=1}^N (z_i - \hat{z}(x_i, w))^2
-      $$
-      $$
-        \frac{\partial E}{\partial w} = \frac{\partial}{\partial w} \frac{1}{2} \sum_{i=1}^N (z_i - \hat{z}(x_i, w))^2 \\
-        = \sum_{i=1}^N (z_i - \hat{z}(x_i, w)) \frac{\partial}{\partial w} (z_i - \hat{z}(x_i, w))
-        = -2 \sum_{i=1}^N x_i (w x_i) (z_i - e^{(w x_i)^2}) e^{(w x_i)^2}
-      $$
+          $$
+            E(w) = \frac{1}{2} \sum_{i=1}^N (z_i - \hat{z}(x_i, w))^2
+          $$
+          $$
+            \frac{\partial E}{\partial w} = \frac{\partial}{\partial w} \frac{1}{2} \sum_{i=1}^N (z_i - \hat{z}(x_i, w))^2 \\
+            = \sum_{i=1}^N (z_i - \hat{z}(x_i, w)) \frac{\partial}{\partial w} (z_i - \hat{z}(x_i, w))
+            = -2 \sum_{i=1}^N x_i (w x_i) (z_i - e^{(w x_i)^2}) e^{(w x_i)^2}
+          $$
 
-      Our learning will be, then:
+          Our learning will be, then:
 
-      $$
-        w \leftarrow w + 2\eta \sum_{i=1}^N x_i (w x_i) (z_i - e^{(w x_i)^2}) e^{(w x_i)^2}
-      $$
-    }
+          $$
+            w \leftarrow w + 2\eta \sum_{i=1}^N x_i (w x_i) (z_i - e^{(w x_i)^2}) e^{(w x_i)^2}
+          $$
+          }
     \item {
-      We're asked to perform a stochastic gradient descent update for a new query
-      vector $x_{new} = \begin{bmatrix}1 & 1\end{bmatrix}^T$, with label $0$.
-      Moreover, the weights are initialized as $w = \begin{bmatrix}0 & 1 & 0\end{bmatrix}^T$
-      and the learning rate is $\eta = 2$. As such, and plugging these values
-      onto our learning rule, we'll have the following:
+          We're asked to perform a stochastic gradient descent update for a new query
+          vector $x_{new} = \begin{bmatrix}1 & 1\end{bmatrix}^T$, with label $0$.
+          Moreover, the weights are initialized as $w = \begin{bmatrix}0 & 1 & 0\end{bmatrix}^T$
+          and the learning rate is $\eta = 2$. As such, and plugging these values
+          onto our learning rule, we'll have the following:
 
-      \begin{align*}
-        w & \leftarrow w + 2\eta x_{new} (w x_{new}) (z_{new} - e^{(w x_{new})^2}) e^{(w x_{new})^2} \\        
-          & \leftarrow \input{aux-matrices/ex-4/w} + 2 \cdot 2 \cdot
-          \input{aux-matrices/ex-4/X} \cdot \left(
+          \begin{align*}
+            w & \leftarrow w + 2\eta x_{new} (w x_{new}) (z_{new} - e^{(w x_{new})^2}) e^{(w x_{new})^2} \\
+              & \leftarrow \input{aux-matrices/ex-4/w} + 2 \cdot 2 \cdot
+            \input{aux-matrices/ex-4/X} \cdot \left(
             \input{aux-matrices/ex-4/w} \cdot \input{aux-matrices/ex-4/X}
-          \right) \cdots \\
-          & \leftarrow \input{aux-matrices/ex-4/w_new}
-      \end{align*}
+            \right) \cdots                                                                               \\
+              & \leftarrow \input{aux-matrices/ex-4/w_new}
+          \end{align*}
 
-    }
+          }
   \end{enumerate}
 
   \begin{tcolorbox}[enhanced jigsaw,colback=bg,boxrule=0pt,arc=1pt,halign=center]
     \item Consider the sum squared and cross-entropy loss functions. Any stands out?
     What changes when one changes the loss function?
   \end{tcolorbox}
+
+  The cross-entropy loss function stands out as it corresponds to making a MLE of
+  the parameter $w$ under the assumption that the data is generated by a Bernoulli
+  distribution. As such, the cross-entropy loss function is the negative log-likelihood
+  of the data under such distribution.
+
+  The sum of squares loss function would be more fitted to a regression scenario,
+  since it matches a MLE estimation of $w$ under the assumption that the outputs
+  $z$ are sampled from a random variable $Z \sim \mathcal{N} (wx, \sigma^2)$.
+  Nevertheless, one can use the sum of squares loss function on classification problems as well - as
+  a matter of fact, this function is also convex, thus the use of gradient descent
+  will also find a global minimum. In this case, the difference between the functions
+  will be the value of the minimal parameter: since the functions are different,
+  most likely their minimal values will be different as well, leading to different
+  estimations of the parameter $w$; regarding classification problems, like the one
+  in hands, the cross-entropy loss function should generally lead to a better estimation
+  of the parameter $w$.
 
 \end{enumerate}
 
