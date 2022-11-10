@@ -119,17 +119,14 @@ training set.
           weight updates:
 
           \begin{align*}
-            \hat{z}(x_1) & = f(net(x_1)) = f(1 + 1 \cdot 0 + 1 \cdot 0) = f(1) = 1  \\
-            \hat{z}(x_2) & = f(net(x_2)) = f(1 + 1 \cdot 0 + 1 \cdot 2) = f(3) = 1  \\
-            \hat{z}(x_3) & = f(net(x_3)) = f(1 + 1 \cdot 1 + 1 \cdot 1) = f(3) = 1  \\
-            \hat{z}(x_4) & = f(net(x_4)) = f(1 + 1 \cdot 1 + 1 \cdot -1) = f(1) = 1
-          \end{align*}
-
-          \begin{align*}
-            x_1: \quad & w \leftarrow \input{aux-matrices/ex-1/w_1} + 1 \cdot (-1 - 1) \cdot \input{aux-matrices/ex-1/x_1_first_3} = \input{aux-matrices/ex-1/w_2} \\
-            x_2: \quad & w \leftarrow \input{aux-matrices/ex-1/w_2} + 1 \cdot (1 - 1) \cdot \input{aux-matrices/ex-1/x_2_first_3} = \input{aux-matrices/ex-1/w_3}  \\
-            x_3: \quad & w \leftarrow \input{aux-matrices/ex-1/w_3} + 1 \cdot (1 - 1) \cdot \input{aux-matrices/ex-1/x_3_first_3} = \input{aux-matrices/ex-1/w_4}  \\
-            x_4: \quad & w \leftarrow \input{aux-matrices/ex-1/w_4} + 1 \cdot (-1 - 1) \cdot \input{aux-matrices/ex-1/x_4_first_3} = \input{aux-matrices/ex-1/w_5}
+            \hat{z}(x_1) & = f(net(x_1)) = f(1 + 1 \cdot 0 + 1 \cdot 0) = f(1) = 1                                                                                     \\
+            x_1: \quad   & w \leftarrow \input{aux-matrices/ex-1/w_1} + 1 \cdot (-1 - 1) \cdot \input{aux-matrices/ex-1/x_1_first_3}^T = \input{aux-matrices/ex-1/w_2} \\
+            \hat{z}(x_2) & = f(net(x_2)) = f(-1 + 1 \cdot 0 + 1 \cdot 2) = f(1) = 1                                                                                    \\
+            x_2: \quad   & w \leftarrow \input{aux-matrices/ex-1/w_2} + 1 \cdot (1 - 1) \cdot \input{aux-matrices/ex-1/x_2_first_3}^T = \input{aux-matrices/ex-1/w_3}  \\
+            \hat{z}(x_3) & = f(net(x_3)) = f(-1 + 1 \cdot 1 + 1 \cdot 1) = f(1) = 1                                                                                    \\
+            x_3: \quad   & w \leftarrow \input{aux-matrices/ex-1/w_3} + 1 \cdot (1 - 1) \cdot \input{aux-matrices/ex-1/x_3_first_3}^T = \input{aux-matrices/ex-1/w_4}  \\
+            \hat{z}(x_4) & = f(net(x_4)) = f(-1 + 1 \cdot 1 + 1 \cdot -1) = f(-1) = -1                                                                                 \\
+            x_4: \quad   & w \leftarrow \input{aux-matrices/ex-1/w_4} + 1 \cdot (-1 + 1) \cdot \input{aux-matrices/ex-1/x_4_first_3}^T = \input{aux-matrices/ex-1/w_5}
           \end{align*}
 
           After entering a new epoch, we'd update the weights again, this time for $x_1$;
@@ -147,17 +144,14 @@ training set.
           Here, we apply the same algorithm as before, but now considering all input variables.
 
           \begin{align*}
-            \hat{z}(x_1) & = f(net(x_1)) = f(1 + 1 \cdot 0 + 1 \cdot 0 + 1 \cdot 0) = f(1) = 1  \\
-            \hat{z}(x_2) & = f(net(x_2)) = f(1 + 1 \cdot 0 + 1 \cdot 2 + 1 \cdot 1) = f(4) = 1  \\
-            \hat{z}(x_3) & = f(net(x_3)) = f(1 + 1 \cdot 1 + 1 \cdot 1 + 1 \cdot 1) = f(4) = 1  \\
-            \hat{z}(x_4) & = f(net(x_4)) = f(1 + 1 \cdot 1 + 1 \cdot -1 + 1 \cdot 0) = f(2) = 1
-          \end{align*}
-
-          \begin{align*}
-            x_1: \quad & w \leftarrow \input{aux-matrices/ex-1/w_1_all} + 1 \cdot (-1 - 1) \cdot \input{aux-matrices/ex-1/x_1} = \input{aux-matrices/ex-1/w_2_all} \\
-            x_2: \quad & w \leftarrow \input{aux-matrices/ex-1/w_2_all} + 1 \cdot (1 - 1) \cdot \input{aux-matrices/ex-1/x_2} = \input{aux-matrices/ex-1/w_3_all}  \\
-            x_3: \quad & w \leftarrow \input{aux-matrices/ex-1/w_3_all} + 1 \cdot (1 - 1) \cdot \input{aux-matrices/ex-1/x_3} = \input{aux-matrices/ex-1/w_4_all}  \\
-            x_4: \quad & w \leftarrow \input{aux-matrices/ex-1/w_4_all} + 1 \cdot (-1 - 1) \cdot \input{aux-matrices/ex-1/x_4} = \input{aux-matrices/ex-1/w_5_all}
+            \hat{z}(x_1) & = f(net(x_1)) = f(1 + 1 \cdot 0 + 1 \cdot 0 + 1 \cdot 0) = f(1) = 1                                                                         \\
+            x_1: \quad   & w \leftarrow \input{aux-matrices/ex-1/w_1_all} + 1 \cdot (-1 - 1) \cdot \input{aux-matrices/ex-1/x_1}^T = \input{aux-matrices/ex-1/w_2_all} \\
+            \hat{z}(x_2) & = f(net(x_2)) = f(-1 + 1 \cdot 0 + 1 \cdot 2 + 1 \cdot 1) = f(2) = 1                                                                        \\
+            x_2: \quad   & w \leftarrow \input{aux-matrices/ex-1/w_2_all} + 1 \cdot (1 - 1) \cdot \input{aux-matrices/ex-1/x_2}^T = \input{aux-matrices/ex-1/w_3_all}  \\
+            \hat{z}(x_3) & = f(net(x_3)) = f(-1 + 1 \cdot 1 + 1 \cdot 1 + 1 \cdot 1) = f(2) = 1                                                                        \\
+            x_3: \quad   & w \leftarrow \input{aux-matrices/ex-1/w_3_all} + 1 \cdot (1 - 1) \cdot \input{aux-matrices/ex-1/x_3}^T = \input{aux-matrices/ex-1/w_4_all}  \\
+            \hat{z}(x_4) & = f(net(x_4)) = f(-1 + 1 \cdot 1 + 1 \cdot -1 + 1 \cdot 0) = f(-1) = -1                                                                     \\
+            x_4: \quad   & w \leftarrow \input{aux-matrices/ex-1/w_4_all} + 1 \cdot (-1 + 1) \cdot \input{aux-matrices/ex-1/x_4}^T = \input{aux-matrices/ex-1/w_5_all}
           \end{align*}
 
           Once again, we'd enter a new epoch and update the weights considering the first sample,
