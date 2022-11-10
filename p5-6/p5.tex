@@ -213,17 +213,29 @@ training set.
             z - sign(net) = \tau (z - step(net))
           $$
 
-          We know that $z \in \{-1, 1\}$, and, as such, we can write each side of
-          the equation's interval as follows:
+          Note that, when using the step function, we should map the target from
+          $z \in \{-1, 1\}$ to $z \in \{0, 1\}$ (since it wouldn't make sense to
+          estimate other kinds of values), and, as such, we can write
+          the following:
 
-          $$
-            [-1, 1] - [-1, 1] = \tau ([-1, 1] - [0, 1]) \leftrightarrow
-            [-2, 2] = \tau [-1, 1]
-          $$
+          \begin{align*}
+            z - sign(net) & = \begin{cases}
+                                1 - 1 = 0  & net \geq 0 \text { and } z = 1  \\
+                                -1 -1 = -2 & net \geq 0 \text { and } z = -1 \\
+                                1 + 1 = 2  & net < 0 \text { and } z = 1     \\
+                                -1 + 1 = 0 & net < 0 \text { and } z = -1
+                              \end{cases}, \quad
+            z - step(net) & = \begin{cases}
+                                1 - 1 = 0  & net \geq 0 \text { and } z = 1 \\
+                                0 - 1 = -1 & net \geq 0 \text { and } z = 0 \\
+                                1 - 0 = 1  & net < 0 \text { and } z = 1    \\
+                                0 - 0 = 0  & net < 0 \text { and } z = 0
+                              \end{cases}
+          \end{align*}
 
           As such, if we want an equal learning rule utilizing both step and sign
-          functions, we'd have to set $\tau = 2$, and, as such, get the following
-          learning rule:
+          functions, we'd have to set $\tau = 2$, as can be trivially deduced from
+          the cases above. With all this said, we'll get the following learning rule:
 
           $$
             w \leftarrow w + 2 \eta_{sign} \cdot (z - step(net)) \cdot x \quad \leftrightarrow \quad
@@ -350,7 +362,7 @@ training set.
               1 - \sigma(2 \cdot \input{aux-matrices/ex-2/w} \cdot \input{aux-matrices/ex-2/x_1})
               \right) \cdot \sigma(2 \cdot \input{aux-matrices/ex-2/w} \cdot \input{aux-matrices/ex-2/x_1}) \cdot
             \left(1 - \sigma(2 \cdot \input{aux-matrices/ex-2/w} \cdot \input{aux-matrices/ex-2/x_1})\right)
-            \right) + \cdots = \input{aux-matrices/ex-2/w_2}
+            + \cdots \right) = \input{aux-matrices/ex-2/w_2}
           \end{align*}
 
           }
@@ -441,7 +453,7 @@ training set.
             \input{aux-matrices/ex-3/x_1} \cdot \left(
               1 - \sigma(\input{aux-matrices/ex-3/w} \cdot \input{aux-matrices/ex-3/x_1})
               \right)
-            \right) + \cdots = \input{aux-matrices/ex-3/w_2}
+            + \cdots \right) = \input{aux-matrices/ex-3/w_2}
           $$
 
           }
