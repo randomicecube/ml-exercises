@@ -89,15 +89,15 @@
 
   The question's statement gives us, for starters, the initial weights and biases
   for the network. Note that each weight matrix has $j$ columns, one for each neuron
-  in layer $\ell$, and $i$ lines, one for each neuron in layer $\ell + 1$. Each
+  in layer $\ell - 1$, and $i$ lines, one for each neuron in layer $\ell$. Each
   bias matrix has only one column, with $i$ lines, here following the same logic
   as the one for the weight matrices.
 
   \begin{equation*}
-    w_1 = \input{aux-matrices/ex-1/w_1}, \quad
-    w_2 = \input{aux-matrices/ex-1/w_2}, \quad
-    b_1 = \input{aux-matrices/ex-1/b_1}, \quad
-    b_2 = \input{aux-matrices/ex-1/b_2}
+    w^{[1]} = \input{aux-matrices/ex-1/w_1}, \quad
+    w^{[2]} = \input{aux-matrices/ex-1/w_2}, \quad
+    b^{[1]} = \input{aux-matrices/ex-1/b_1}, \quad
+    b^{[2]} = \input{aux-matrices/ex-1/b_2}
   \end{equation*}
 
   As we know, the forward propagation's successive \textbf{net} ($z$) and \textbf{layer output} $x$
