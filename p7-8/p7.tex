@@ -377,7 +377,8 @@
   The cross-entropy loss function essentially measures the distance between what the
   network thinks the output should be and what it actually is. We utilize it with
   the softmax activation function since our predictions actually represent probabilities
-  (i.e they sum to 1).
+  (i.e they sum to 1). Here, the softmax should (ideally) perform better than the SSE,
+  since it's more suited to the task at hand - SSE is more suited to regression problems.
 
   Regarding the forward pass, here we can re-utilize every calculation from the previous
   exercise up until activating the last net: here, the activation function is the softmax,
