@@ -576,7 +576,7 @@ the sample we want to classify, and assigns the label that:
           \item {
                 In this case, we have to solve the problem as stated in the (rather long)
                 motivation above - utilizing $W = (X^T X + \tau^2 \Sigma^{-1})^{-1} X^T Z$.
-                Here, of course, $\tau = 0.1$ and $\Sigma = \begin{bmatrix} 0.2 & 0 \\ 0 & 0.2 \end{bmatrix}$.
+                Here, of course, $\tau^2 = 0.1$ and $\Sigma = \begin{bmatrix} 0.2 & 0 \\ 0 & 0.2 \end{bmatrix}$.
                 We can compute the weights as follows:
 
                 $$
@@ -586,8 +586,9 @@ the sample we want to classify, and assigns the label that:
                   = \input{aux-matrices/ex-4/W_2}
                 $$
 
-                {\textcolor{purple}{***}} Note how $\Sigma$ = $0.2^2 I$, and as such
-                $\sigma = 0.2$.
+                {\textcolor{purple}{***}} Note how $\Sigma$ = $0.2 I$, and as such
+                $\sigma^2 = 0.2$. This and the $\tau^2$ here-found differ from the ones
+                found in the official solutions - in my opinion, this makes more sense.
                 }
         \end{enumerate}
 
