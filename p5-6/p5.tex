@@ -412,24 +412,36 @@ training set.
           Here, we'll compute the learning rule for the gradient descent the same way,
           with the exception of the gradient of the error function, of course: here,
           we're working with the cross-entropy loss function, instead of the squared
-          error function. Thankfully, and even though the deduction for such derivative
-          is not at all trivial, it is also possible to bring it in our note sheet
-          to the exam. As such, we'll have the following:
+          error function. After a fantastic derivation, we'll have the following:
 
           $$
             E(w) = - \log(P(z|x, w)) = - \sum_{i=1}^N (z_i \log \hat{z}(x_i, w) + (1 - z_i) \log (1 - \hat{z}(x_i, w)))
           $$
           $$
-            \frac{\partial E}{\partial w} = - \sum_{i=1}^N (x_i, w)' (z_i - \hat{z}(x_i, w))
+            \frac{\partial E}{\partial w} = - \sum_{i=1}^N \left(
+            \frac{z_i (\hat{z}(x_i, w))'}{\hat{z}(x_i, w)} + \frac{(z_i - 1) (\hat{z}(x_i, w))'}{1 - \hat{z}(x_i, w)}
+            \right)
           $$
 
           In our case, considering that the activation function is a sigmoid once again
           (this time $\sigma(wx)$), we'll have:
 
           $$
-            \frac{\partial E}{\partial w} = - \sum_{i=1}^N (w \cdot x_i)' (z_i - \sigma(w x_i))
-            = - \sum_{i=1}^N x_i (z_i - \sigma(w x_i))
+            \frac{\partial \hat{z}}{\partial w} = x_i \sigma(w x_i) (1 - \sigma(w x_i))
           $$
+
+          Therefore, the gradient for the loss function will be given by:
+
+          \begin{align*}
+            \frac{\partial E}{\partial w} & = - \sum_{i=1}^N \left(
+            \frac{z_i x_i \sigma(w x_i) (1 - \sigma(w x_i))}{\sigma(w x_i)} +
+            \frac{(z_i - 1) x_i \sigma (w x_i) (1 - \sigma(w x_i))}{1 - \sigma(w x_i)}
+            \right)                                                                                                    \\
+                                          & = - \sum_{i=1}^N z_i x_i (1 - \sigma(w x_i)) + (z_i - 1) x_i \sigma(w x_i) \\
+                                          & = - \sum_{i=1}^N x_i \left(
+            z_i - z_i \sigma(w x_i) + z_i \sigma(w x_i) - \sigma(w x_i)
+            \right) = - \sum_{i=1}^N x_i (z_i - \sigma(w x_i))
+          \end{align*}
 
           As such, the learning rule will be:
 
