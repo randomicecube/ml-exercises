@@ -389,13 +389,15 @@
   \end{equation*}
 
   We'll need, now, to compute the error function's derivative with respect to both
-  the weights and the biases. We'll start with the last layer's weights and biases.
+  the weights and the biases. We'll start with the last layer's weights and biases
+  (note how we only use the softmax function on the output layer, as per the question's
+  statement):
 
   \begin{equation*}
     \begin{aligned}
-      \delta^{[3]} & = \frac{\partial E}{\partial z^{[3]}} = \cdots = x^{[3]} - z = \input{aux-matrices/ex-3/delta_3}                                                       \\
-      \delta^{[2]} & = (w^{[3]})^T \delta^{[3]} \circ \text{s'}(z^{[2]}) = \input{aux-matrices/ex-3/zeros_2_2} \circ \text{s'}(z^{[2]}) = \input{aux-matrices/ex-3/delta_2} \\
-      \delta^{[1]} & = (w^{[2]})^T \delta^{[2]} \circ \text{s'}(z^{[1]}) = \input{aux-matrices/ex-3/zeros_2_2} \circ \text{s'}(z^{[1]}) = \input{aux-matrices/ex-3/delta_1}
+      \delta^{[3]} & = \frac{\partial E}{\partial z^{[3]}} = \cdots = x^{[3]} - z = \input{aux-matrices/ex-3/delta_3}                                                                                       \\
+      \delta^{[2]} & = (w^{[3]})^T \delta^{[3]} \circ \frac{\partial \tanh(z^{[2]})}{\partial z^{[2]}} = \input{aux-matrices/ex-3/zeros_2_2} \circ (1 - \tanh(z^{[2]})) = \input{aux-matrices/ex-3/delta_2} \\
+      \delta^{[1]} & = (w^{[2]})^T \delta^{[2]} \circ \frac{\partial \tanh(z^{[1]})}{\partial z^{[1]}} = \input{aux-matrices/ex-3/zeros_2_2} \circ (1 - \tanh(z^{[1]})) = \input{aux-matrices/ex-3/delta_1}
     \end{aligned}
   \end{equation*}
 
