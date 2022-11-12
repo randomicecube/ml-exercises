@@ -542,24 +542,24 @@ the sample we want to classify, and assigns the label that:
           + \sum_{i=1}^N \log p(z_i \mid x_i, w)                                                                                                 \\
                                                  & = \cdots                                                                                      \\
                                                  & = \operatorname{argmin}_w (w - \mu)^T \Sigma^{-1} (w - \mu)
-          + \sum_{i=1}^N \frac{1}{\tau^2} \cdot (z_i - w^T x_i)^2 \textcolor{green}{**}                                                          \\
-                                                 & = \operatorname{argmax}_w w^T \Sigma^{-1} w + \frac{1}{\tau^2} \cdot (Z - X w)^T (Z - X w)
+          + \sum_{i=1}^N \frac{1}{\tau} \cdot (z_i - w^T x_i)^2 \textcolor{green}{**}                                                            \\
+                                                 & = \operatorname{argmax}_w w^T \Sigma^{-1} w + \frac{1}{\tau} \cdot (Z - X w)^T (Z - X w)
         \end{align*}
 
         \textcolor{red}{*} Note that the logarithm of a product is the sum of the logarithms of the factors. \\
-        \textcolor{green}{**} We use $\tau$ to denote the standard deviation of the noise, $\epsilon$.
+        \textcolor{green}{**} We use $\tau$ to denote the variation of the noise, $\epsilon$.
 
         After some more magical algebra, we'll be able to obtain the closed form solution
         for the weights, $w$, as follows:
 
         $$
-          w = (X^T X + \tau^2 \Sigma^{-1})^{-1} X^T Z
+          w = (X^T X + \tau \Sigma^{-1})^{-1} X^T Z
         $$
 
         $\lambda$ is the parameter that controls the regularization strength:
 
         $$
-          \lambda = \frac{\tau^2}{\sigma^2}
+          \lambda = \frac{\tau}{\sigma^2}
         $$
 
         \begin{enumerate}
@@ -575,19 +575,19 @@ the sample we want to classify, and assigns the label that:
                 }
           \item {
                 In this case, we have to solve the problem as stated in the (rather long)
-                motivation above - utilizing $W = (X^T X + \tau^2 \Sigma^{-1})^{-1} X^T Z$.
-                Here, of course, $\tau^2 = 0.1$ and $\Sigma = \begin{bmatrix} 0.2 & 0 \\ 0 & 0.2 \end{bmatrix}$.
+                motivation above - utilizing $W = (X^T X + \tau \Sigma^{-1})^{-1} X^T Z$.
+                Here, of course, $\tau = 0.1$ and $\Sigma = \begin{bmatrix} 0.2 & 0 \\ 0 & 0.2 \end{bmatrix}$.
                 We can compute the weights as follows:
 
                 $$
                   X = \input{aux-matrices/ex-4/X}, \quad Z = \input{aux-matrices/ex-4/Z}, \quad
-                  W = (X^T X + \tau^2 \Sigma^{-1})^{-1} X^T Z
-                  = (X^T X + \frac{\tau^2}{\sigma^2}^{\textcolor{purple}{***}} I)^{-1} X^T Z
+                  W = (X^T X + \tau \Sigma^{-1})^{-1} X^T Z
+                  = (X^T X + \frac{\tau}{\sigma^2}^{\textcolor{purple}{***}} I)^{-1} X^T Z
                   = \input{aux-matrices/ex-4/W_2}
                 $$
 
                 {\textcolor{purple}{***}} Note how $\Sigma$ = $0.2 I$, and as such
-                $\sigma^2 = 0.2$. This and the $\tau^2$ here-found differ from the ones
+                $\sigma^2 = 0.2$. This and the $\tau$ here-found differ from the ones
                 found in the official solutions - in my opinion, this makes more sense.
                 }
         \end{enumerate}
