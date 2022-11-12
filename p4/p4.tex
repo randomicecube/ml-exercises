@@ -758,11 +758,13 @@ the sample we want to classify, and assigns the label that:
         of the input). As such, we have a smoother model with increasing levels of $k$.
 
         Finally, regarding the weights of a $k$NN regressor, we can say that the
-        default distance-based weights are smoother than the uniform weights. The
-        distance-based weights are a function of the distance between the input
-        and the samples in the training set, and, as such, they'll be smaller
-        for samples that are farther away from the input. As such, the model
-        will be smoother, as it'll be less sensitive to noise.
+        utilizing uniform weights leads us to smoother results than the default
+        distance-based weights. This is because, with uniform weights, we're
+        averaging the labels of the $k$ nearest neighbors, and, as such, the
+        model is less sensitive to noise (since the $k$ nearest neighbors will be
+        the same for any sample in a certain area of the plane) - if they were distance-based, a single
+        coordinate change affects the weights associated of all neighbors, which
+        intuitively leads to more variation.
 \end{enumerate}
 
 \end{document}
