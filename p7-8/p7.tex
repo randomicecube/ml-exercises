@@ -161,7 +161,8 @@
   \end{equation*}
 
   Note that the sigmoid function's derivative is a well known derivative,
-  which you should know (or bring in your note sheet). Moreover, the error's
+  which you should know (or bring in your note sheet, although it is explained
+  at the end of these notes as well). Moreover, the error's
   derivative regarding $x^{[L]}$ is represented here without the $\Sigma$ sign,
   since we're dealing with a single training example.
 
@@ -421,6 +422,110 @@
     b^{[3]} = \input{aux-matrices/ex-3/b3_new}
   \end{equation*}
 
+\end{enumerate}
+
+\pagebreak
+
+\section*{Additional Derivatives}
+
+\begin{enumerate}
+  \item{
+              Let's consider computing $\delta^{[L]}$ for the following situation:
+              \begin{equation*}
+                E(w) = \frac{1}{2} \sum_{i=1}^N (z_i - \hat{z}_i)^2, \quad \hat{z} = \sigma(z^{[L]})
+              \end{equation*}
+
+              In order to calculate $\delta^{[L]}$, we'll be performing the
+              following magical \textit{continhas}:
+
+              $$
+                \delta^{[L]} = \frac{\partial E}{\partial z^{[L]}}
+                = \frac{\partial \frac{1}{2} \sum_{i=1}^N (z_i - \hat{z}_i)^2}{\partial z^{[L]}}
+              $$
+
+              Do note the following:
+
+              \begin{align*}
+                \frac{\partial \frac{1}{2} \sum_{i=1}^N (z_i - \hat{z}_i)^2}{\partial z_k^{[L]}}
+                = \left(\sigma(z_k^{[L]}) - z_k^{[L]}\right) \cdot \frac{\partial \sigma(z_k^{[L]})}{\partial z_k^{[L]}}
+                = \left(\sigma(z_k^{[L]}) - z_k^{[L]}\right) \cdot \sigma(z_k^{[L]}) \cdot (1 - \sigma(z_k^{[L]}))
+              \end{align*}
+
+              Basically, $\delta^{[L]}$ will be a vector matrix with the same dimensions
+              as the output layer's net, where each entry will be the derivative of
+              one of the sum's terms with respect to the net's such entry.
+              We can use Hadamard's product to write this expression as a product
+              of matrices, as follows:
+
+              \begin{equation*}
+                \delta^{[L]} = \left(\sigma(z^{[L]}) - z^{[L]}\right) \circ \sigma(z^{[L]}) \circ (1 - \sigma(z^{[L]}))
+              \end{equation*}
+        }
+  \item{
+              Let's consider computing $\delta^{[L]}$ for the following situation:
+
+              \begin{equation*}
+                E(w) = - \sum_{i=1}^N z_i \log(\hat{z}_i), \quad \hat{z} = \exp\left(\sum_{j=0}^D (w_j z_j^{[L]})^2 + 1\right)
+              \end{equation*}
+
+              In order to calculate $\delta^{[L]}$, we'll be performing the
+              following magical \textit{continhas}:
+
+              $$
+                \delta^{[L]} = \frac{\partial E}{\partial z^{[L]}}
+                = \frac{\partial -\sum_{i=1}^N z_i \log(\hat{z}_i)}{\partial z^{[L]}}
+              $$
+
+              Do note the following:
+
+              \begin{align*}
+                \frac{\partial -\sum_{i=1}^N z_i \log(\hat{z}_i)}{\partial z_k^{[L]}}
+                = - \frac{z_k^{[L]}}{\hat{z}_k^{[L]}} \cdot \frac{\partial \hat{z}_k^{[L]}}{\partial z_k^{[L]}}, \quad
+                \frac{\partial \hat{z}_k^{[L]}}{\partial z_k^{[L]}} = 2 (w_k z_k^{[L]}) w_k \exp\left(\sum_{j=0}^D (w_j z_j^{[L]})^2 + 1\right)
+              \end{align*}
+
+              This way, we'll have, for each entry $k$:
+
+              \begin{equation*}
+                \delta_k^{[L]} = -z_k^{[L]} \cdot 2 (w_k z_k^{[L]}) w_k
+              \end{equation*}
+
+        }
+
+  \item {
+        Let's consider computing $\delta^{[L]}$ for the following situation:
+
+        \begin{equation*}
+          E(w) = - \sum_{i=1}^N z_i \log(\hat{z}_i), \quad \hat{z} = \sigma(2 z^{[L]})
+        \end{equation*}
+
+        In order to calculate $\delta^{[L]}$, we'll be performing the
+        following magical \textit{continhas}:
+
+        $$
+          \delta^{[L]} = \frac{\partial E}{\partial z^{[L]}}
+          = \frac{\partial -\sum_{i=1}^N z_i \log(\hat{z}_i)}{\partial z^{[L]}}
+        $$
+
+        Do note the following:
+
+        \begin{align*}
+          \frac{\partial -\sum_{i=1}^N z_i \log(\hat{z}_i)}{\partial z_k^{[L]}}
+          = - \frac{z_k^{[L]}}{\hat{z}_k^{[L]}} \cdot \frac{\partial \hat{z}_k^{[L]}}{\partial z_k^{[L]}}, \quad
+          \frac{\partial \hat{z}_k^{[L]}}{\partial z_k^{[L]}} = 2 \sigma(2 z_k^{[L]}) \sigma(-2 z_k^{[L]})
+        \end{align*}
+
+        Basically, $\delta^{[L]}$ will be a vector matrix with the same dimensions
+        as the output layer's net, where each entry will be the derivative of
+        one of the sum's terms with respect to the net's such entry.
+        We can use Hadamard's product to write this expression as a product
+        of matrices, as follows:
+
+        \begin{equation*}
+          \delta^{[L]} = -2z^{[L]} \circ \sigma(2 z^{[L]}) \circ (1 - \sigma(2 z^{[L]}))
+        \end{equation*}
+
+        }
 \end{enumerate}
 
 \end{document}

@@ -161,13 +161,13 @@
   \end{figure}
 
   Finally, regarding the \textbf{silhouette scores} of observations, we can compute them as follows
-  (considering $s_n$ to be the silhouette of sample $x_n$ and $c_n$ to be its assigned cluster):
+  (considering $s_n$ to be the silhouette of sample $x_n$ and $c_N$ to be its assigned cluster):
 
   \begin{equation*}
     \begin{aligned}
       s_n & = \frac{b_n - a_n}{\max\{a_n, b_n\}}                                                                            \\
-      a_n & = \frac{1}{|c_n| - 1} \sum_{x_i \in c_n, x_i \neq x_n} \left\| x_i - x_n \right\|                               \\
-      b_n & = \min_{n' \in \{1, \cdots, k\}, n' \neq n} \frac{1}{|c_{n'}|} \sum_{x_i \in c_{k'}} \left\| x_i - x_n \right\|
+      a_n & = \frac{1}{|c_N| - 1} \sum_{x_i \in c_n, x_i \neq x_n} \left\| x_i - x_n \right\|                               \\
+      b_n & = \min_{n' \in \{1, \cdots, k\}, n' \neq N} \frac{1}{|c_{n'}|} \sum_{x_i \in c_{k'}} \left\| x_i - x_n \right\|
     \end{aligned}
   \end{equation*}
 
