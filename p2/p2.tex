@@ -103,7 +103,7 @@
         \end{equation*}
 
         Learning a decision tree will be intrinsically related to the features' information gain
-        measure: for each level, we will select the feature that maximizes the information gain
+        measure (considering an \textbf{ID3} approach): for each level, we will select the feature that maximizes the information gain
         with respect to the target variable, making it that level's decision node.
         Let's compute the information gain for each feature:
 
@@ -388,7 +388,8 @@
 
         \href{https://towardsdatascience.com/basic-ensemble-learning-random-forest-adaboost-gradient-boosting-step-by-step-explained-95d49d1e2725}{This}
         article gives a good explanation on why tree ensembles (and random forests
-        specifically) are less susceptible to overfitting than single decision trees.
+        specifically) are less susceptible to overfitting high-dimensional data sets
+        than single decision trees.
 
 \end{enumerate}
 
