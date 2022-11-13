@@ -155,7 +155,8 @@
   \end{equation*}
 
   After performing some magical \textit{continhas} with \texttt{numpy.linalg}'s \texttt{eig}
-  method, we're able to find the following eigenvectors:
+  method, we're able to find the following eigenvectors (note that a general explanation
+  on how to calculate these eigenvectors is present at the end of this sheet):
 
   \begin{equation*}
     v_1 = \input{aux-matrices/ex-1/v_1}, \quad v_2 = \input{aux-matrices/ex-1/v_2}
@@ -429,6 +430,52 @@
 
   % TODO: also transform the input data into its most significant dimension - x' = v_1^T x
 
+\end{enumerate}
+
+\pagebreak
+
+\section*{Appendix/Additional Material}
+
+\begin{enumerate}
+  \item {
+        Considering $\lambda = 7.877$, finding its eigenvector (with $\Sigma = \begin{bmatrix}
+            6.667 & 2.667 \\
+            2.667 & 2
+          \end{bmatrix}$):
+
+        \begin{align*}
+          \left[\begin{array}{cc|c}
+                    6.667 - 7.877 & 2.667     & 0 \\
+                    2.667         & 2 - 7.877 & 0 \\
+                  \end{array}\right] \rightarrow
+          \left[\begin{array}{cc|c}
+                    -1.21 & 2.667  & 0 \\
+                    2.667 & -5.877 & 0 \\
+                  \end{array}\right] \rightarrow
+          \left[\begin{array}{cc|c}
+                    1 & -2.204 & 0 \\
+                    1 & -2.204 & 0 \\
+                  \end{array}\right] \rightarrow
+          \left[\begin{array}{cc|c}
+                    1 & -2.204 & 0 \\
+                    0 & 0      & 0 \\
+                  \end{array}\right]
+        \end{align*}
+
+        From the equation above, we can gather the following eigenvector (normalized
+        to have unit norm):
+
+        \begin{equation*}
+          \vec{v} = \begin{bmatrix}
+            2.204 \\
+            1
+          \end{bmatrix}, \quad
+          \vec{v} = \frac{\vec{v}}{\|\vec{v}\|} = \begin{bmatrix}
+            0.911 \\
+            0.413
+          \end{bmatrix}
+        \end{equation*}
+        }
 \end{enumerate}
 
 \end{document}
