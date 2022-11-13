@@ -428,6 +428,9 @@
 
 \section*{Additional Derivatives}
 
+Some of these are deductions from derivatives utilized in these exercises, while
+others were merely added as practice/for completeness' sake.
+
 \begin{enumerate}
   \item{
               Let's consider computing $\delta^{[L]}$ for the following situation:
@@ -490,6 +493,34 @@
                 \delta_k^{[L]} = -z_k^{[L]} \cdot 2 (w_k z_k^{[L]}) w_k
               \end{equation*}
 
+              If instead of the cross entropy error function we had used the
+              sum of squared errors, our computations would differ a little.
+              Each entry of $\delta^{[L]}$ would be given by:
+
+              \begin{equation*}
+                \frac{\partial \frac{1}{2} \sum_{i=1}^N (z_i - \hat{z}_i)^2}{\partial z_k^{[L]}}
+                = \left(\exp\left(\sum_{j=0}^D (w_j z_j^{[L]})^2 + 1\right) - z_k^{[L]}\right) \cdot \frac{\partial \exp\left(\sum_{j=0}^D (w_j z_j^{[L]})^2 + 1\right)}{\partial z_k^{[L]}}
+              \end{equation*}
+
+              The last partial derivative is also rather easy to compute:
+
+              \begin{equation*}
+                \frac{\partial \exp\left(\sum_{j=0}^D (w_j z_j^{[L]})^2 + 1\right)}{\partial z_k^{[L]}}
+                = 2 (w_k z_k^{[L]}) w_k \exp\left(\sum_{j=0}^D (w_j z_j^{[L]})^2 + 1\right)
+              \end{equation*}
+
+              This way, each entry of $\delta^{[L]}$ would be given by:
+
+              \begin{equation*}
+                \delta_k^{[L]} = \left(\exp\left(\sum_{j=0}^D (w_j z_j^{[L]})^2 + 1\right) - z_k^{[L]}\right) \cdot 2 (w_k z_k^{[L]}) w_k \cdot \exp\left(\sum_{j=0}^D (w_j z_j^{[L]})^2 + 1\right)
+              \end{equation*}
+
+              In the end, our matrix $\delta^{[L]}$ would like like this:
+
+              \begin{equation*}
+                \delta^{[L]} = \left(\exp\left(\sum_{j=0}^D (w_j z_j^{[L]})^2 + 1\right) - z^{[L]}\right) \circ 2 (w z^{[L]}) w \circ \exp\left(\sum_{j=0}^D (w_j z_j^{[L]})^2 + 1\right)
+              \end{equation*}
+
         }
 
   \item {
@@ -512,7 +543,7 @@
         \begin{align*}
           \frac{\partial -\sum_{i=1}^N z_i \log(\hat{z}_i)}{\partial z_k^{[L]}}
           = - \frac{z_k^{[L]}}{\hat{z}_k^{[L]}} \cdot \frac{\partial \hat{z}_k^{[L]}}{\partial z_k^{[L]}}, \quad
-          \frac{\partial \hat{z}_k^{[L]}}{\partial z_k^{[L]}} = 2 \sigma(2 z_k^{[L]}) \sigma(-2 z_k^{[L]})
+          \frac{\partial \hat{z}_k^{[L]}}{\partial z_k^{[L]}} = 2 \sigma(2 z_k^{[L]}) (1 - \sigma(2 z_k^{[L]}))
         \end{align*}
 
         Basically, $\delta^{[L]}$ will be a vector matrix with the same dimensions
@@ -522,7 +553,7 @@
         of matrices, as follows:
 
         \begin{equation*}
-          \delta^{[L]} = -2z^{[L]} \circ \sigma(2 z^{[L]}) \circ (1 - \sigma(2 z^{[L]}))
+          \delta^{[L]} = -2z^{[L]} \circ (1 - \sigma(2 z^{[L]}))
         \end{equation*}
 
         }
