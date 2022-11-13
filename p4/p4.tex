@@ -543,7 +543,7 @@ the sample we want to classify, and assigns the label that:
                                                  & = \cdots                                                                                      \\
                                                  & = \operatorname{argmin}_w (w - \mu)^T \Sigma^{-1} (w - \mu)
           + \sum_{i=1}^N \frac{1}{\tau} \cdot (z_i - w^T x_i)^2 \textcolor{green}{**}                                                            \\
-                                                 & = \operatorname{argmax}_w w^T \Sigma^{-1} w + \frac{1}{\tau} \cdot (Z - X w)^T (Z - X w)
+                                                 & = \operatorname{argmax}_w \frac{1}{\tau} \cdot (Z - X w)^T (Z - X w) + w^T \Sigma^{-1} w
         \end{align*}
 
         \textcolor{red}{*} Note that the logarithm of a product is the sum of the logarithms of the factors. \\
