@@ -71,8 +71,8 @@
     \end{enumerate}
   \end{tcolorbox}
 
-  The K-L transform is the \textbf{matrix} that rotates the coordinate system from
-  the original one to the eigenvector one. It is given by the eigenvectors of the
+  The K-L transform is given by the dot product between \textbf{matrix} that rotates the coordinate system from
+  the original one to the eigenvector one and a given point. It is given by the eigenvectors of the
   covariance matrix of the data. The most significant eigenvector is the one with
   the largest eigenvalue, of course. Moreover, the \textbf{Kaiser Criterion} tells us
   that we should keep only the eigenvectors with eigenvalues greater than 1.
@@ -163,7 +163,7 @@
 
   Note that these vectors have already been normalized (i.e, $v = \frac{v}{\|v\|}$).
 
-  The \textbf{K-L transform} is, then, given by:
+  The \textbf{K-L transform}'s associated matrix is, then, given by:
 
   \begin{equation*}
     U_{K-L} = \input{aux-matrices/ex-1/U_kl}
@@ -199,7 +199,7 @@
   In simpler terms, we're basically mapping the points to a new coordinate system,
   the \textbf{eigenspace}, where the eigenvectors are the new axes. The rotation
   angle is the angle between the original axes and the new ones. This mapping is done
-  through $x' = U_{K-L}^T x$:
+  through $x' = U_{K-L}^T x$, our \textbf{K-L transform}:
 
   \begin{equation*}
     x' = U_{K-L}^T x
