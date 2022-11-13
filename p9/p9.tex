@@ -99,7 +99,7 @@
   the most common distance metric used in this algorithm.
 
   For starters, let's assign each sample to the closest centroid. We can do this by computing
-  the distance between each sample and each centroid, and then picking the centroid with the
+  the distance (squared or not is irrelevant) between each sample and each centroid, and then picking the centroid with the
   smallest distance:
 
   \begin{equation*}
