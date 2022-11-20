@@ -12,6 +12,7 @@
 \usepackage{float}
 \usepackage{nicefrac}
 \usepackage{paracol}
+\usepackage{fancyhdr}
 \usepackage[most]{tcolorbox}
 \usepackage[colorlinks=true]{hyperref}
 
@@ -47,6 +48,9 @@
   extendedchars=true,
 }
 
+\pagestyle{fancy}
+\lhead{ML Exercises - 2022/23}
+\rhead{Problem Set 9}
 
 \begin{document}
 \begin{enumerate}[leftmargin=\labelsep]
@@ -74,7 +78,7 @@
       \item Plot the data points and draw the clusters (with their respective centroids).
       \item Compute the silhouette score for sample $x_1$, cluster $c_1$ and for the overall solution.
       \item As the ground truth, take $x_3$ as a "negative" sample and the rest as "positive".
-            Compute the error classification rate (ECR) of $k$-means here against the ground truth.
+            Compute the error classification rate (ECR) and purity of $k$-means here against the ground truth.
     \end{enumerate}
   \end{tcolorbox}
 
@@ -228,6 +232,9 @@
       ECR & = \frac{FP + FN}{FP + FN + TP + TN} = \frac{(2 - 2) + (2 - 1)}{2 + 2} = 0.25
     \end{aligned}
   \end{equation*}
+
+  Regarding purity, it'll work here as our accuracy: the rate at which we hit
+  the ground truth. As such, it'll of course be given by $1 - ECR$, which is $0.75$.
 
   \begin{tcolorbox}[enhanced jigsaw,halign=center,colback=bg,boxrule=0pt,arc=1pt]
     \item Consider the following unlabeled training data:

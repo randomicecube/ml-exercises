@@ -1,5 +1,5 @@
 \documentclass[12pt]{article}
-\usepackage[paper=letterpaper,margin=1.5cm]{geometry}
+\usepackage[paper=letterpaper,margin=2cm]{geometry}
 \usepackage{amsmath}
 \usepackage{amssymb}
 \usepackage{amsfonts}
@@ -12,6 +12,7 @@
 \usepackage{float}
 \usepackage{nicefrac}
 \usepackage{multirow}
+\usepackage{fancyhdr}
 \usepackage[most]{tcolorbox}
 \usepackage[colorlinks=true]{hyperref}
 
@@ -51,11 +52,16 @@
 
 \newcommand{\question}[1]{\begin{tcolorbox}[enhanced jigsaw,colback=bg,boxrule=0pt,arc=1pt,halign=center] #1 \end{tcolorbox}}
 
+\pagestyle{fancy}
+\lhead{ML Exercises - 2022/23}
+\rhead{Problem Set 2}
+
 \begin{document}
 
 \begin{enumerate}[leftmargin=\labelsep]
   \question {
-  \item Consider the following dataset:
+  \item Considering the following dataset, plot the learned decision tree using
+        information gain (via Shannon's entropy). Show your calculations.
 
         \begin{table}[H]
           \centering
@@ -69,8 +75,6 @@
             $x_6$ & b     & b     & c     & -
           \end{tabular}
         \end{table}
-
-        Plot the learned decision tree using information gain (Shannon entropy). Show your calculations.
         }
 
         Intuitively, the amount of information we can gather upon observing a random event
@@ -145,7 +149,7 @@
 
         \begin{figure}[H]
           \centering
-          \includesvg[width=0.2\textwidth]{assets/ex-1-decision-tree.svg}
+          \includesvg[width=0.15\textwidth]{assets/ex-1-decision-tree.svg}
         \end{figure}
 
         \question {
@@ -327,7 +331,7 @@
 
         \begin{figure}[H]
           \centering
-          \includesvg[width=0.5\textwidth]{assets/ex-4-tree.svg}
+          \includesvg[width=0.45\textwidth]{assets/ex-4-tree.svg}
         \end{figure}
 
         Each leaf in the tree shows the label, number of classified records with the

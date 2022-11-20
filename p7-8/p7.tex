@@ -1,5 +1,5 @@
 \documentclass[12pt]{article}
-\usepackage[paper=letterpaper,margin=1.5cm]{geometry}
+\usepackage[paper=letterpaper,margin=2cm]{geometry}
 \usepackage{amsmath}
 \usepackage{amssymb}
 \usepackage{amsfonts}
@@ -11,6 +11,7 @@
 \usepackage{listings}
 \usepackage{float}
 \usepackage{nicefrac}
+\usepackage{fancyhdr}
 \usepackage[most]{tcolorbox}
 \usepackage[colorlinks=true]{hyperref}
 
@@ -47,6 +48,10 @@
   inputencoding=utf8,
   extendedchars=true,
 }
+
+\pagestyle{fancy}
+\lhead{ML Exercises - 2022/23}
+\rhead{Problem Set 7-8}
 
 \begin{document}
 
@@ -191,8 +196,6 @@
     w^{[1]} = w^{[1]} - \eta \frac{\partial E}{\partial w^{[1]}} = \input{aux-matrices/ex-1/w1_new}, \quad
     b^{[1]} = b^{[1]} - \eta \frac{\partial E}{\partial b^{[1]}} = \input{aux-matrices/ex-1/b1_new}
   \end{equation*}
-
-  \pagebreak
 
   The second section of the exercise asks us to compute the MLP class for a sample
   $x_{new} = \input{aux-matrices/ex-1/x_new}^T$. As such, we'll want to calculate

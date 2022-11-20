@@ -1,5 +1,5 @@
 \documentclass[12pt]{article}
-\usepackage[paper=letterpaper,margin=1.5cm]{geometry}
+\usepackage[paper=letterpaper,margin=2cm]{geometry}
 \usepackage{amsmath}
 \usepackage{amssymb}
 \usepackage{amsfonts}
@@ -11,6 +11,7 @@
 \usepackage{listings}
 \usepackage{float}
 \usepackage{nicefrac}
+\usepackage{fancyhdr}
 \usepackage[most]{tcolorbox}
 \usepackage[colorlinks=true]{hyperref}
 
@@ -47,6 +48,10 @@
   inputencoding=utf8,
   extendedchars=true,
 }
+
+\pagestyle{fancy}
+\lhead{ML Exercises - 2022/23}
+\rhead{Problem Set 5-6}
 
 \begin{document}
 
@@ -132,11 +137,8 @@ training set.
           After entering a new epoch, we'd update the weights again, this time for $x_1$;
           since such an update wouldn't lead to an actual update on the weight matrix,
           that'd make a full pass on the training set without changes, and, as such,
-          the algorithm would converge. Therefore, the regression hyperplane is given by:
-
-          $$
-            -1 + x_1 + x_2 = 0 \leftrightarrow x_2 = 1 - x_1
-          $$
+          the algorithm would converge. Therefore, the regression hyperplane is given by
+          $-1 + x_1 + x_2 = 0 \leftrightarrow x_2 = 1 - x_1$.
 
           % TODO: Plotting the data and the hyperplane, we get the following:
           }
@@ -146,10 +148,7 @@ training set.
           \begin{align*}
             \hat{z}(x_1) & = f(net(x_1)) = f(1 + 1 \cdot 0 + 1 \cdot 0 + 1 \cdot 0) = f(1) = 1                                                                         \\
             x_1: \quad   & w \leftarrow \input{aux-matrices/ex-1/w_1_all} + 1 \cdot (-1 - 1) \cdot \input{aux-matrices/ex-1/x_1}^T = \input{aux-matrices/ex-1/w_2_all} \\
-            \hat{z}(x_2) & = f(net(x_2)) = f(-1 + 1 \cdot 0 + 1 \cdot 2 + 1 \cdot 1) = f(2) = 1                                                                        \\
-            x_2: \quad   & w \leftarrow \input{aux-matrices/ex-1/w_2_all} + 1 \cdot (1 - 1) \cdot \input{aux-matrices/ex-1/x_2}^T = \input{aux-matrices/ex-1/w_3_all}  \\
-            \hat{z}(x_3) & = f(net(x_3)) = f(-1 + 1 \cdot 1 + 1 \cdot 1 + 1 \cdot 1) = f(2) = 1                                                                        \\
-            x_3: \quad   & w \leftarrow \input{aux-matrices/ex-1/w_3_all} + 1 \cdot (1 - 1) \cdot \input{aux-matrices/ex-1/x_3}^T = \input{aux-matrices/ex-1/w_4_all}  \\
+            \cdots                                                                                                                                                     \\
             \hat{z}(x_4) & = f(net(x_4)) = f(-1 + 1 \cdot 1 + 1 \cdot -1 + 1 \cdot 0) = f(-1) = -1                                                                     \\
             x_4: \quad   & w \leftarrow \input{aux-matrices/ex-1/w_4_all} + 1 \cdot (-1 + 1) \cdot \input{aux-matrices/ex-1/x_4}^T = \input{aux-matrices/ex-1/w_5_all}
           \end{align*}

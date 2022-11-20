@@ -1,5 +1,5 @@
 \documentclass[12pt]{article}
-\usepackage[paper=letterpaper,margin=1.5cm]{geometry}
+\usepackage[paper=letterpaper,margin=2cm]{geometry}
 \usepackage{amsmath}
 \usepackage{amssymb}
 \usepackage{amsfonts}
@@ -12,6 +12,7 @@
 \usepackage{float}
 \usepackage{nicefrac}
 \usepackage{multirow}
+\usepackage{fancyhdr}
 \usepackage[most]{tcolorbox}
 \usepackage[colorlinks=true]{hyperref}
 
@@ -50,6 +51,10 @@
 }
 
 \newcommand{\question}[1]{\begin{tcolorbox}[enhanced jigsaw,colback=bg,boxrule=0pt,arc=1pt,halign=center] #1 \end{tcolorbox}}
+
+\pagestyle{fancy}
+\lhead{ML Exercises - 2022/23}
+\rhead{Problem Set 4}
 
 \begin{document}
 
@@ -622,7 +627,7 @@ the sample we want to classify, and assigns the label that:
 
         \begin{figure}[H]
           \centering
-          \includegraphics[width=\textwidth]{assets/ex-5/points.png}
+          \includegraphics[width=1.1\textwidth]{assets/ex-5/points.png}
         \end{figure}
 
         In order to sketch the predicted surface, we'll need to find the weight matrix

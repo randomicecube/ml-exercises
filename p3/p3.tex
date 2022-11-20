@@ -1,5 +1,5 @@
 \documentclass[12pt]{article}
-\usepackage[paper=letterpaper,margin=1.5cm]{geometry}
+\usepackage[paper=letterpaper,margin=2cm]{geometry}
 \usepackage{amsmath}
 \usepackage{amssymb}
 \usepackage{amsfonts}
@@ -12,6 +12,7 @@
 \usepackage{float}
 \usepackage{nicefrac}
 \usepackage{multirow}
+\usepackage{fancyhdr}
 \usepackage[most]{tcolorbox}
 \usepackage[colorlinks=true]{hyperref}
 
@@ -50,6 +51,10 @@
 }
 
 \newcommand{\question}[1]{\begin{tcolorbox}[enhanced jigsaw,colback=bg,boxrule=0pt,arc=1pt,halign=center] #1 \end{tcolorbox}}
+
+\pagestyle{fancy}
+\lhead{ML Exercises - 2022/23}
+\rhead{Problem Set 3}
 
 \begin{document}
 
@@ -452,7 +457,8 @@
         one prior, independently of the features' type and the assumptions we make
         regarding the data. Considering a strictly binary class, we'll only need
         to estimate one prior, be it $\pi_k$, since the other one is trivially $1 - \pi_k$.
-
+        As a side note, I'll also be adding the \textbf{generalized} formula for each
+        case below, considering $c$ classes, $m$ features, and $n$ values for each feature.
         \begin{enumerate}
           \item {
                 \begin{enumerate}
@@ -467,6 +473,10 @@
                         be equal to 1, we can reduce the number of parameters to be estimated
                         to $2^m - 1$. As such, we'll need to estimate $2(2^m - 1) + 1$ parameters
                         in total, since we'll also need to estimate the prior for each class.
+
+                        $$
+                          \textbf{Generalized formula:} \quad (c - 1) + c (n^m - 1)
+                        $$
                         }
                   \item {
                         Working with the Naive Bayes assumption - i.e, assuming that the features
@@ -474,6 +484,10 @@
                         the probability of each feature being true/false for each class;
                         this way, there'll be $2m$ possible features combinations, and as such,
                         we'll need to estimate $2m + 1$ parameters in total!
+
+                        $$
+                          \textbf{Generalized formula:} \quad (c - 1) + cm(n - 1)
+                        $$
                         }
                 \end{enumerate}
                 }
@@ -487,6 +501,10 @@
                         parameters to be estimated to $\frac{m(m+1)}{2}$ per class, the amount of entries
                         in the upper triangular part of an $m \times m$ matrix. As such, we'll
                         need to estimate $2(m + \frac{m(m+1)}{2}) + 1$ parameters in total.
+
+                        $$
+                          \textbf{Generalized formula:} \quad (c - 1) + c \left(m + \frac{m(m+1)}{2}\right)
+                        $$
                         }
                   \item {
                         Working with the Naive Bayes gaussian assumption, we'll need to estimate
@@ -495,6 +513,10 @@
                         estimate $m$ parameters for the mean vector and $m$ parameters for the
                         variance vector, per class. As such, we'll need to estimate $2(2m) + 1$
                         parameters in total.
+
+                        $$
+                          \textbf{Generalized formula:} \quad (c - 1) + 2cm
+                        $$
                         }
                 \end{enumerate}
                 }
